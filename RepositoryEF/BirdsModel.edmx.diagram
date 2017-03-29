@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7659a22694bb48abadd399d42959e0e5" Name="Diagram1">
+        <EntityTypeShape EntityType="RCID_DWHModel.Bird_Species" Width="1.5" PointX="7.375" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Bird_Survey" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Bird_SurveyDetail" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Bird_Surveyor" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID" ManuallyRouted="false" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Survey_Surveyor_SurveyorID" ManuallyRouted="false" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Survey_SurveyID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Weather_Climate" Width="1.5" PointX="0.75" PointY="5.5" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Survey_Climate_ClimateID" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Lims_SamplePointArea" Width="1.5" PointX="4" PointY="5.125" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
