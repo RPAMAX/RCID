@@ -171,6 +171,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\BirdsController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +249,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\birdSurveysGrid.js" />
     <Content Include="Scripts\birdSurveyorsGrid.js" />
     <Content Include="Scripts\birdSpeciesGrid.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -329,10 +331,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Birds\SpeciesView.cshtml" />
     <Content Include="Views\Birds\SurveyorsView.cshtml" />
+    <Content Include="Views\Birds\SurveysView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\General\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

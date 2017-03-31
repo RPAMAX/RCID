@@ -96,7 +96,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Domain\SamplePointArea.cs" />
     <Compile Include="Domain\WeatherClimate.cs" />
-    <Compile Include="GeneralRepository.cs" />
+    <Compile Include="DataAccess\GeneralRepository.cs" />
     <Compile Include="BirdsModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,7 +112,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BirdsModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="BirdRepository.cs" />
+    <Compile Include="DataAccess\BirdRepository.cs" />
     <Compile Include="Bird_Species.cs">
       <DependentUpon>BirdsModel.tt</DependentUpon>
     </Compile>
@@ -129,8 +129,8 @@
     <Compile Include="Domain\BirdSpecies.cs" />
     <Compile Include="Domain\BirdSurveyDetails.cs" />
     <Compile Include="Domain\BirdSurveyor.cs" />
-    <Compile Include="IGeneralRepository.cs" />
-    <Compile Include="IBirdRepository.cs" />
+    <Compile Include="DataAccess\IGeneralRepository.cs" />
+    <Compile Include="DataAccess\IBirdRepository.cs" />
     <Compile Include="Lims_SamplePointArea.cs">
       <DependentUpon>BirdsModel.tt</DependentUpon>
     </Compile>

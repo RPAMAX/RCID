@@ -52,7 +52,7 @@
         }, {
             // edit options  
             zIndex: 100,
-            url: '/Birds/Edit',
+            url: '/Birds/EditSpecies',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
@@ -64,7 +64,7 @@
         }, {
             // add options  
             zIndex: 100,
-            url: "/Jqgrid/Create",
+            url: "/Birds/CreateSpecies",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -75,11 +75,11 @@
         }, {
             // delete options  
             zIndex: 100,
-            url: "/Jqgrid/Delete",
+            url: "/Birds/DeleteSpecies",
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,
-            msg: "Are you sure you want to delete this task?",
+            msg: "Are you sure you want to delete this item?",
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);

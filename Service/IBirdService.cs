@@ -12,5 +12,6 @@ namespace RCIDService
     {
         IEnumerable<BirdSurveyor> GetAllSurveyors();
         IEnumerable<BirdSpecies> GetAllSpecies();
+        IEnumerable<BirdSurvey> GetAllSurveys();
     }
 }

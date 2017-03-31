@@ -26,5 +26,11 @@ namespace RCIDService
             return _birdRepo.GetAllSpecies();
         }
 
+        public IEnumerable<BirdSurvey> GetAllSurveys()
+        {
+            return _birdRepo.GetAllSurveys();
+        }
+
+
     }
 }

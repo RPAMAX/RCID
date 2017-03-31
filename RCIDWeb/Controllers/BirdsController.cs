@@ -11,23 +11,28 @@ namespace RCIDWeb.Controllers
     {
 
         IBirdService _birdSvc;
-        IGeneralService _genSvc;
+        
 
-        public BirdsController(IBirdService service, IGeneralService genService)
+        public BirdsController(IBirdService service)
         {
-            _birdSvc = service;
-            _genSvc = genService;
+            _birdSvc = service;           
         }
 
 
         // GET: Birds
-        public ActionResult Index()
+        public ActionResult Species()
         {
             return View("SpeciesView");
         }
+
         public ActionResult Surveyors()
         {
             return View("SurveyorsView");
+        }
+
+        public ActionResult Surveys()
+        {
+            return View("SurveysView");
         }
 
         public JsonResult GetSpecies(string sidx, string sord, int page, int rows)
@@ -86,10 +91,34 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetClimates()
+        public JsonResult GetSurveys(string sidx, string sord, int page, int rows)
         {
-            var results = _genSvc.GetAllClimates().ToList();
-            return Json(results, JsonRequestBehavior.AllowGet);
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
+            var results = _birdSvc.GetAllSurveys();
+
+            int totalRecords = results.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+            if (sord.ToUpper() == "DESC")
+            {
+                results = results.OrderByDescending(s => s.SurveyorID);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            else
+            {
+                results = results.OrderBy(s => s.SurveyorID);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            var jsonData = new
+            {
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = results
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+
+      
     }
 }
