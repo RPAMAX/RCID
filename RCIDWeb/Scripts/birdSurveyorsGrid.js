@@ -6,27 +6,29 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyorId', 'SurveyorName', 'SurveyorActive'],
+            colNames: ['SurveyorID', 'Surveyor Name', 'Is Active'],
+            //prmNames is needed to send the id to the controller
+            prmNames: { id: "SurveyorID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
                 {
                     key: true,
                     hidden: true,
-                    name: 'SurveyorId',
-                    index: 'SurveyorId',                    
-                    editable: true
+                    name: 'SurveyorID',
+                    index: 'SurveyorID',                    
+                    defaultValue: 0
                 }, {
                     key: false,
-                    label: 'Name',
                     name: 'SurveyorName',
-                    //index: 'SurveyorName',
+                    index: 'SurveyorName',
                     editable: true
                 }, {
                     key: false,
-                    label: 'Is Active',
                     name: 'SurveyorActive',
-                    //index: 'SurveyorActive',
-                    editable: true
+                    index: 'SurveyorActive',
+                    editable: true,
+                    edittype: 'checkbox',
+                    editoptions: { value: "true:false" }
                 }],
 
             pager: jQuery('#pager'),
@@ -34,7 +36,7 @@
             rowList: [10, 20, 30, 40],
             height: '100%',
             viewrecords: true,
-            caption: 'Bird surveyor',
+            caption: 'Bird surveyors',
             emptyrecords: 'No records to display',
             jsonReader:
             {
@@ -53,44 +55,48 @@
         {
             edit: true,
             add: true,
-            del: true,
+            //del: true,
             search: false,
             refresh: true
         }, {
             // edit options  
             zIndex: 100,
-            url: '/Birds/Edit',
+            url: '/Birds/EditSurveyor',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
         }, {
             // add options  
             zIndex: 100,
-            url: "/Jqgrid/Create",
+            url: "/Jqgrid/CreateSurveyor",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
-        }, {
-            // delete options  
-            zIndex: 100,
-            url: "/Jqgrid/Delete",
-            closeOnEscape: true,
-            closeAfterDelete: true,
-            recreateForm: true,
-            msg: "Are you sure you want to delete this task?",
-            afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
-                }
-            }
+        //}, {
+        //    // delete options  
+        //    zIndex: 100,
+        //    url: "/Jqgrid/Delete",
+        //    closeOnEscape: true,
+        //    closeAfterDelete: true,
+        //    recreateForm: true,
+        //    msg: "Are you sure you want to delete this task?",
+        //    afterComplete: function (response) {
+        //        if (response.responseText) {
+        //            alert(response.responseText);
+        //        }
+        //    }
         });
 });  

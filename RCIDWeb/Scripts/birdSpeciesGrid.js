@@ -6,15 +6,17 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SpeciesdId', 'SpeciesName'],
+            colNames: ['SpeciesID', 'Species Name'],
+            //prmNames is needed to send the id to the controller
+            prmNames: { id: "SpeciesID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
                 {
                     key: true,
                     hidden: true,
-                    name: 'SpeciesdId',
-                    index: 'SpeciesdId',
-                    editable: true
+                    name: 'SpeciesID',
+                    index: 'SpeciesID', 
+                    defaultValue: 0
                 }, {
                     key: false,
                     name: 'SpeciesName',
@@ -46,7 +48,7 @@
         {
             edit: true,
             add: true,
-            del: true,
+            //del: true,
             search: false,
             refresh: true
         }, {
@@ -55,10 +57,12 @@
             url: '/Birds/EditSpecies',
             closeOnEscape: true,
             closeAfterEdit: true,
-            recreateForm: true,
+            recreateForm: true,               
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
         }, {
@@ -70,9 +74,11 @@
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
-        }, {
+        /*}, {
             // delete options  
             zIndex: 100,
             url: "/Birds/DeleteSpecies",
@@ -84,6 +90,6 @@
                 if (response.responseText) {
                     alert(response.responseText);
                 }
-            }
+            }*/
         });
 });  

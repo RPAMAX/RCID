@@ -1,4 +1,6 @@
-﻿using RCIDService;
+﻿using RCIDRepository.Domain;
+using RCIDService;
+using RCIDWeb.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +93,13 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSurveyorsList()
+        {
+            var results = _birdSvc.GetAllSurveyors().ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetSurveys(string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
@@ -119,6 +128,177 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-      
+        public string EditSpecies(BirdSpecies item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.UpdateSpecies(item);
+                    msg = "Species saved succesfully";
+                }
+                else {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e) {
+                msg = "Edit Species. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string CreateSpecies([Bind(Exclude ="SpeciesID")] BirdSpecies item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.CreateSpecies(item);
+                    msg = "Species created succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Create Species. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+
+        public string EditSurveyor(BirdSurveyor item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.UpdateSurveyor(item);
+                    msg = "Surveyor saved succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Edit Surveyor. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string CreateSurveyor([Bind(Exclude = "SurveyorID")] BirdSurveyor item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.CreateSurveyor(item);
+                    msg = "Surveyor created succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Create Surveyor. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+
+        public string EditSurvey(BirdSurvey item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.UpdateSurvey(item);
+                    msg = "Survey saved succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Edit Survey. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string CreateSurvey([Bind(Exclude = "SurveyID")] BirdSurvey item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.CreateSurvey(item);
+                    msg = "Survey created succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Create Survey. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+
+
+        #region import excel
+
+        public ActionResult ImportExcel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ImportExcel(FormCollection formCollection)
+        {
+            if (Request != null)
+            {
+                HttpPostedFileBase file = Request.Files["UploadedFile"];
+
+                if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                {
+                    string fileName = file.FileName;
+                    string fileContentType = file.ContentType;
+                    //open the excel using openxml sdk  
+                    BirdsExcelParser.ParseFile(fileName);
+                }
+            }
+            return View();
+        }
+        #endregion
+
     }
 }

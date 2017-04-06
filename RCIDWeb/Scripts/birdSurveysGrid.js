@@ -6,14 +6,15 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyId', 'Survey Date', 'Climate Name', 'Sample Point Area'],
+            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'Sample Point Area'],
+            prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
                 {
                     key: true,
                     hidden: true,
-                    name: 'SurveyId',
-                    index: 'SurveyId',
+                    name: 'SurveyID',
+                    index: 'SurveyID',
                     editable: true
                 }, {
                     key: false,
@@ -21,12 +22,32 @@
                     name: 'SurveyDate',
                     //index: 'SurveyorName',
                     editable: true,
-                    formatter: 'date'
+                    formatter: 'date',
+                    editoptions: {
+                        size: 20,
+                        maxlengh: 10,
+                        dataInit: function (element) {
+                            $(element).datepicker({                                
+                                constrainInput: false,
+                                showOn: 'button',
+                                buttonText: '...'
+                            });
+                        }
+                    },
                 }, {
                     key: false,
                     label: 'ClimateName',
                     name: 'ClimateName',
                     index: 'ClimateName',
+                    editable: false                   
+                                 
+                }, {
+                    key: false,
+                    label: 'ClimateID',
+                    name: 'ClimateID',
+                    index: 'ClimateID',
+                    editrules: { edithidden: true }, hidedlg: true,
+                    hidden: true,
                     editable: true,
                     edittype: 'select',
                     //   editoptions: { value:"1:Warm Months (Mar-Nov);2:Cold Months (Dec-Feb)"}
@@ -42,6 +63,35 @@
 
                         }
                     }
+                }, {
+                    key: false,
+                    label: 'SurveyorName',
+                    name: 'SurveyorName',
+                    index: 'SurveyorName',
+                    editable: false
+
+                }, {
+                    key: false,
+                    label: 'SurveyorID',
+                    name: 'SurveyorID',
+                    index: 'SurveyorID',
+                    editrules: { edithidden: true }, hidedlg: true,
+                    hidden: true,
+                    editable: true,
+                    edittype: 'select',
+                    //   editoptions: { value:"1:Warm Months (Mar-Nov);2:Cold Months (Dec-Feb)"}
+                    editoptions: {
+                        dataUrl: "/Birds/GetSurveyorsList",
+                        buildSelect: function (data) {
+                            var response = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            jQuery.each(response, function (i, item) {
+                                s += '<option value="' + response[i].SurveyorID + '">' + response[i].SurveyorName + '</option>';
+                            });
+                            return s + "</select>";
+
+                        }
+                    }              
                 }, {
                     key: false,
                     label: 'SamplePointAreaName',
@@ -87,45 +137,49 @@
         {
             edit: true,
             add: true,
-            del: true,
+           // del: true,
             search: false,
             refresh: true
         }, {
             // edit options  
             zIndex: 100,
-            url: '/Birds/Edit',
+            url: '/Birds/EditSurvey',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
         }, {
             // add options  
             zIndex: 100,
-            url: "/Jqgrid/Create",
+            url: '/Birds/CreateSurvey',
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
                 if (response.responseText) {
                     alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
             }
-        }, {
-            // delete options  
-            zIndex: 100,
-            url: "/Jqgrid/Delete",
-            closeOnEscape: true,
-            closeAfterDelete: true,
-            recreateForm: true,
-            msg: "Are you sure you want to delete this task?",
-            afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
-                }
-            }
+        //}, {
+        //    //// delete options  
+        //    //zIndex: 100,
+        //    //url: "/Jqgrid/Delete",
+        //    //closeOnEscape: true,
+        //    //closeAfterDelete: true,
+        //    //recreateForm: true,
+        //    //msg: "Are you sure you want to delete this task?",
+        //    //afterComplete: function (response) {
+        //    //    if (response.responseText) {
+        //    //        alert(response.responseText);
+        //    //    }
+        //    //}
         });
 });  
 

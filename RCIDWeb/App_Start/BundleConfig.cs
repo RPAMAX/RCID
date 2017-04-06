@@ -11,6 +11,7 @@ namespace RCIDWeb
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+           
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -30,8 +31,8 @@ namespace RCIDWeb
                       "~/Content/jquery.jqGrid/ui.jqgrid.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/grid").Include(
-                    "~/Scripts/jquery-1.9.1.min.js",
-                    "~/Scripts/jquery-ui-1.10.4.min.js",
+                    "~/Scripts/jquery-1.10.0.min.js",
+                    "~/Scripts/jquery-ui-1.10.0.min.js",
                      "~/Scripts/i18n/grid.locale-en.js",
                       "~/Scripts/jquery.jqGrid.min.js"));              
           

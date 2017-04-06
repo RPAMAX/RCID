@@ -27,12 +27,17 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Import", "ImportExcel", "Birds")</li>
                     <li>@Html.ActionLink("Species", "Species", "Birds")</li>
                     <li>@Html.ActionLink("Surveyors", "Surveyors", "Birds")</li>
+                    <li>@Html.ActionLink("Surveys", "Surveys", "Birds")</li>
+                    
                 </ul>
             </div>
         </div>
     </div>
+    <div class="alert alert-success" id="successMsgDiv" style="display:none"></div>
+    <div class="alert alert-danger" id="errorMsgDiv" style="display:none"></div>
     <div class="container body-content">
         @RenderBody()
         <hr />

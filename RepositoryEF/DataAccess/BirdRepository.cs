@@ -24,26 +24,8 @@ namespace RCIDRepository
         }
 
 
-        public IEnumerable<BirdSurveyor> GetAllSurveyors()
-        {
-            using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {
-                
-                var efList = context.Bird_Surveyor.ToList();
-
-                return mapper.Map<List<Bird_Surveyor>, List<BirdSurveyor>>(efList);
-            }
-        }
-        public IEnumerable<BirdSpecies> GetAllSpecies() {
-            
-            using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {
-                var efList = context.Bird_Species.ToList();
-
-                return mapper.Map<List<Bird_Species>, List<BirdSpecies>>(efList);
-            }
-        }
-
+        #region Surveys
+        
         public IEnumerable<BirdSurvey> GetAllSurveys()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
@@ -65,12 +47,195 @@ namespace RCIDRepository
                                  SurveyDate = survey.SurveyDate,
                                  SurveyID = survey.SurveyID,
                                  SurveyorID = survey.SurveyorID,
-                                 SurveyourName = surveyor.SurveyorName
+                                 SurveyorName = surveyor.SurveyorName
                              };
 
                 return efList.ToList();                
             }
         }
-        
+
+        public bool UpdateSurvey(BirdSurvey item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Survey efItem = context.Bird_Survey.Where(b => b.SurveyID == item.SurveyID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.ClimateID = item.ClimateID;
+                    efItem.SamplePointAreaID = item.SamplePointAreaID;
+                    efItem.SourceID = item.SourceID;
+                    efItem.SurveyDate = item.SurveyDate;
+                    efItem.SurveyorID = item.SurveyorID;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        public bool CreateSurvey(BirdSurvey item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Survey efItem = new Bird_Survey()
+                    {
+                        ClimateID = item.ClimateID,
+                        SamplePointAreaID = item.SamplePointAreaID,
+                        SourceID = item.SourceID,
+                        SurveyDate = item.SurveyDate,
+                        SurveyorID = item.SurveyorID
+                    };
+
+                    context.Bird_Survey.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+        #region Species
+
+        public IEnumerable<BirdSpecies> GetAllSpecies()
+        {
+
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efList = context.Bird_Species.ToList();
+
+                return mapper.Map<List<Bird_Species>, List<BirdSpecies>>(efList);
+            }
+        }
+
+        public bool UpdateSpecies(BirdSpecies item) {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Species efItem = context.Bird_Species.Where(b => b.SpeciesID == item.SpeciesID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SpeciesName = item.SpeciesName;
+                    if (context.SaveChanges() > 0) {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        public bool CreateSpecies(BirdSpecies item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Species efItem = new Bird_Species()
+                    {
+                        SpeciesActive = true,
+                        SpeciesName = item.SpeciesName
+                    };
+
+                    context.Bird_Species.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+        #region Surveyors
+        public IEnumerable<BirdSurveyor> GetAllSurveyors()
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+
+                var efList = context.Bird_Surveyor.ToList();
+
+                return mapper.Map<List<Bird_Surveyor>, List<BirdSurveyor>>(efList);
+            }
+        }
+
+        public bool UpdateSurveyor(BirdSurveyor item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Surveyor efItem = context.Bird_Surveyor.Where(b => b.SurveyorID == item.SurveyorID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SurveyorName = item.SurveyorName;
+                    efItem.SurveyorActive = item.SurveyorActive;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }       
+
+        public bool CreateSurveyor(BirdSurveyor item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Surveyor efItem = new Bird_Surveyor()
+                    {
+                        SurveyorActive = true,
+                        SurveyorName = item.SurveyorName                        
+                    };
+
+                    context.Bird_Surveyor.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
     }
 }
