@@ -15,12 +15,16 @@ namespace RCIDRepository
 
         bool UpdateSpecies(BirdSpecies item);
         bool CreateSpecies(BirdSpecies item);
+        BirdSpecies GetSpeciesByName(string name);
 
         bool UpdateSurvey(BirdSurvey item);
-        bool CreateSurvey(BirdSurvey item);
+        int CreateSurvey(BirdSurvey item);
+
+        bool CreateSurveyDetail(BirdSurveyDetails item);
 
         bool UpdateSurveyor(BirdSurveyor item);
         bool CreateSurveyor(BirdSurveyor item);
+        BirdSurveyor GetSurveyorByName(string name);
 
 
     }

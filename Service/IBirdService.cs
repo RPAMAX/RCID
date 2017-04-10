@@ -22,5 +22,8 @@ namespace RCIDService
 
         bool UpdateSurveyor(BirdSurveyor item);
         bool CreateSurveyor(BirdSurveyor item);
+
+        List<List<string>> ValidateImportList(List<BirdSurvey> toSave);
+        void SaveSurveys(List<BirdSurvey> toSave);
     }
 }

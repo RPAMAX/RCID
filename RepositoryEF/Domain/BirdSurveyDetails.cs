@@ -8,8 +8,9 @@ namespace RCIDRepository.Domain
 {
     public class BirdSurveyDetails
     {
-        public short SurveyID { get; set; }
+        public int SurveyID { get; set; }
         public short SpeciesID { get; set; }
+        public string SpeciesName { get; set; }
         public int SurveyDetailCount { get; set; }
     }
 }

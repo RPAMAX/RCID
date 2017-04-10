@@ -82,16 +82,20 @@ namespace RCIDRepository
             return result;
         }
 
-        public bool CreateSurvey(BirdSurvey item)
+        public int CreateSurvey(BirdSurvey item)
         {
+            int newid = 0;           
 
-            bool result = false;
             try
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
+                    newid = context.Bird_Survey.OrderByDescending(u => u.SurveyID).FirstOrDefault().SurveyID;
+                    newid++;
+
                     Bird_Survey efItem = new Bird_Survey()
                     {
+                        SurveyID = newid,
                         ClimateID = item.ClimateID,
                         SamplePointAreaID = item.SamplePointAreaID,
                         SourceID = item.SourceID,
@@ -103,14 +107,41 @@ namespace RCIDRepository
 
                     if (context.SaveChanges() > 0)
                     {
-                        result = true;
+                        return newid;
                     }
                 }
             }
-            catch (Exception) { }
-            return result;
+            catch (Exception e) { throw e; }
+            return newid;
         }
 
+        public bool CreateSurveyDetail(BirdSurveyDetails item)
+        {
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {                  
+
+                    Bird_SurveyDetail efItem = new Bird_SurveyDetail()
+                    {
+                        SurveyID = item.SurveyID,
+                        SpeciesID = item.SpeciesID,
+                        SurveyDetailCount = item.SurveyDetailCount                        
+                    };
+
+                    context.Bird_SurveyDetail.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e) { throw e; }
+            return result;
+
+        }
         #endregion
         #region Species
 
@@ -119,7 +150,7 @@ namespace RCIDRepository
 
             using (RCID_DWHEntities context = new RCID_DWHEntities())
             {
-                var efList = context.Bird_Species.ToList();
+                var efList = context.Bird_Species.OrderBy(s=>s.SpeciesName).ToList();
 
                 return mapper.Map<List<Bird_Species>, List<BirdSpecies>>(efList);
             }
@@ -154,8 +185,12 @@ namespace RCIDRepository
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
+                    short newid = context.Bird_Species.OrderByDescending(u => u.SpeciesID).FirstOrDefault().SpeciesID;
+                    newid++;
+
                     Bird_Species efItem = new Bird_Species()
                     {
+                        SpeciesID = newid,
                         SpeciesActive = true,
                         SpeciesName = item.SpeciesName
                     };
@@ -168,18 +203,27 @@ namespace RCIDRepository
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception e) { throw e; }
             return result;
         }
 
+        public BirdSpecies GetSpeciesByName(string name)
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efitem = context.Bird_Species.Where(s => s.SpeciesName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+                return mapper.Map<Bird_Species, BirdSpecies>(efitem);
+            }
+        }
         #endregion
+
         #region Surveyors
         public IEnumerable<BirdSurveyor> GetAllSurveyors()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
             {
 
-                var efList = context.Bird_Surveyor.ToList();
+                var efList = context.Bird_Surveyor.OrderBy(s=>s.SurveyorName).ToList();
 
                 return mapper.Map<List<Bird_Surveyor>, List<BirdSurveyor>>(efList);
             }
@@ -218,8 +262,12 @@ namespace RCIDRepository
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
+                    byte newid = context.Bird_Surveyor.OrderByDescending(u => u.SurveyorID).FirstOrDefault().SurveyorID;
+                    newid++;
+
                     Bird_Surveyor efItem = new Bird_Surveyor()
                     {
+                        SurveyorID = newid,
                         SurveyorActive = true,
                         SurveyorName = item.SurveyorName                        
                     };
@@ -235,6 +283,16 @@ namespace RCIDRepository
             catch (Exception) { }
             return result;
         }
+
+        public BirdSurveyor GetSurveyorByName(string name)
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efitem = context.Bird_Surveyor.Where(s => s.SurveyorName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+                return mapper.Map<Bird_Surveyor, BirdSurveyor>(efitem);
+            }
+        }
+
 
         #endregion
     }

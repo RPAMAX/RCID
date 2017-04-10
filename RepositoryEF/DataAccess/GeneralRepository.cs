@@ -29,6 +29,15 @@ namespace RCIDRepository
             }
         }
 
+        public WeatherClimate GetClimateByName(string name)
+        {            
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efitem = context.Weather_Climate.Where(c => c.ClimateName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+                return Mapper.Map<Weather_Climate, WeatherClimate>(efitem);
+            }
+        }
+
         public IEnumerable<SamplePointArea> GetAllSamplePointAreas()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
@@ -39,6 +48,14 @@ namespace RCIDRepository
             }
         }
 
+        public SamplePointArea GetSamplePointAreaByName(string name)
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efitem = context.Lims_SamplePointArea.Where(s => s.SamplePointAreaName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+                return Mapper.Map<Lims_SamplePointArea, SamplePointArea>(efitem);
+            }
+        }
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using RCIDRepository.Domain;
 using RCIDService;
+using RCIDWeb.Models;
 using RCIDWeb.Utils;
 using System;
 using System.Collections.Generic;
@@ -284,6 +285,7 @@ namespace RCIDWeb.Controllers
         [HttpPost]
         public ActionResult ImportExcel(FormCollection formCollection)
         {
+            ValidationErrors model = new ValidationErrors();
             if (Request != null)
             {
                 HttpPostedFileBase file = Request.Files["UploadedFile"];
@@ -292,11 +294,28 @@ namespace RCIDWeb.Controllers
                 {
                     string fileName = file.FileName;
                     string fileContentType = file.ContentType;
-                    //open the excel using openxml sdk  
-                    BirdsExcelParser.ParseFile(fileName);
+
+                    List<BirdSurvey> parsedList =  BirdsExcelParser.ParseFile(fileName);
+
+                    if (parsedList != null) {
+                       //validate in service first
+                        List<List<string>> errorList = _birdSvc.ValidateImportList(parsedList);
+                                                
+                        model.SPAErrors = errorList[0];
+                        model.SurveyorErrors = errorList[1];
+                        model.ClimateErrors = errorList[2];
+                        model.SpeciesErrors = errorList[3];
+
+                        //if there are no errors, call the service to save to DB
+                        var errors = errorList.Where(s => s.Count > 0).FirstOrDefault();
+                        if (errors == null)
+                        {
+                            _birdSvc.SaveSurveys(parsedList);
+                        }
+                    }
                 }
             }
-            return View();
+            return View(model);
         }
         #endregion
 

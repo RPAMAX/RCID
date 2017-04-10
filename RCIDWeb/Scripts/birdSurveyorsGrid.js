@@ -66,8 +66,7 @@
             closeAfterEdit: true,
             recreateForm: true,
             afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
+                if (response.responseText) {                   
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }
@@ -75,12 +74,11 @@
         }, {
             // add options  
             zIndex: 100,
-            url: "/Jqgrid/CreateSurveyor",
+            url: "/Birds/CreateSurveyor",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
+                if (response.responseText) {                   
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }

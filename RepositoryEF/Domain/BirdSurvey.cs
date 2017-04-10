@@ -17,5 +17,7 @@ namespace RCIDRepository.Domain
         public string ClimateName { get; set; }
         public byte SurveyorID { get; set; }
         public string SurveyorName { get; set; }
+
+        public List<BirdSurveyDetails> Details { get; set; }
     }
 }

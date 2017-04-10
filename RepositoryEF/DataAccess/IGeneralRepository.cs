@@ -11,5 +11,7 @@ namespace RCIDRepository
     {
         IEnumerable<WeatherClimate> GetAllClimates();
         IEnumerable<SamplePointArea> GetAllSamplePointAreas();
+        SamplePointArea GetSamplePointAreaByName(string name);
+        WeatherClimate GetClimateByName(string name);
     }
 }

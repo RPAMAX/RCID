@@ -1,4 +1,4 @@
-﻿
+﻿@model RCIDWeb.Models.ValidationErrors
 @{
     ViewBag.Title = "ImportExcel";
 }
@@ -21,4 +21,53 @@
             </td>
         </tr>
     </table>
+}
+@if (Model != null)
+{
+
+    if (Model.SPAErrors.Count > 0)
+    {
+        <h3>Sample Point Area Errors:</h3>
+        <ul>
+            
+            @foreach (var spa in Model.SPAErrors)
+            {
+                <li>@spa</li>
+            }
+        </ul>
+    }
+    if (Model.SurveyorErrors.Count > 0)
+    {
+        <h3>Surveyor Errors:</h3>
+        <ul>
+    
+            @foreach (var se in Model.SurveyorErrors)
+            {
+                <li>@se</li>
+            }
+        </ul>
+    }
+
+    if (Model.ClimateErrors.Count > 0)
+    {
+        <h3>Climate Errors:</h3>
+        <ul>            
+            @foreach (var ce in Model.ClimateErrors)
+            {
+                <li>@ce</li>
+            }
+        </ul>
+    }
+
+    if (Model.SpeciesErrors.Count > 0)
+    {
+        <h3> Species Errors:</h3>
+        <ul>
+   
+            @foreach (var se in Model.SpeciesErrors)
+            {
+                <li>@se</li>
+            }
+        </ul>
+    }
 }
