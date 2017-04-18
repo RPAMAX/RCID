@@ -1,5 +1,5 @@
 ﻿$(function () {
-    debugger;
+  //  debugger;
     $("#grid").jqGrid
         ({
             url: "/Birds/GetSurveys",

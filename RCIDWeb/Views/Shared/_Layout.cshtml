@@ -27,11 +27,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Import", "ImportExcel", "Birds")</li>
-                    <li>@Html.ActionLink("Species", "Species", "Birds")</li>
-                    <li>@Html.ActionLink("Surveyors", "Surveyors", "Birds")</li>
-                    <li>@Html.ActionLink("Surveys", "Surveys", "Birds")</li>
-                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Birds <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Import", "ImportExcel", "Birds")</li>
+                            <li>@Html.ActionLink("Species", "Species", "Birds")</li>
+                            <li>@Html.ActionLink("Surveyors", "Surveyors", "Birds")</li>
+                            <li>@Html.ActionLink("Surveys", "Surveys", "Birds")</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

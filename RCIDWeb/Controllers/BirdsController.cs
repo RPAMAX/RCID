@@ -48,12 +48,12 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SpeciesID);
+                Results = Results.OrderByDescending(s => s.SpeciesName);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SpeciesID);
+                Results = Results.OrderBy(s => s.SpeciesName);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -76,12 +76,12 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyorID);
+                results = results.OrderByDescending(s => s.SurveyorName);
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyorID);
+                results = results.OrderBy(s => s.SurveyorName);
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -96,7 +96,7 @@ namespace RCIDWeb.Controllers
 
         public JsonResult GetSurveyorsList()
         {
-            var results = _birdSvc.GetAllSurveyors().ToList();
+            var results = _birdSvc.GetAllSurveyors().OrderBy(c=>c.SurveyorName).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    debugger;
+   // debugger;
     $("#grid").jqGrid
         ({
             url: "/Birds/GetSurveyors",
@@ -38,6 +38,7 @@
             viewrecords: true,
             caption: 'Bird surveyors',
             emptyrecords: 'No records to display',
+            loadonce: true,
             jsonReader:
             {
                 root: "rows",

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    debugger;
+   // debugger;
     $("#grid").jqGrid
         ({
             url: "/Birds/GetSpecies",
@@ -9,7 +9,8 @@
             colNames: ['SpeciesID', 'Species Name'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "SpeciesID" },
-            //colModel takes the data from controller and binds to grid   
+            //colModel takes the data from controller and binds to grid 
+            sortname: 'SpeciesName',
             colModel: [
                 {
                     key: true,

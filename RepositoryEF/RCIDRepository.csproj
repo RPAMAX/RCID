@@ -131,6 +131,36 @@
     <Compile Include="Domain\BirdSurveyor.cs" />
     <Compile Include="DataAccess\IGeneralRepository.cs" />
     <Compile Include="DataAccess\IBirdRepository.cs" />
+    <Compile Include="FishModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FishModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FishModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FishModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FishModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Fish_Species.cs">
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fish_SpeciesGroup.cs">
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fish_Survey.cs">
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fish_SurveyDetail.cs">
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fish_SurveyLocation.cs">
+      <DependentUpon>FishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Lims_SamplePointArea.cs">
       <DependentUpon>BirdsModel.tt</DependentUpon>
     </Compile>
@@ -148,6 +178,13 @@
     <None Include="BirdsModel.edmx.diagram">
       <DependentUpon>BirdsModel.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="FishModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FishModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="FishModel.edmx.diagram">
+      <DependentUpon>FishModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +200,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BirdsModel.edmx</DependentUpon>
       <LastGenOutput>BirdsModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="FishModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FishModel.edmx</DependentUpon>
+      <LastGenOutput>FishModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="FishModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FishModel.edmx</DependentUpon>
+      <LastGenOutput>FishModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup />
