@@ -17,7 +17,7 @@ namespace RCIDRepository
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Fish_SurveyLocation()
         {
-            this.SurveyDetails = new HashSet<Fish_SurveyDetail>();
+            this.SurveyDetail1 = new HashSet<Fish_SurveyDetail>();
         }
     
         public int SurveyID { get; set; }
@@ -28,8 +28,8 @@ namespace RCIDRepository
         public Nullable<byte> GeneratorID { get; set; }
         public string SurveyLocationComments { get; set; }
     
-        public virtual Fish_Survey Survey { get; set; }
+        public virtual Fish_Survey Survey1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fish_SurveyDetail> SurveyDetails { get; set; }
+        public virtual ICollection<Fish_SurveyDetail> SurveyDetail1 { get; set; }
     }
 }

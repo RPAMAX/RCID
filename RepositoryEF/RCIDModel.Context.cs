@@ -13,10 +13,10 @@ namespace RCIDRepository
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Entities : DbContext
+    public partial class RCID_DWHEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public RCID_DWHEntities()
+            : base("name=RCID_DWHEntities")
         {
         }
     
@@ -25,6 +25,12 @@ namespace RCIDRepository
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Bird_Species> Bird_Species { get; set; }
+        public virtual DbSet<Bird_Survey> Bird_Survey { get; set; }
+        public virtual DbSet<Bird_SurveyDetail> Bird_SurveyDetail { get; set; }
+        public virtual DbSet<Bird_Surveyor> Bird_Surveyor { get; set; }
+        public virtual DbSet<Lims_SamplePointArea> Lims_SamplePointArea { get; set; }
+        public virtual DbSet<Weather_Climate> Weather_Climate { get; set; }
         public virtual DbSet<Fish_Species> Fish_Species { get; set; }
         public virtual DbSet<Fish_SpeciesGroup> Fish_SpeciesGroup { get; set; }
         public virtual DbSet<Fish_Survey> Fish_Survey { get; set; }

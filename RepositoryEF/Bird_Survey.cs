@@ -27,10 +27,10 @@ namespace RCIDRepository
         public byte ClimateID { get; set; }
         public byte SurveyorID { get; set; }
     
+        public virtual Weather_Climate Climate { get; set; }
+        public virtual Lims_SamplePointArea SamplePointArea { get; set; }
         public virtual Bird_Surveyor Surveyor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bird_SurveyDetail> SurveyDetails { get; set; }
-        public virtual Weather_Climate Climate { get; set; }
-        public virtual Lims_SamplePointArea SamplePointArea { get; set; }
     }
 }

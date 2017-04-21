@@ -18,6 +18,7 @@ namespace RCIDRepository
         public Lims_SamplePointArea()
         {
             this.Surveys = new HashSet<Bird_Survey>();
+            this.Survey1 = new HashSet<Fish_Survey>();
         }
     
         public byte SourceID { get; set; }
@@ -27,5 +28,7 @@ namespace RCIDRepository
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bird_Survey> Surveys { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Fish_Survey> Survey1 { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace RCIDRepository
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Fish_Species()
         {
-            this.SurveyDetails = new HashSet<Fish_SurveyDetail>();
+            this.SurveyDetail1 = new HashSet<Fish_SurveyDetail>();
         }
     
         public short SpeciesID { get; set; }
@@ -27,6 +27,6 @@ namespace RCIDRepository
     
         public virtual Fish_SpeciesGroup SpeciesGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fish_SurveyDetail> SurveyDetails { get; set; }
+        public virtual ICollection<Fish_SurveyDetail> SurveyDetail1 { get; set; }
     }
 }

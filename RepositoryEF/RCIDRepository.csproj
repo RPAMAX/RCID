@@ -94,124 +94,98 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="Domain\SamplePointArea.cs" />
-    <Compile Include="Domain\WeatherClimate.cs" />
-    <Compile Include="DataAccess\GeneralRepository.cs" />
-    <Compile Include="BirdsModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BirdsModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BirdsModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BirdsModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BirdsModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BirdsModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccess\BirdRepository.cs" />
     <Compile Include="Bird_Species.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Bird_Survey.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Bird_SurveyDetail.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Bird_Surveyor.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\BirdSurvey.cs" />
-    <Compile Include="Domain\BirdSpecies.cs" />
-    <Compile Include="Domain\BirdSurveyDetails.cs" />
-    <Compile Include="Domain\BirdSurveyor.cs" />
+    <Compile Include="DataAccess\FishRepository.cs" />
+    <Compile Include="DataAccess\IFishRepository.cs" />
+    <Compile Include="Domain\Fish\FishSpecies.cs" />
+    <Compile Include="Domain\Fish\FishSpeciesGroup.cs" />
+    <Compile Include="Domain\Fish\FishSurvey.cs" />
+    <Compile Include="Domain\Fish\FishSurveyDetails.cs" />
+    <Compile Include="Domain\Fish\FishSurveyLocation.cs" />
+    <Compile Include="Domain\General\SamplePointArea.cs" />
+    <Compile Include="Domain\General\WeatherClimate.cs" />
+    <Compile Include="DataAccess\GeneralRepository.cs" />
+    <Compile Include="DataAccess\BirdRepository.cs" />
+    <Compile Include="Domain\Birds\BirdSurvey.cs" />
+    <Compile Include="Domain\Birds\BirdSpecies.cs" />
+    <Compile Include="Domain\Birds\BirdSurveyDetails.cs" />
+    <Compile Include="Domain\Birds\BirdSurveyor.cs" />
     <Compile Include="DataAccess\IGeneralRepository.cs" />
     <Compile Include="DataAccess\IBirdRepository.cs" />
-    <Compile Include="FishModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FishModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FishModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FishModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FishModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FishModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Fish_Species.cs">
-      <DependentUpon>FishModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fish_SpeciesGroup.cs">
-      <DependentUpon>FishModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fish_Survey.cs">
-      <DependentUpon>FishModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fish_SurveyDetail.cs">
-      <DependentUpon>FishModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fish_SurveyLocation.cs">
-      <DependentUpon>FishModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Lims_SamplePointArea.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RCIDModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RCIDModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RCIDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RCIDModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RCIDModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Weather_Climate.cs">
-      <DependentUpon>BirdsModel.tt</DependentUpon>
+      <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="BirdsModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BirdsModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="BirdsModel.edmx.diagram">
-      <DependentUpon>BirdsModel.edmx</DependentUpon>
-    </None>
-    <EntityDeploy Include="FishModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FishModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="FishModel.edmx.diagram">
-      <DependentUpon>FishModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
+    <EntityDeploy Include="RCIDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RCIDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="RCIDModel.edmx.diagram">
+      <DependentUpon>RCIDModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BirdsModel.Context.tt">
+    <Content Include="RCIDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BirdsModel.edmx</DependentUpon>
-      <LastGenOutput>BirdsModel.Context.cs</LastGenOutput>
+      <DependentUpon>RCIDModel.edmx</DependentUpon>
+      <LastGenOutput>RCIDModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="BirdsModel.tt">
+    <Content Include="RCIDModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BirdsModel.edmx</DependentUpon>
-      <LastGenOutput>BirdsModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="FishModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FishModel.edmx</DependentUpon>
-      <LastGenOutput>FishModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="FishModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FishModel.edmx</DependentUpon>
-      <LastGenOutput>FishModel.cs</LastGenOutput>
+      <DependentUpon>RCIDModel.edmx</DependentUpon>
+      <LastGenOutput>RCIDModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

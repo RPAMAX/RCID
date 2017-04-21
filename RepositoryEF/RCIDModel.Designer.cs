@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\samador\Documents\Visual Studio 2017\Projects\RepositoryEF\RepositoryEF\FishModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\samador\Documents\Visual Studio 2017\Projects\RepositoryEF\RepositoryEF\RCIDModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

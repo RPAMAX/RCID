@@ -1,0 +1,758 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RCID_DWHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Species">
+          <Key>
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SpeciesID" Type="smallint" Nullable="false" />
+          <Property Name="SpeciesName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SpeciesActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Survey">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+          </Key>
+          <Property Name="SurveyID" Type="int" Nullable="false" />
+          <Property Name="SurveyDate" Type="datetime" Nullable="false" />
+          <Property Name="SourceID" Type="tinyint" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
+          <Property Name="ClimateID" Type="tinyint" Nullable="false" />
+          <Property Name="SurveyorID" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SurveyDetail">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SurveyID" Type="int" Nullable="false" />
+          <Property Name="SpeciesID" Type="smallint" Nullable="false" />
+          <Property Name="SurveyDetailCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Surveyor">
+          <Key>
+            <PropertyRef Name="SurveyorID" />
+          </Key>
+          <Property Name="SurveyorID" Type="tinyint" Nullable="false" />
+          <Property Name="SurveyorName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SurveyorActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Species1">
+          <Key>
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SpeciesID" Type="smallint" Nullable="false" />
+          <Property Name="SpeciesName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SpeciesGroupID" Type="tinyint" />
+          <Property Name="SpeciesActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpeciesGroup">
+          <Key>
+            <PropertyRef Name="SpeciesGroupID" />
+          </Key>
+          <Property Name="SpeciesGroupID" Type="tinyint" Nullable="false" />
+          <Property Name="SpeciesGroupName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SpeciesGroupActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Survey1">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+          </Key>
+          <Property Name="SurveyID" Type="int" Nullable="false" />
+          <Property Name="SurveyYear" Type="smallint" Nullable="false" />
+          <Property Name="SourceID" Type="tinyint" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
+          <Property Name="SurveyComments" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="SurveyDetail1">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SurveyNumber" />
+            <PropertyRef Name="SurveyDetailID" />
+          </Key>
+          <Property Name="SurveyID" Type="int" Nullable="false" />
+          <Property Name="SurveyNumber" Type="tinyint" Nullable="false" />
+          <Property Name="SurveyDetailID" Type="smallint" Nullable="false" />
+          <Property Name="SpeciesID" Type="smallint" Nullable="false" />
+          <Property Name="SpeciesSizeMillimeters" Type="smallint" Nullable="false" />
+          <Property Name="SpeciesSizeInches" Type="numeric" Precision="13" Scale="6" StoreGeneratedPattern="Computed" />
+          <Property Name="SpeciesSizeInchGroup" Type="tinyint" StoreGeneratedPattern="Computed" />
+          <Property Name="SpeciesWeightPounds" Type="tinyint" Nullable="false" />
+          <Property Name="SpeciesWeightOunces" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="SpeciesWeightLbs" Type="decimal" Precision="8" Scale="2" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="SurveyLocation">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SurveyNumber" />
+          </Key>
+          <Property Name="SurveyID" Type="int" Nullable="false" />
+          <Property Name="SurveyNumber" Type="tinyint" Nullable="false" />
+          <Property Name="LocationDetails" Type="varchar" MaxLength="100" />
+          <Property Name="SurveyDate" Type="smalldatetime" />
+          <Property Name="SurveyDurationSeconds" Type="smallint" />
+          <Property Name="GeneratorID" Type="tinyint" />
+          <Property Name="SurveyLocationComments" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SamplePointArea">
+          <Key>
+            <PropertyRef Name="SourceID" />
+            <PropertyRef Name="SamplePointAreaID" />
+          </Key>
+          <Property Name="SourceID" Type="tinyint" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
+          <Property Name="SamplePointAreaName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SamplePointAreaActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Climate">
+          <Key>
+            <PropertyRef Name="ClimateID" />
+          </Key>
+          <Property Name="ClimateID" Type="tinyint" Nullable="false" />
+          <Property Name="ClimateName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClimateActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Species_SpeciesGroup_SpeciesGroupID">
+          <End Role="SpeciesGroup" Type="Self.SpeciesGroup" Multiplicity="0..1" />
+          <End Role="Species1" Type="Self.Species1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpeciesGroup">
+              <PropertyRef Name="SpeciesGroupID" />
+            </Principal>
+            <Dependent Role="Species1">
+              <PropertyRef Name="SpeciesGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_Climate_ClimateID">
+          <End Role="Climate" Type="Self.Climate" Multiplicity="1" />
+          <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Climate">
+              <PropertyRef Name="ClimateID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="ClimateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID">
+          <End Role="SamplePointArea" Type="Self.SamplePointArea" Multiplicity="1" />
+          <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1">
+          <End Role="SamplePointArea" Type="Self.SamplePointArea" Multiplicity="1" />
+          <End Role="Survey1" Type="Self.Survey1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="Survey1">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_Surveyor_SurveyorID">
+          <End Role="Surveyor" Type="Self.Surveyor" Multiplicity="1" />
+          <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Surveyor">
+              <PropertyRef Name="SurveyorID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="SurveyorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_Species_SpeciesID">
+          <End Role="Species" Type="Self.Species" Multiplicity="1" />
+          <End Role="SurveyDetail" Type="Self.SurveyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Species">
+              <PropertyRef Name="SpeciesID" />
+            </Principal>
+            <Dependent Role="SurveyDetail">
+              <PropertyRef Name="SpeciesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_Species_SpeciesID1">
+          <End Role="Species1" Type="Self.Species1" Multiplicity="1" />
+          <End Role="SurveyDetail1" Type="Self.SurveyDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Species1">
+              <PropertyRef Name="SpeciesID" />
+            </Principal>
+            <Dependent Role="SurveyDetail1">
+              <PropertyRef Name="SpeciesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_Survey_SurveyID">
+          <End Role="Survey" Type="Self.Survey" Multiplicity="1" />
+          <End Role="SurveyDetail" Type="Self.SurveyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey">
+              <PropertyRef Name="SurveyID" />
+            </Principal>
+            <Dependent Role="SurveyDetail">
+              <PropertyRef Name="SurveyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber">
+          <End Role="SurveyLocation" Type="Self.SurveyLocation" Multiplicity="1" />
+          <End Role="SurveyDetail1" Type="Self.SurveyDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SurveyLocation">
+              <PropertyRef Name="SurveyID" />
+              <PropertyRef Name="SurveyNumber" />
+            </Principal>
+            <Dependent Role="SurveyDetail1">
+              <PropertyRef Name="SurveyID" />
+              <PropertyRef Name="SurveyNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyLocation_Survey_SruveyID">
+          <End Role="Survey1" Type="Self.Survey1" Multiplicity="1" />
+          <End Role="SurveyLocation" Type="Self.SurveyLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey1">
+              <PropertyRef Name="SurveyID" />
+            </Principal>
+            <Dependent Role="SurveyLocation">
+              <PropertyRef Name="SurveyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RCID_DWHModelStoreContainer">
+          <EntitySet Name="Species" EntityType="Self.Species" Schema="bird" store:Type="Tables" />
+          <EntitySet Name="Survey" EntityType="Self.Survey" Schema="bird" store:Type="Tables" />
+          <EntitySet Name="SurveyDetail" EntityType="Self.SurveyDetail" Schema="bird" store:Type="Tables" />
+          <EntitySet Name="Surveyor" EntityType="Self.Surveyor" Schema="bird" store:Type="Tables" />
+          <EntitySet Name="Species1" EntityType="Self.Species1" Schema="fish" Table="Species" store:Type="Tables" />
+          <EntitySet Name="SpeciesGroup" EntityType="Self.SpeciesGroup" Schema="fish" store:Type="Tables" />
+          <EntitySet Name="Survey1" EntityType="Self.Survey1" Schema="fish" Table="Survey" store:Type="Tables" />
+          <EntitySet Name="SurveyDetail1" EntityType="Self.SurveyDetail1" Schema="fish" Table="SurveyDetail" store:Type="Tables" />
+          <EntitySet Name="SurveyLocation" EntityType="Self.SurveyLocation" Schema="fish" store:Type="Tables" />
+          <EntitySet Name="SamplePointArea" EntityType="Self.SamplePointArea" Schema="lims" store:Type="Tables" />
+          <EntitySet Name="Climate" EntityType="Self.Climate" Schema="weather" store:Type="Tables" />
+          <AssociationSet Name="FK_Species_SpeciesGroup_SpeciesGroupID" Association="Self.FK_Species_SpeciesGroup_SpeciesGroupID">
+            <End Role="SpeciesGroup" EntitySet="SpeciesGroup" />
+            <End Role="Species1" EntitySet="Species1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Climate_ClimateID" Association="Self.FK_Survey_Climate_ClimateID">
+            <End Role="Climate" EntitySet="Climate" />
+            <End Role="Survey" EntitySet="Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" Association="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID">
+            <End Role="SamplePointArea" EntitySet="SamplePointArea" />
+            <End Role="Survey" EntitySet="Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" Association="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1">
+            <End Role="SamplePointArea" EntitySet="SamplePointArea" />
+            <End Role="Survey1" EntitySet="Survey1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Surveyor_SurveyorID" Association="Self.FK_Survey_Surveyor_SurveyorID">
+            <End Role="Surveyor" EntitySet="Surveyor" />
+            <End Role="Survey" EntitySet="Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_Species_SpeciesID" Association="Self.FK_SurveyDetail_Species_SpeciesID">
+            <End Role="Species" EntitySet="Species" />
+            <End Role="SurveyDetail" EntitySet="SurveyDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_Species_SpeciesID1" Association="Self.FK_SurveyDetail_Species_SpeciesID1">
+            <End Role="Species1" EntitySet="Species1" />
+            <End Role="SurveyDetail1" EntitySet="SurveyDetail1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_Survey_SurveyID" Association="Self.FK_SurveyDetail_Survey_SurveyID">
+            <End Role="Survey" EntitySet="Survey" />
+            <End Role="SurveyDetail" EntitySet="SurveyDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" Association="Self.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber">
+            <End Role="SurveyLocation" EntitySet="SurveyLocation" />
+            <End Role="SurveyDetail1" EntitySet="SurveyDetail1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyLocation_Survey_SruveyID" Association="Self.FK_SurveyLocation_Survey_SruveyID">
+            <End Role="Survey1" EntitySet="Survey1" />
+            <End Role="SurveyLocation" EntitySet="SurveyLocation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RCID_DWHModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bird_Species">
+          <Key>
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SpeciesID" Type="Int16" Nullable="false" />
+          <Property Name="SpeciesName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpeciesActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SurveyDetails" Relationship="Self.FK_SurveyDetail_Species_SpeciesID" FromRole="Species" ToRole="SurveyDetail" />
+        </EntityType>
+        <EntityType Name="Bird_Survey">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+          </Key>
+          <Property Name="SurveyID" Type="Int32" Nullable="false" />
+          <Property Name="SurveyDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SourceID" Type="Byte" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="Int16" Nullable="false" />
+          <Property Name="ClimateID" Type="Byte" Nullable="false" />
+          <Property Name="SurveyorID" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Climate" Relationship="Self.FK_Survey_Climate_ClimateID" FromRole="Survey" ToRole="Climate" />
+          <NavigationProperty Name="SamplePointArea" Relationship="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" FromRole="Survey" ToRole="SamplePointArea" />
+          <NavigationProperty Name="Surveyor" Relationship="Self.FK_Survey_Surveyor_SurveyorID" FromRole="Survey" ToRole="Surveyor" />
+          <NavigationProperty Name="SurveyDetails" Relationship="Self.FK_SurveyDetail_Survey_SurveyID" FromRole="Survey" ToRole="SurveyDetail" />
+        </EntityType>
+        <EntityType Name="Bird_SurveyDetail">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SurveyID" Type="Int32" Nullable="false" />
+          <Property Name="SpeciesID" Type="Int16" Nullable="false" />
+          <Property Name="SurveyDetailCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Species" Relationship="Self.FK_SurveyDetail_Species_SpeciesID" FromRole="SurveyDetail" ToRole="Species" />
+          <NavigationProperty Name="Survey" Relationship="Self.FK_SurveyDetail_Survey_SurveyID" FromRole="SurveyDetail" ToRole="Survey" />
+        </EntityType>
+        <EntityType Name="Bird_Surveyor">
+          <Key>
+            <PropertyRef Name="SurveyorID" />
+          </Key>
+          <Property Name="SurveyorID" Type="Byte" Nullable="false" />
+          <Property Name="SurveyorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SurveyorActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Surveys" Relationship="Self.FK_Survey_Surveyor_SurveyorID" FromRole="Surveyor" ToRole="Survey" />
+        </EntityType>
+        <EntityType Name="Lims_SamplePointArea">
+          <Key>
+            <PropertyRef Name="SourceID" />
+            <PropertyRef Name="SamplePointAreaID" />
+          </Key>
+          <Property Name="SourceID" Type="Byte" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="Int16" Nullable="false" />
+          <Property Name="SamplePointAreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SamplePointAreaActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Surveys" Relationship="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" FromRole="SamplePointArea" ToRole="Survey" />
+          <NavigationProperty Name="Survey1" Relationship="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" FromRole="Lims_SamplePointArea" ToRole="Survey1" />
+        </EntityType>
+        <EntityType Name="Weather_Climate">
+          <Key>
+            <PropertyRef Name="ClimateID" />
+          </Key>
+          <Property Name="ClimateID" Type="Byte" Nullable="false" />
+          <Property Name="ClimateName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClimateActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Surveys" Relationship="Self.FK_Survey_Climate_ClimateID" FromRole="Climate" ToRole="Survey" />
+        </EntityType>
+        <Association Name="FK_SurveyDetail_Species_SpeciesID">
+          <End Role="Species" Type="RCID_DWHModel.Bird_Species" Multiplicity="1" />
+          <End Role="SurveyDetail" Type="RCID_DWHModel.Bird_SurveyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Species">
+              <PropertyRef Name="SpeciesID" />
+            </Principal>
+            <Dependent Role="SurveyDetail">
+              <PropertyRef Name="SpeciesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_Climate_ClimateID">
+          <End Role="Climate" Type="RCID_DWHModel.Weather_Climate" Multiplicity="1" />
+          <End Role="Survey" Type="RCID_DWHModel.Bird_Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Climate">
+              <PropertyRef Name="ClimateID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="ClimateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID">
+          <End Role="SamplePointArea" Type="RCID_DWHModel.Lims_SamplePointArea" Multiplicity="1" />
+          <End Role="Survey" Type="RCID_DWHModel.Bird_Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_Surveyor_SurveyorID">
+          <End Role="Surveyor" Type="RCID_DWHModel.Bird_Surveyor" Multiplicity="1" />
+          <End Role="Survey" Type="RCID_DWHModel.Bird_Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Surveyor">
+              <PropertyRef Name="SurveyorID" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="SurveyorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_Survey_SurveyID">
+          <End Role="Survey" Type="RCID_DWHModel.Bird_Survey" Multiplicity="1" />
+          <End Role="SurveyDetail" Type="RCID_DWHModel.Bird_SurveyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey">
+              <PropertyRef Name="SurveyID" />
+            </Principal>
+            <Dependent Role="SurveyDetail">
+              <PropertyRef Name="SurveyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RCID_DWHEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bird_Species" EntityType="RCID_DWHModel.Bird_Species" />
+          <EntitySet Name="Bird_Survey" EntityType="RCID_DWHModel.Bird_Survey" />
+          <EntitySet Name="Bird_SurveyDetail" EntityType="RCID_DWHModel.Bird_SurveyDetail" />
+          <EntitySet Name="Bird_Surveyor" EntityType="RCID_DWHModel.Bird_Surveyor" />
+          <EntitySet Name="Lims_SamplePointArea" EntityType="RCID_DWHModel.Lims_SamplePointArea" />
+          <EntitySet Name="Weather_Climate" EntityType="RCID_DWHModel.Weather_Climate" />
+          <AssociationSet Name="FK_SurveyDetail_Species_SpeciesID" Association="Self.FK_SurveyDetail_Species_SpeciesID">
+            <End Role="Species" EntitySet="Bird_Species" />
+            <End Role="SurveyDetail" EntitySet="Bird_SurveyDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Climate_ClimateID" Association="Self.FK_Survey_Climate_ClimateID">
+            <End Role="Climate" EntitySet="Weather_Climate" />
+            <End Role="Survey" EntitySet="Bird_Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" Association="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID">
+            <End Role="SamplePointArea" EntitySet="Lims_SamplePointArea" />
+            <End Role="Survey" EntitySet="Bird_Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_Surveyor_SurveyorID" Association="Self.FK_Survey_Surveyor_SurveyorID">
+            <End Role="Surveyor" EntitySet="Bird_Surveyor" />
+            <End Role="Survey" EntitySet="Bird_Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_Survey_SurveyID" Association="Self.FK_SurveyDetail_Survey_SurveyID">
+            <End Role="Survey" EntitySet="Bird_Survey" />
+            <End Role="SurveyDetail" EntitySet="Bird_SurveyDetail" />
+          </AssociationSet>
+          <EntitySet Name="Fish_Species" EntityType="RCID_DWHModel.Fish_Species" />
+          <EntitySet Name="Fish_SpeciesGroup" EntityType="RCID_DWHModel.Fish_SpeciesGroup" />
+          <EntitySet Name="Fish_Survey" EntityType="RCID_DWHModel.Fish_Survey" />
+          <EntitySet Name="Fish_SurveyDetail" EntityType="RCID_DWHModel.Fish_SurveyDetail" />
+          <EntitySet Name="Fish_SurveyLocation" EntityType="RCID_DWHModel.Fish_SurveyLocation" />
+          <AssociationSet Name="FK_Species_SpeciesGroup_SpeciesGroupID" Association="RCID_DWHModel.FK_Species_SpeciesGroup_SpeciesGroupID">
+            <End Role="SpeciesGroup" EntitySet="Fish_SpeciesGroup" />
+            <End Role="Species1" EntitySet="Fish_Species" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_Species_SpeciesID1" Association="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID1">
+            <End Role="Species1" EntitySet="Fish_Species" />
+            <End Role="SurveyDetail1" EntitySet="Fish_SurveyDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" Association="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1">
+            <End Role="Lims_SamplePointArea" EntitySet="Lims_SamplePointArea" />
+            <End Role="Survey1" EntitySet="Fish_Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyLocation_Survey_SruveyID" Association="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID">
+            <End Role="Survey1" EntitySet="Fish_Survey" />
+            <End Role="SurveyLocation" EntitySet="Fish_SurveyLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" Association="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber">
+            <End Role="SurveyLocation" EntitySet="Fish_SurveyLocation" />
+            <End Role="SurveyDetail1" EntitySet="Fish_SurveyDetail" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Fish_Species">
+          <Key>
+            <PropertyRef Name="SpeciesID" />
+          </Key>
+          <Property Name="SpeciesID" Type="Int16" Nullable="false" />
+          <Property Name="SpeciesName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SpeciesGroupID" Type="Byte" />
+          <Property Name="SpeciesActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SpeciesGroup" Relationship="RCID_DWHModel.FK_Species_SpeciesGroup_SpeciesGroupID" FromRole="Species1" ToRole="SpeciesGroup" />
+          <NavigationProperty Name="SurveyDetail1" Relationship="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID1" FromRole="Species1" ToRole="SurveyDetail1" />
+        </EntityType>
+        <EntityType Name="Fish_SpeciesGroup">
+          <Key>
+            <PropertyRef Name="SpeciesGroupID" />
+          </Key>
+          <Property Name="SpeciesGroupID" Type="Byte" Nullable="false" />
+          <Property Name="SpeciesGroupName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SpeciesGroupActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Species1" Relationship="RCID_DWHModel.FK_Species_SpeciesGroup_SpeciesGroupID" FromRole="SpeciesGroup" ToRole="Species1" />
+        </EntityType>
+        <EntityType Name="Fish_Survey">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+          </Key>
+          <Property Name="SurveyID" Type="Int32" Nullable="false" />
+          <Property Name="SurveyYear" Type="Int16" Nullable="false" />
+          <Property Name="SourceID" Type="Byte" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="Int16" Nullable="false" />
+          <Property Name="SurveyComments" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SamplePointArea" Relationship="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" FromRole="Survey1" ToRole="Lims_SamplePointArea" />
+          <NavigationProperty Name="SurveyLocations" Relationship="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" FromRole="Survey1" ToRole="SurveyLocation" />
+        </EntityType>
+        <EntityType Name="Fish_SurveyDetail">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SurveyNumber" />
+            <PropertyRef Name="SurveyDetailID" />
+          </Key>
+          <Property Name="SurveyID" Type="Int32" Nullable="false" />
+          <Property Name="SurveyNumber" Type="Byte" Nullable="false" />
+          <Property Name="SurveyDetailID" Type="Int16" Nullable="false" />
+          <Property Name="SpeciesID" Type="Int16" Nullable="false" />
+          <Property Name="SpeciesSizeMillimeters" Type="Int16" Nullable="false" />
+          <Property Name="SpeciesSizeInches" Type="Decimal" Precision="13" Scale="6" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="SpeciesSizeInchGroup" Type="Byte" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="SpeciesWeightPounds" Type="Byte" Nullable="false" />
+          <Property Name="SpeciesWeightOunces" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="SpeciesWeightLbs" Type="Decimal" Precision="8" Scale="2" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Species1" Relationship="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID1" FromRole="SurveyDetail1" ToRole="Species1" />
+          <NavigationProperty Name="SurveyLocation" Relationship="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" FromRole="SurveyDetail1" ToRole="SurveyLocation" />
+        </EntityType>
+        <EntityType Name="Fish_SurveyLocation">
+          <Key>
+            <PropertyRef Name="SurveyID" />
+            <PropertyRef Name="SurveyNumber" />
+          </Key>
+          <Property Name="SurveyID" Type="Int32" Nullable="false" />
+          <Property Name="SurveyNumber" Type="Byte" Nullable="false" />
+          <Property Name="LocationDetails" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SurveyDate" Type="DateTime" Precision="0" />
+          <Property Name="SurveyDurationSeconds" Type="Int16" />
+          <Property Name="GeneratorID" Type="Byte" />
+          <Property Name="SurveyLocationComments" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Survey1" Relationship="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" FromRole="SurveyLocation" ToRole="Survey1" />
+          <NavigationProperty Name="SurveyDetail1" Relationship="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" FromRole="SurveyLocation" ToRole="SurveyDetail1" />
+        </EntityType>
+        <Association Name="FK_Species_SpeciesGroup_SpeciesGroupID">
+          <End Type="RCID_DWHModel.Fish_SpeciesGroup" Role="SpeciesGroup" Multiplicity="0..1" />
+          <End Type="RCID_DWHModel.Fish_Species" Role="Species1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpeciesGroup">
+              <PropertyRef Name="SpeciesGroupID" />
+            </Principal>
+            <Dependent Role="Species1">
+              <PropertyRef Name="SpeciesGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_Species_SpeciesID1">
+          <End Type="RCID_DWHModel.Fish_Species" Role="Species1" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Fish_SurveyDetail" Role="SurveyDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Species1">
+              <PropertyRef Name="SpeciesID" />
+            </Principal>
+            <Dependent Role="SurveyDetail1">
+              <PropertyRef Name="SpeciesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1">
+          <End Type="RCID_DWHModel.Lims_SamplePointArea" Role="Lims_SamplePointArea" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Fish_Survey" Role="Survey1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lims_SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="Survey1">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyLocation_Survey_SruveyID">
+          <End Type="RCID_DWHModel.Fish_Survey" Role="Survey1" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Fish_SurveyLocation" Role="SurveyLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey1">
+              <PropertyRef Name="SurveyID" />
+            </Principal>
+            <Dependent Role="SurveyLocation">
+              <PropertyRef Name="SurveyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber">
+          <End Type="RCID_DWHModel.Fish_SurveyLocation" Role="SurveyLocation" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Fish_SurveyDetail" Role="SurveyDetail1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SurveyLocation">
+              <PropertyRef Name="SurveyID" />
+              <PropertyRef Name="SurveyNumber" />
+            </Principal>
+            <Dependent Role="SurveyDetail1">
+              <PropertyRef Name="SurveyID" />
+              <PropertyRef Name="SurveyNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RCID_DWHModelStoreContainer" CdmEntityContainer="RCID_DWHEntities">
+          <EntitySetMapping Name="Bird_Species">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Bird_Species">
+              <MappingFragment StoreEntitySet="Species">
+                <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
+                <ScalarProperty Name="SpeciesName" ColumnName="SpeciesName" />
+                <ScalarProperty Name="SpeciesActive" ColumnName="SpeciesActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bird_Survey">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Bird_Survey">
+              <MappingFragment StoreEntitySet="Survey">
+                <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SamplePointAreaID" ColumnName="SamplePointAreaID" />
+                <ScalarProperty Name="ClimateID" ColumnName="ClimateID" />
+                <ScalarProperty Name="SurveyorID" ColumnName="SurveyorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bird_SurveyDetail">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Bird_SurveyDetail">
+              <MappingFragment StoreEntitySet="SurveyDetail">
+                <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+                <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
+                <ScalarProperty Name="SurveyDetailCount" ColumnName="SurveyDetailCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bird_Surveyor">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Bird_Surveyor">
+              <MappingFragment StoreEntitySet="Surveyor">
+                <ScalarProperty Name="SurveyorID" ColumnName="SurveyorID" />
+                <ScalarProperty Name="SurveyorName" ColumnName="SurveyorName" />
+                <ScalarProperty Name="SurveyorActive" ColumnName="SurveyorActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lims_SamplePointArea">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Lims_SamplePointArea">
+              <MappingFragment StoreEntitySet="SamplePointArea">
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SamplePointAreaID" ColumnName="SamplePointAreaID" />
+                <ScalarProperty Name="SamplePointAreaName" ColumnName="SamplePointAreaName" />
+                <ScalarProperty Name="SamplePointAreaActive" ColumnName="SamplePointAreaActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weather_Climate">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Weather_Climate">
+              <MappingFragment StoreEntitySet="Climate">
+                <ScalarProperty Name="ClimateID" ColumnName="ClimateID" />
+                <ScalarProperty Name="ClimateName" ColumnName="ClimateName" />
+                <ScalarProperty Name="ClimateActive" ColumnName="ClimateActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_Species">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_Species">
+              <MappingFragment StoreEntitySet="Species1">
+                <ScalarProperty Name="SpeciesActive" ColumnName="SpeciesActive" />
+                <ScalarProperty Name="SpeciesGroupID" ColumnName="SpeciesGroupID" />
+                <ScalarProperty Name="SpeciesName" ColumnName="SpeciesName" />
+                <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_SpeciesGroup">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_SpeciesGroup">
+              <MappingFragment StoreEntitySet="SpeciesGroup">
+                <ScalarProperty Name="SpeciesGroupActive" ColumnName="SpeciesGroupActive" />
+                <ScalarProperty Name="SpeciesGroupName" ColumnName="SpeciesGroupName" />
+                <ScalarProperty Name="SpeciesGroupID" ColumnName="SpeciesGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_Survey">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_Survey">
+              <MappingFragment StoreEntitySet="Survey1">
+                <ScalarProperty Name="SurveyComments" ColumnName="SurveyComments" />
+                <ScalarProperty Name="SamplePointAreaID" ColumnName="SamplePointAreaID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SurveyYear" ColumnName="SurveyYear" />
+                <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_SurveyDetail">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_SurveyDetail">
+              <MappingFragment StoreEntitySet="SurveyDetail1">
+                <ScalarProperty Name="SpeciesWeightLbs" ColumnName="SpeciesWeightLbs" />
+                <ScalarProperty Name="SpeciesWeightOunces" ColumnName="SpeciesWeightOunces" />
+                <ScalarProperty Name="SpeciesWeightPounds" ColumnName="SpeciesWeightPounds" />
+                <ScalarProperty Name="SpeciesSizeInchGroup" ColumnName="SpeciesSizeInchGroup" />
+                <ScalarProperty Name="SpeciesSizeInches" ColumnName="SpeciesSizeInches" />
+                <ScalarProperty Name="SpeciesSizeMillimeters" ColumnName="SpeciesSizeMillimeters" />
+                <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
+                <ScalarProperty Name="SurveyDetailID" ColumnName="SurveyDetailID" />
+                <ScalarProperty Name="SurveyNumber" ColumnName="SurveyNumber" />
+                <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_SurveyLocation">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_SurveyLocation">
+              <MappingFragment StoreEntitySet="SurveyLocation">
+                <ScalarProperty Name="SurveyLocationComments" ColumnName="SurveyLocationComments" />
+                <ScalarProperty Name="GeneratorID" ColumnName="GeneratorID" />
+                <ScalarProperty Name="SurveyDurationSeconds" ColumnName="SurveyDurationSeconds" />
+                <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
+                <ScalarProperty Name="LocationDetails" ColumnName="LocationDetails" />
+                <ScalarProperty Name="SurveyNumber" ColumnName="SurveyNumber" />
+                <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

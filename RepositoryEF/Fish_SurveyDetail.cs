@@ -25,7 +25,7 @@ namespace RCIDRepository
         public decimal SpeciesWeightOunces { get; set; }
         public Nullable<decimal> SpeciesWeightLbs { get; set; }
     
-        public virtual Fish_Species Species { get; set; }
+        public virtual Fish_Species Species1 { get; set; }
         public virtual Fish_SurveyLocation SurveyLocation { get; set; }
     }
 }
