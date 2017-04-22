@@ -33,6 +33,11 @@ namespace RCIDService
             return _birdRepo.GetAllSurveys();
         }
 
+        public IEnumerable<BirdSurveyDetails> GetSurveyDetails(int surveyID)
+        {
+            return _birdRepo.GetSurveyDetails(surveyID);
+        }
+
         public bool UpdateSpecies(BirdSpecies item) {
             return _birdRepo.UpdateSpecies(item);
         }
@@ -40,6 +45,11 @@ namespace RCIDService
         public bool CreateSpecies(BirdSpecies item)
         {
             return _birdRepo.CreateSpecies(item);
+        }
+
+        public bool InactivateSpecies(BirdSpecies item)
+        {
+            return _birdRepo.InactivateSpecies(item);
         }
 
         public bool UpdateSurvey(BirdSurvey item)
@@ -60,6 +70,11 @@ namespace RCIDService
         public bool CreateSurveyor(BirdSurveyor item)
         {
             return _birdRepo.CreateSurveyor(item);
+        }
+
+        public bool InactivateSurveyor(BirdSurveyor item)
+        {
+            return _birdRepo.InactivateSurveyor(item);
         }
 
         public List<List<string>> ValidateImportList(List<BirdSurvey> toSave)

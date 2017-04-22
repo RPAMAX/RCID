@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SpeciesID', 'Species Name'],
+            colNames: ['SpeciesID', 'Species Name', 'Is Active'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "SpeciesID" },
             //colModel takes the data from controller and binds to grid 
@@ -23,6 +23,13 @@
                     name: 'SpeciesName',
                     index: 'SpeciesName',
                     editable: true
+                }, {
+                    key: false,
+                    name: 'SpeciesActive',
+                    index: 'SpeciesActive',
+                    editable: true,                    
+                    edittype: 'checkbox',
+                    editoptions: { value: "true:false" }
                 }],
 
             pager: jQuery('#pager'),
@@ -60,8 +67,7 @@
             closeAfterEdit: true,
             recreateForm: true,               
             afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
+                if (response.responseText) {                   
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }
@@ -73,24 +79,23 @@
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
+                if (response.responseText) {                   
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }
             }
-        /*}, {
+        }, {
             // delete options  
             zIndex: 100,
             url: "/Birds/DeleteSpecies",
             closeOnEscape: true,
             closeAfterDelete: true,
-            recreateForm: true,
-            msg: "Are you sure you want to delete this item?",
+            recreateForm: true,           
             afterComplete: function (response) {
                 if (response.responseText) {
-                    alert(response.responseText);
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
                 }
-            }*/
+            }
         });
 });  

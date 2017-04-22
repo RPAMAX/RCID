@@ -1,6 +1,6 @@
 ﻿$(function () {
   //  debugger;
-    $("#grid").jqGrid
+    $("#masterGrid").jqGrid
         ({
             url: "/Birds/GetSurveys",
             datatype: 'json',
@@ -130,7 +130,12 @@
                 Id: "0"
             },
             autowidth: true,
-            multiselect: false
+            multiselect: false,
+            onSelectRow: function (id) {                
+                jQuery("#detailGrid")
+                    .setGridParam({ postData: { id: id } })                   
+                    .trigger('reloadGrid');                
+            }, 
             //pager-you have to choose here what icons should appear at the bottom  
             //like edit,create,delete icons  
         }).navGrid('#pager',
@@ -181,5 +186,54 @@
         //    //    }
         //    //}
         });
+    
+    $("#detailGrid").jqGrid
+        ({
+            url: '/Birds/GetSurveyDetails',
+            datatype: 'json',
+            mtype: 'Get',
+            colNames: ['SurveyID', 'SpeciesID', 'SpeciesName', 'SurveyDetailCount'],
+            colModel: [
+                {
+                    key: true,
+                    hidden: true,
+                    name: 'SpeciesID',
+                    index: 'SpeciesID',
+                }, {
+                    key: false,
+                    name: 'SpeciesName',
+                    width: 100
+                },
+                {
+                    key: false,
+                    name: 'SurveyDetailCount',
+                    width: 100
+                },
+                {
+                    key: false,
+                    name: 'SurveyID',
+                    width: 100
+                },
+            ],
+            pager: jQuery('#pagerD'),
+            rowNum: 10,
+            rowList: [10, 20, 30, 40],
+            height: '100%',
+            viewrecords: true,                       
+            caption: 'Detail grid',
+            emptyrecords: 'No records to display',
+            jsonReader:
+            {
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                repeatitems: false,
+                Id: "0"
+            },
+            autowidth: true,
+            multiselect: false
+            
+        }).navGrid('#pagerD', { add: false, edit: false, del: false, search: false, refresh: false });
 });  
 

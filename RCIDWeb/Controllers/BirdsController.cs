@@ -129,6 +129,35 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSurveyDetails(int id, string sidx, string sord, int page, int rows)
+        {
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
+            var results = _birdSvc.GetSurveyDetails(id);
+
+            int totalRecords = results.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+            if (sord.ToUpper() == "DESC")
+            {
+                results = results.OrderByDescending(s => s.SpeciesName);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            else
+            {
+                results = results.OrderBy(s => s.SpeciesName);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+
+            var jsonData = new
+            {
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = results
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
         public string EditSpecies(BirdSpecies item)
         {
             string msg = string.Empty;
@@ -175,6 +204,31 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
+        public string DeleteSpecies(BirdSpecies item)
+        {
+            string msg = string.Empty;
+
+            item.SpeciesActive = false;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.InactivateSpecies(item);
+                    msg = "Species inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Delete Species. An error has ocurred";
+            }
+
+            return msg;
+        }
 
         public string EditSurveyor(BirdSurveyor item)
         {
@@ -219,6 +273,30 @@ namespace RCIDWeb.Controllers
             catch (Exception e)
             {
                 msg = "Create Surveyor. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string InactivateSurveyor(BirdSurveyor item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.InactivateSurveyor(item);
+                    msg = "Surveyor inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Inactivate Surveyor. An error has ocurred";
             }
 
             return msg;
@@ -296,6 +374,7 @@ namespace RCIDWeb.Controllers
                     string fileContentType = file.ContentType;
 
                     List<BirdSurvey> parsedList =  BirdsExcelParser.ParseFile(fileName);
+                    model.ProcessedRows = parsedList.Count();
 
                     if (parsedList != null) {
                        //validate in service first
@@ -305,6 +384,11 @@ namespace RCIDWeb.Controllers
                         model.SurveyorErrors = errorList[1];
                         model.ClimateErrors = errorList[2];
                         model.SpeciesErrors = errorList[3];
+
+                        model.ErrorCount = model.SPAErrors.Count() +
+                                           model.SurveyorErrors.Count() +
+                                           model.SpeciesErrors.Count() +
+                                           model.ClimateErrors.Count();
 
                         //if there are no errors, call the service to save to DB
                         var errors = errorList.Where(s => s.Count > 0).FirstOrDefault();

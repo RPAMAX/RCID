@@ -37,8 +37,7 @@
             height: '100%',
             viewrecords: true,
             caption: 'Bird surveyors',
-            emptyrecords: 'No records to display',
-            loadonce: true,
+            emptyrecords: 'No records to display',            
             jsonReader:
             {
                 root: "rows",
@@ -65,7 +64,7 @@
             url: '/Birds/EditSurveyor',
             closeOnEscape: true,
             closeAfterEdit: true,
-            recreateForm: true,
+            recreateForm: true,            
             afterComplete: function (response) {
                 if (response.responseText) {                   
                     $("#successMsgDiv").text(response.responseText);
@@ -84,18 +83,18 @@
                     $("#successMsgDiv").show();
                 }
             }
-        //}, {
-        //    // delete options  
-        //    zIndex: 100,
-        //    url: "/Jqgrid/Delete",
-        //    closeOnEscape: true,
-        //    closeAfterDelete: true,
-        //    recreateForm: true,
-        //    msg: "Are you sure you want to delete this task?",
-        //    afterComplete: function (response) {
-        //        if (response.responseText) {
-        //            alert(response.responseText);
-        //        }
-        //    }
+        }, {
+            // delete options  
+            zIndex: 100,
+            url: "/Birds/InactivateSurveyor",
+            closeOnEscape: true,
+            closeAfterDelete: true,
+            recreateForm: true,            
+            afterComplete: function (response) {
+                if (response.responseText) {
+                    $("#successMsgDiv").text(response.responseText);
+                    $("#successMsgDiv").show();
+                }
+            }
         });
 });  

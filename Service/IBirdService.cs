@@ -16,12 +16,17 @@ namespace RCIDService
 
         bool UpdateSpecies(BirdSpecies item);
         bool CreateSpecies(BirdSpecies item);
-               
+        bool InactivateSpecies(BirdSpecies item);
+
+
         bool UpdateSurvey(BirdSurvey item);
         bool CreateSurvey(BirdSurvey item);
 
+        IEnumerable<BirdSurveyDetails> GetSurveyDetails(int surveyID);
+
         bool UpdateSurveyor(BirdSurveyor item);
         bool CreateSurveyor(BirdSurveyor item);
+        bool InactivateSurveyor(BirdSurveyor item);
 
         List<List<string>> ValidateImportList(List<BirdSurvey> toSave);
         void SaveSurveys(List<BirdSurvey> toSave);

@@ -5,6 +5,12 @@
 
 <h2>Import Survey Information</h2>
 
+@if (Model != null && Model.ErrorCount == 0)
+{
+<div class="alert alert-success" id="importSuccessMsgDiv" >
+    File imported succesfully! Number of imported surveys: @Model.ProcessedRows
+</div>
+}
 
 @using (Html.BeginForm("ImportExcel", "Birds", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -70,4 +76,5 @@
             }
         </ul>
     }
+    
 }
