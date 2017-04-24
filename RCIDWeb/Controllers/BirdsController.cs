@@ -357,7 +357,8 @@ namespace RCIDWeb.Controllers
 
         public ActionResult ImportExcel()
         {
-            return View();
+            ValidationErrors model = new ValidationErrors();
+            return View(model);
         }
 
         [HttpPost]
@@ -372,30 +373,43 @@ namespace RCIDWeb.Controllers
                 {
                     string fileName = file.FileName;
                     string fileContentType = file.ContentType;
+                    try
+                    {
+                        List<BirdSurvey> parsedList = BirdsExcelParser.ParseFile(fileName);
+                        model.ProcessedRows = parsedList.Count();
 
-                    List<BirdSurvey> parsedList =  BirdsExcelParser.ParseFile(fileName);
-                    model.ProcessedRows = parsedList.Count();
-
-                    if (parsedList != null) {
-                       //validate in service first
-                        List<List<string>> errorList = _birdSvc.ValidateImportList(parsedList);
-                                                
-                        model.SPAErrors = errorList[0];
-                        model.SurveyorErrors = errorList[1];
-                        model.ClimateErrors = errorList[2];
-                        model.SpeciesErrors = errorList[3];
-
-                        model.ErrorCount = model.SPAErrors.Count() +
-                                           model.SurveyorErrors.Count() +
-                                           model.SpeciesErrors.Count() +
-                                           model.ClimateErrors.Count();
-
-                        //if there are no errors, call the service to save to DB
-                        var errors = errorList.Where(s => s.Count > 0).FirstOrDefault();
-                        if (errors == null)
+                        if (parsedList != null)
                         {
-                            _birdSvc.SaveSurveys(parsedList);
+                            //validate in service first
+                            List<List<string>> errorList = _birdSvc.ValidateImportList(parsedList);
+
+                            model.SPAErrors = errorList[0];
+                            model.SurveyorErrors = errorList[1];
+                            model.ClimateErrors = errorList[2];
+                            model.SpeciesErrors = errorList[3];
+
+                            model.ErrorCount = model.SPAErrors.Count() +
+                                               model.SurveyorErrors.Count() +
+                                               model.SpeciesErrors.Count() +
+                                               model.ClimateErrors.Count();
+
+                            //if there are no errors, call the service to save to DB
+                            var errors = errorList.Where(s => s.Count > 0).FirstOrDefault();
+                            if (errors == null)
+                            {
+                                _birdSvc.SaveSurveys(parsedList);
+                            }
                         }
+                    }
+                    catch (FormatException fe)
+                    {
+                        model.FormatError = true;
+                        model.ErrorCount = 1;
+                    }
+                    catch (Exception e)
+                    {
+                        model.ErrorCount = 1;
+                        model.GeneralError = e.Message;
                     }
                 }
             }

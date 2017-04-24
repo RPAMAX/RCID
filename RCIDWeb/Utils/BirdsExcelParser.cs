@@ -87,10 +87,11 @@ namespace RCIDWeb.Utils
                                             if (!cell.IsEmpty())
                                             {
                                                 BirdSurvey parent = surveyList[cell.Address.ColumnNumber - 2];
-
+                                            
                                                 BirdSurveyDetails detail = new BirdSurveyDetails();
                                                 detail.SpeciesName = speciesName;
                                                 detail.SurveyDetailCount = cell.Value.CastTo<int>();
+                                            
                                                 if (parent.Details == null) { parent.Details = new List<BirdSurveyDetails>(); }
 
                                                 parent.Details.Add(detail);
@@ -107,7 +108,7 @@ namespace RCIDWeb.Utils
                 return surveyList;
             }
             catch (Exception e) {
-                return null;
+                throw e;
             }
         }
     }

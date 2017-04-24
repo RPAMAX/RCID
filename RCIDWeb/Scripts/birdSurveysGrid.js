@@ -192,7 +192,7 @@
             url: '/Birds/GetSurveyDetails',
             datatype: 'json',
             mtype: 'Get',
-            colNames: ['SurveyID', 'SpeciesID', 'SpeciesName', 'SurveyDetailCount'],
+            colNames: ['SpeciesID', 'Species Name', 'Count'],
             colModel: [
                 {
                     key: true,
@@ -208,12 +208,7 @@
                     key: false,
                     name: 'SurveyDetailCount',
                     width: 100
-                },
-                {
-                    key: false,
-                    name: 'SurveyID',
-                    width: 100
-                },
+                }
             ],
             pager: jQuery('#pagerD'),
             rowNum: 10,

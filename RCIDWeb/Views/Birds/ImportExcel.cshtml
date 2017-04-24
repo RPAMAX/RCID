@@ -5,11 +5,35 @@
 
 <h2>Import Survey Information</h2>
 
-@if (Model != null && Model.ErrorCount == 0)
+@if (Model.ErrorCount == 0)
 {
-<div class="alert alert-success" id="importSuccessMsgDiv" >
-    File imported succesfully! Number of imported surveys: @Model.ProcessedRows
-</div>
+    <div class="alert alert-success" id="importSuccessMsgDiv" >
+        File imported succesfully! Number of imported surveys: @Model.ProcessedRows
+    </div>
+}   
+else
+{
+    if (Model.ErrorCount > 0)
+    {
+        if (Model.FormatError)
+        {
+        <div class="alert alert-danger" id="importFormatMsgDiv">
+            There was an error importing file. Please verify format of numbers and dates and make sure no special characters are used.
+        </div>
+        }
+        else if (Model.GeneralError != null)
+        {
+            <div class="alert alert-danger" id="importErrorMsgDiv">
+               @Model.GeneralError
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" id="importErrorMsgDiv">
+                Please check and fix the list of data inconsistencies below before proceeding.
+            </div>
+        }
+    }
 }
 
 @using (Html.BeginForm("ImportExcel", "Birds", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -28,10 +52,9 @@
         </tr>
     </table>
 }
-@if (Model != null)
-{
 
-    if (Model.SPAErrors.Count > 0)
+
+    @if (Model.SPAErrors.Count > 0)
     {
         <h3>Sample Point Area Errors:</h3>
         <ul>
@@ -42,7 +65,7 @@
             }
         </ul>
     }
-    if (Model.SurveyorErrors.Count > 0)
+    @if (Model.SurveyorErrors.Count > 0)
     {
         <h3>Surveyor Errors:</h3>
         <ul>
@@ -54,7 +77,7 @@
         </ul>
     }
 
-    if (Model.ClimateErrors.Count > 0)
+    @if (Model.ClimateErrors.Count > 0)
     {
         <h3>Climate Errors:</h3>
         <ul>            
@@ -65,7 +88,7 @@
         </ul>
     }
 
-    if (Model.SpeciesErrors.Count > 0)
+    @if (Model.SpeciesErrors.Count > 0)
     {
         <h3> Species Errors:</h3>
         <ul>
@@ -77,4 +100,3 @@
         </ul>
     }
     
-}

@@ -11,7 +11,9 @@ namespace RCIDWeb.Models
         public List<string> SurveyorErrors = new List<string>();
         public List<string> SpeciesErrors = new List<string>();
         public List<string> ClimateErrors = new List<string>();
-        public int ErrorCount = 0;
+        public bool FormatError =false;
+        public string GeneralError;
+        public int ErrorCount = -1;
         public int ProcessedRows = 0;
     }
 }
