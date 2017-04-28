@@ -177,6 +177,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\FishController.cs" />
     <Compile Include="Controllers\BirdsController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -258,15 +259,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\birdSurveysGrid.js" />
-    <Content Include="Scripts\birdSurveyorsGrid.js" />
-    <Content Include="Scripts\birdSpeciesGrid.js" />
+    <Content Include="Scripts\Birds\birdSurveysGrid.js" />
+    <Content Include="Scripts\Birds\birdSurveyorsGrid.js" />
+    <Content Include="Scripts\Birds\birdSpeciesGrid.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Fish\fishSurveysGrid.js" />
+    <Content Include="Scripts\Fish\fishGeneratorsGrid.js" />
+    <Content Include="Scripts\Fish\fishSpeciesGroupGrid.js" />
+    <Content Include="Scripts\Fish\fishSpeciesGrid.js" />
+    <Content Include="Scripts\General\samplePointAreaGrid.js" />
+    <Content Include="Scripts\General\climateGrid.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
     <Content Include="Scripts\i18n\grid.locale-bg1251.js" />
@@ -342,6 +349,12 @@
     <Content Include="Views\Birds\SurveyorsView.cshtml" />
     <Content Include="Views\Birds\SurveysView.cshtml" />
     <Content Include="Views\Birds\ImportExcel.cshtml" />
+    <Content Include="Views\Fish\SpeciesView.cshtml" />
+    <Content Include="Views\Fish\SpeciesGroupView.cshtml" />
+    <Content Include="Views\General\ClimateView.cshtml" />
+    <Content Include="Views\General\SamplePointAreaView.cshtml" />
+    <Content Include="Views\Fish\GeneratorsView.cshtml" />
+    <Content Include="Views\Fish\SurveysView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

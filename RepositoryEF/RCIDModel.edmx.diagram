@@ -18,7 +18,7 @@
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Survey_SurveyID" ManuallyRouted="false" />
         <EntityTypeShape EntityType="RCID_DWHModel.Fish_Species" Width="1.5" PointX="5.25" PointY="13.125" />
         <EntityTypeShape EntityType="RCID_DWHModel.Fish_SpeciesGroup" Width="1.5" PointX="3" PointY="13.375" />
-        <EntityTypeShape EntityType="RCID_DWHModel.Fish_Survey" Width="1.5" PointX="3" PointY="9" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Fish_Survey" Width="2.375" PointX="2.125" PointY="9.125" />
         <EntityTypeShape EntityType="RCID_DWHModel.Fish_SurveyDetail" Width="1.5" PointX="7.75" PointY="8.625" />
         <EntityTypeShape EntityType="RCID_DWHModel.Fish_SurveyLocation" Width="1.875" PointX="5.25" PointY="8.875" />
         <AssociationConnector Association="RCID_DWHModel.FK_Species_SpeciesGroup_SpeciesGroupID" />
@@ -26,6 +26,8 @@
         <AssociationConnector Association="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" />
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" />
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Fish_Generator" Width="1.5" PointX="4.375" PointY="5.875" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

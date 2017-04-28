@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'Sample Point Area'],
+            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'SamplePointAreaName', 'Sample Point Area'],
             prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
@@ -49,8 +49,7 @@
                     editrules: { edithidden: true }, hidedlg: true,
                     hidden: true,
                     editable: true,
-                    edittype: 'select',
-                    //   editoptions: { value:"1:Warm Months (Mar-Nov);2:Cold Months (Dec-Feb)"}
+                    edittype: 'select',                   
                     editoptions: {
                         dataUrl: "/General/GetClimates",
                         buildSelect: function (data) {
@@ -78,8 +77,7 @@
                     editrules: { edithidden: true }, hidedlg: true,
                     hidden: true,
                     editable: true,
-                    edittype: 'select',
-                    //   editoptions: { value:"1:Warm Months (Mar-Nov);2:Cold Months (Dec-Feb)"}
+                    edittype: 'select',                    
                     editoptions: {
                         dataUrl: "/Birds/GetSurveyorsList",
                         buildSelect: function (data) {
@@ -97,6 +95,15 @@
                     label: 'SamplePointAreaName',
                     name: 'SamplePointAreaName',
                     index: 'SamplePointAreaName',
+                    editable: false
+
+                }, {
+                    key: false,
+                    label: 'SamplePointAreaID',
+                    name: 'SamplePointAreaID',
+                    index: 'SamplePointAreaID',
+                    editrules: { edithidden: true }, hidedlg: true,
+                    hidden: true,
                     editable: true,
                     edittype: 'select',                 
                     editoptions: {
@@ -118,7 +125,7 @@
             rowList: [10, 20, 30, 40],
             height: '100%',
             viewrecords: true,
-            caption: 'Bird surveyor',
+            caption: 'Bird surveys',
             emptyrecords: 'No records to display',
             jsonReader:
             {
@@ -148,13 +155,13 @@
         }, {
             // edit options  
             zIndex: 100,
+            width: 400,
             url: '/Birds/EditSurvey',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,
             afterComplete: function (response) {
-                if (response.responseText) {
-                    alert(response.responseText);
+                if (response.responseText) {                    
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }
@@ -162,12 +169,12 @@
         }, {
             // add options  
             zIndex: 100,
+            width: 400,
             url: '/Birds/CreateSurvey',
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
                 if (response.responseText) {
-                    alert(response.responseText);
                     $("#successMsgDiv").text(response.responseText);
                     $("#successMsgDiv").show();
                 }

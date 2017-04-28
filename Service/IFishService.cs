@@ -1,15 +1,15 @@
-﻿using RCIDRepository.Domain;
+﻿using RCIDRepository;
+using RCIDRepository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RCIDRepository
+namespace RCIDService
 {
-    public interface IFishRepository
-    {
-        
+    public interface IFishService
+    {        
         IEnumerable<FishSpecies> GetAllSpecies();
         IEnumerable<FishSpeciesGroup> GetAllSpeciesGroup();
         IEnumerable<FishGenerator> GetAllGenerators();
@@ -19,23 +19,24 @@ namespace RCIDRepository
         bool UpdateSpecies(FishSpecies item);
         bool CreateSpecies(FishSpecies item);
         bool InactivateSpecies(FishSpecies item);
-        FishSpecies GetSpeciesByName(string name);
 
         bool UpdateSpeciesGroup(FishSpeciesGroup item);
         bool CreateSpeciesGroup(FishSpeciesGroup item);
         bool InactivateSpeciesGroup(FishSpeciesGroup item);
-        FishSpeciesGroup GetSpeciesGroupByName(string name);
 
         bool UpdateGenerator(FishGenerator item);
         bool CreateGenerator(FishGenerator item);
         bool InactivateGenerator(FishGenerator item);
-        
 
         bool UpdateSurvey(FishSurvey item);
-        int CreateSurvey(FishSurvey item);
+        bool CreateSurvey(FishSurvey item);
+
 
         bool UpdateSurveyLocation(FishSurveyLocation item);
-        int CreateSurveyLocation(FishSurveyLocation item);
+        bool CreateSurveyLocation(FishSurveyLocation item);
+
+
+
 
     }
 }

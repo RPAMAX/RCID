@@ -14,6 +14,7 @@ namespace RCIDRepository.Domain
         public Nullable<System.DateTime> SurveyDate { get; set; }
         public Nullable<short> SurveyDurationSeconds { get; set; }
         public Nullable<byte> GeneratorID { get; set; }
+        public string GeneratorName { get; set; }
         public string SurveyLocationComments { get; set; }
     }
 }

@@ -10,12 +10,15 @@ namespace RCIDRepository
 {
     public class FishRepository : IFishRepository
     {
-        IMapper mapper; 
+        IMapper mapper;
+
+        readonly byte LIMS_SOURCEID = 5;
 
         public FishRepository() {
             var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Fish_Species, FishSpecies>();               
-                
+                cfg.CreateMap<Fish_Species, FishSpecies>();
+                cfg.CreateMap<Fish_SpeciesGroup, FishSpeciesGroup>();
+                cfg.CreateMap<Fish_Generator, FishGenerator>();
             });
 
             this.mapper = config.CreateMapper();           
@@ -25,32 +28,28 @@ namespace RCIDRepository
 
         #region Surveys
         
-   /*     public IEnumerable<FishSurvey> GetAllSurveys()
+        public IEnumerable<FishSurvey> GetAllSurveys()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
             {              
                 var efList = from survey in context.Fish_Survey                             
                              join spa in context.Lims_SamplePointArea
-                             on survey.SamplePointAreaID equals spa.SamplePointAreaID
-                            
+                             on survey.SamplePointAreaID equals spa.SamplePointAreaID                             
                              select new FishSurvey
                              {
-                                 ClimateID = survey.ClimateID,
-                                 ClimateName = climate.ClimateName,
-                                 SamplePointAreaID = survey.SamplePointAreaID,
-                                 SamplePointAreaName = spa.SamplePointAreaName,
-                                 SourceID = survey.SourceID,
-                                 SurveyDate = survey.SurveyDate,
                                  SurveyID = survey.SurveyID,
-                                 SurveyorID = survey.SurveyorID,
-                                 SurveyorName = surveyor.SurveyorName
+                                 SamplePointAreaID = spa.SamplePointAreaID,
+                                 SamplePointAreaName = spa.SamplePointAreaName,
+                                 SourceID = spa.SourceID, 
+                                 SurveyComments = survey.SurveyComments,
+                                 SurveyYear = survey.SurveyYear
                              };
 
                 return efList.ToList();                
             }
         }
 
-        public bool UpdateSurvey(BirdSurvey item)
+        public bool UpdateSurvey(FishSurvey item)
         {
 
             bool result = false;
@@ -58,16 +57,15 @@ namespace RCIDRepository
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
-                    Bird_Survey efItem = context.Bird_Survey.Where(b => b.SurveyID == item.SurveyID).FirstOrDefault();
+                    Fish_Survey efItem = context.Fish_Survey.Where(b => b.SurveyID == item.SurveyID).FirstOrDefault();
 
                     if (efItem == null) return result;
-
-                    efItem.ClimateID = item.ClimateID;
+                                        
                     efItem.SamplePointAreaID = item.SamplePointAreaID;
-                    efItem.SourceID = item.SourceID;
-                    efItem.SurveyDate = item.SurveyDate;
-                    efItem.SurveyorID = item.SurveyorID;
-
+                    efItem.SourceID = LIMS_SOURCEID;
+                    efItem.SurveyYear = item.SurveyYear;
+                    efItem.SurveyComments = item.SurveyComments;
+                                        
                     if (context.SaveChanges() > 0)
                     {
                         result = true;
@@ -78,28 +76,26 @@ namespace RCIDRepository
             return result;
         }
 
-        public int CreateSurvey(BirdSurvey item)
+        public int CreateSurvey(FishSurvey item)
         {
             int newid = 0;           
-
             try
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
-                    newid = context.Bird_Survey.OrderByDescending(u => u.SurveyID).FirstOrDefault().SurveyID;
+                    newid = context.Fish_Survey.OrderByDescending(u => u.SurveyID).FirstOrDefault().SurveyID;
                     newid++;
 
-                    Bird_Survey efItem = new Bird_Survey()
+                    Fish_Survey efItem = new Fish_Survey()
                     {
                         SurveyID = newid,
-                        ClimateID = item.ClimateID,
                         SamplePointAreaID = item.SamplePointAreaID,
-                        SourceID = item.SourceID,
-                        SurveyDate = item.SurveyDate,
-                        SurveyorID = item.SurveyorID
+                        SourceID = LIMS_SOURCEID,
+                        SurveyComments = item.SurveyComments,
+                        SurveyYear = item.SurveyYear
                     };
 
-                    context.Bird_Survey.Add(efItem);
+                    context.Fish_Survey.Add(efItem);
 
                     if (context.SaveChanges() > 0)
                     {
@@ -111,7 +107,7 @@ namespace RCIDRepository
             return newid;
         }
 
-        public bool CreateSurveyDetail(BirdSurveyDetails item)
+ /*       public bool CreateSurveyDetail(BirdSurveyDetails item)
         {
             bool result = false;
             try
@@ -166,6 +162,8 @@ namespace RCIDRepository
                     if (efItem == null) return result;
 
                     efItem.SpeciesName = item.SpeciesName;
+                    efItem.SpeciesActive = item.SpeciesActive;
+
                     if (context.SaveChanges() > 0) {
                         result = true;
                     }
@@ -205,6 +203,30 @@ namespace RCIDRepository
             return result;
         }
 
+        public bool InactivateSpecies(FishSpecies item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Fish_Species efItem = context.Fish_Species.Where(b => b.SpeciesID == item.SpeciesID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SpeciesActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
         public FishSpecies GetSpeciesByName(string name)
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
@@ -241,6 +263,8 @@ namespace RCIDRepository
                     if (efItem == null) return result;
 
                     efItem.SpeciesGroupName = item.SpeciesGroupName;
+                    efItem.SpeciesGroupActive = item.SpeciesGroupActive;
+
                     if (context.SaveChanges() > 0)
                     {
                         result = true;
@@ -289,7 +313,219 @@ namespace RCIDRepository
                 return mapper.Map<Fish_SpeciesGroup, FishSpeciesGroup>(efitem);
             }
         }
+        public bool InactivateSpeciesGroup(FishSpeciesGroup item)
+        {
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Fish_SpeciesGroup efItem = context.Fish_SpeciesGroup.Where(b => b.SpeciesGroupID == item.SpeciesGroupID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SpeciesGroupActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
         #endregion
 
+        #region Generator
+
+        public IEnumerable<FishGenerator> GetAllGenerators()
+        {
+
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efList = context.Fish_Generator.OrderBy(s => s.GeneratorName).ToList();
+
+                return mapper.Map<List<Fish_Generator>, List<FishGenerator>>(efList);
+            }
+        }
+
+        public bool UpdateGenerator(FishGenerator item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Fish_Generator efItem = context.Fish_Generator.Where(b => b.GeneratorID == item.GeneratorID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.GeneratorName = item.GeneratorName;
+                    efItem.GeneratorActive = item.GeneratorActive;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        public bool CreateGenerator(FishGenerator item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    byte newid = context.Fish_Generator.OrderByDescending(u => u.GeneratorID).FirstOrDefault().GeneratorID;
+                    newid++;
+
+                    Fish_Generator efItem = new Fish_Generator()
+                    {
+                        GeneratorID = newid,
+                        GeneratorActive = true,
+                        GeneratorName = item.GeneratorName
+                    };
+
+                    context.Fish_Generator.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception e) { throw e; }
+            return result;
+        }
+
+        public FishGenerator GetGeneratorByName(string name)
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efitem = context.Fish_Generator.Where(s => s.GeneratorName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+                return mapper.Map<Fish_Generator, FishGenerator>(efitem);
+            }
+        }
+        public bool InactivateGenerator(FishGenerator item)
+        {
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Fish_Generator efItem = context.Fish_Generator.Where(b => b.GeneratorID == item.GeneratorID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.GeneratorActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+
+
+        #region Survey Locations
+        public IEnumerable<FishSurveyLocation> GetSurveyLocations(int surveyID)
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efList = from surveyLocation in context.Fish_SurveyLocation
+                             join generator in context.Fish_Generator
+                             on surveyLocation.GeneratorID equals generator.GeneratorID
+                             where surveyLocation.SurveyID == surveyID
+                             select new FishSurveyLocation
+                             {
+                                GeneratorID = surveyLocation.GeneratorID,
+                                GeneratorName = generator.GeneratorName,
+                                LocationDetails = surveyLocation.LocationDetails,
+                                SurveyDate = surveyLocation.SurveyDate, 
+                                SurveyDurationSeconds = surveyLocation.SurveyDurationSeconds,
+                                SurveyID = surveyLocation.SurveyID,
+                                SurveyLocationComments = surveyLocation.SurveyLocationComments,
+                                SurveyNumber = surveyLocation.SurveyNumber                                 
+                             };
+
+                return efList.ToList();
+
+            }
+        }
+
+        public int CreateSurveyLocation(FishSurveyLocation item)
+        {
+            byte newid = 0;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    newid = context.Fish_SurveyLocation.OrderByDescending(u => u.SurveyNumber).FirstOrDefault().SurveyNumber;
+                    newid++;
+
+                    Fish_SurveyLocation efItem = new Fish_SurveyLocation()
+                    {
+                         GeneratorID = item.GeneratorID,
+                         LocationDetails = item.LocationDetails,
+                         SurveyDate = item.SurveyDate,
+                         SurveyDurationSeconds = item.SurveyDurationSeconds,
+                         SurveyLocationComments = item.SurveyLocationComments,
+                         SurveyNumber = newid,
+                         SurveyID = item.SurveyID                        
+                    };
+
+                    context.Fish_SurveyLocation.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        return newid;
+                    }
+                }
+            }
+            catch (Exception e) { throw e; }
+            return newid;
+        }
+
+        public bool UpdateSurveyLocation(FishSurveyLocation item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Fish_SurveyLocation efItem = context.Fish_SurveyLocation.Where(b => b.SurveyID == item.SurveyID && b.SurveyNumber == item.SurveyNumber).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.GeneratorID = item.GeneratorID;
+                    efItem.LocationDetails = item.LocationDetails;
+                    efItem.SurveyDate = item.SurveyDate;
+                    efItem.SurveyDurationSeconds = item.SurveyDurationSeconds;
+                    efItem.SurveyLocationComments = item.SurveyLocationComments;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+        #endregion
     }
 }

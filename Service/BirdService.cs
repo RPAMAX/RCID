@@ -89,8 +89,9 @@ namespace RCIDService
             {
                 if (_generalRepo.GetSamplePointAreaByName(survey.SamplePointAreaName) == null) SPAErrors.Add(survey.SamplePointAreaName);
 
-                //TODO add the line below or any other method of getting the climateID
-                //if (_generalRepo.GetClimateByName(survey.ClimateName) == null) ClimateErrors.Add(survey.ClimateName);
+                
+                survey.ClimateID = this.GetWeatherIDByDate(survey.SurveyDate);
+
                 if (_birdRepo.GetSurveyorByName(survey.SurveyorName) == null) SurveyorErrors.Add(survey.SurveyorName);
                             
                 foreach (BirdSurveyDetails detail in survey.Details)
@@ -114,8 +115,8 @@ namespace RCIDService
             int newID;
             foreach (BirdSurvey survey in toSave)
             {
-                //TODO add the line below or any other method of getting the climateID
-                // survey.ClimateID = _generalRepo.GetClimateByName(survey.ClimateName).ClimateID;
+
+                survey.ClimateID = this.GetWeatherIDByDate(survey.SurveyDate);
 
                 SamplePointArea spa = _generalRepo.GetSamplePointAreaByName(survey.SamplePointAreaName);
                 survey.SamplePointAreaID = spa.SamplePointAreaID;
@@ -137,6 +138,21 @@ namespace RCIDService
 
         }
 
-        
+
+        #region private methods
+
+        private byte GetWeatherIDByDate(DateTime surveyDate)
+        {
+            if (surveyDate.Month > 12 && surveyDate.Month < 2)
+            {
+                return (byte)WeatherEnum.Cold_DecFeb;
+            }
+            else {
+                return (byte)WeatherEnum.Warm_MarNov;
+            }
+        }
+
+        #endregion
+
     }
 }

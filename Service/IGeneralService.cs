@@ -12,5 +12,13 @@ namespace RCIDService
     {
         IEnumerable<WeatherClimate> GetAllClimates();
         IEnumerable<SamplePointArea> GetAllSamplePointAreas();
+
+        bool InactivateClimate(WeatherClimate item);
+        bool UpdateClimate(WeatherClimate item);
+        bool CreateClimate(WeatherClimate item);
+
+        bool InactivateSamplePointArea(SamplePointArea item);
+        bool UpdateSamplePointArea(SamplePointArea item);
+        bool CreateSamplePointArea(SamplePointArea item);
     }
 }

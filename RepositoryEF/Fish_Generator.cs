@@ -12,25 +12,19 @@ namespace RCIDRepository
     using System;
     using System.Collections.Generic;
     
-    public partial class Fish_SurveyLocation
+    public partial class Fish_Generator
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Fish_SurveyLocation()
+        public Fish_Generator()
         {
-            this.SurveyDetail1 = new HashSet<Fish_SurveyDetail>();
+            this.SurveyLocations = new HashSet<Fish_SurveyLocation>();
         }
     
-        public int SurveyID { get; set; }
-        public byte SurveyNumber { get; set; }
-        public string LocationDetails { get; set; }
-        public Nullable<System.DateTime> SurveyDate { get; set; }
-        public Nullable<short> SurveyDurationSeconds { get; set; }
-        public Nullable<byte> GeneratorID { get; set; }
-        public string SurveyLocationComments { get; set; }
+        public byte GeneratorID { get; set; }
+        public string GeneratorName { get; set; }
+        public bool GeneratorActive { get; set; }
     
-        public virtual Fish_Survey Survey1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fish_SurveyDetail> SurveyDetail1 { get; set; }
-        public virtual Fish_Generator Generator { get; set; }
+        public virtual ICollection<Fish_SurveyLocation> SurveyLocations { get; set; }
     }
 }

@@ -41,6 +41,10 @@ namespace RCIDWeb.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IBirdRepository, BirdRepository>();
             container.RegisterType<IBirdService, BirdService>();
+
+            container.RegisterType<IFishRepository, FishRepository>();
+            container.RegisterType<IFishService, FishService>();
+
             container.RegisterType<IGeneralRepository, GeneralRepository>();
             container.RegisterType<IGeneralService, GeneralService>();
         }

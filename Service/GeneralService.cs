@@ -27,5 +27,37 @@ namespace RCIDService
             return _genRepo.GetAllSamplePointAreas();
         }
 
+        public bool CreateSamplePointArea(SamplePointArea item)
+        {
+            return _genRepo.CreateSamplePointArea(item);
+        }
+
+        public bool InactivateSamplePointArea(SamplePointArea item)
+        {
+            return _genRepo.InactivateSamplePointArea(item);
+        }
+
+        public bool UpdateSamplePointArea(SamplePointArea item)
+        {
+            return _genRepo.UpdateSamplePointArea(item);
+        }
+
+        public bool CreateClimate(WeatherClimate item)
+        {
+            return _genRepo.CreateClimate(item);
+        }
+
+        public bool InactivateClimate(WeatherClimate item)
+        {
+            return _genRepo.InactivateClimate(item);
+        }
+
+        public bool UpdateClimate(WeatherClimate item)
+        {
+            return _genRepo.UpdateClimate(item);
+        }
+
+
+
     }
 }

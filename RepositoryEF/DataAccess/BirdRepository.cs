@@ -10,7 +10,9 @@ namespace RCIDRepository
 {
     public class BirdRepository : IBirdRepository
     {
-        IMapper mapper; 
+        IMapper mapper;
+
+        readonly byte LIMS_SOURCEID = 5;
 
         public BirdRepository() {
             var config = new MapperConfiguration(cfg => {
@@ -69,7 +71,7 @@ namespace RCIDRepository
 
                     efItem.ClimateID = item.ClimateID;
                     efItem.SamplePointAreaID = item.SamplePointAreaID;
-                    efItem.SourceID = item.SourceID;
+                    efItem.SourceID = LIMS_SOURCEID;
                     efItem.SurveyDate = item.SurveyDate;
                     efItem.SurveyorID = item.SurveyorID;
 
@@ -79,7 +81,7 @@ namespace RCIDRepository
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception e) { }
             return result;
         }
 
@@ -99,7 +101,7 @@ namespace RCIDRepository
                         SurveyID = newid,
                         ClimateID = item.ClimateID,
                         SamplePointAreaID = item.SamplePointAreaID,
-                        SourceID = item.SourceID,
+                        SourceID = LIMS_SOURCEID,
                         SurveyDate = item.SurveyDate,
                         SurveyorID = item.SurveyorID
                     };

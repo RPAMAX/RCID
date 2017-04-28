@@ -41,6 +41,14 @@
           <Property Name="SurveyorName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SurveyorActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Generator">
+          <Key>
+            <PropertyRef Name="GeneratorID" />
+          </Key>
+          <Property Name="GeneratorID" Type="tinyint" Nullable="false" />
+          <Property Name="GeneratorName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GeneratorActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Species1">
           <Key>
             <PropertyRef Name="SpeciesID" />
@@ -230,6 +238,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SurveyLocation_Generator_GeneratorID">
+          <End Role="Generator" Type="Self.Generator" Multiplicity="0..1" />
+          <End Role="SurveyLocation" Type="Self.SurveyLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Generator">
+              <PropertyRef Name="GeneratorID" />
+            </Principal>
+            <Dependent Role="SurveyLocation">
+              <PropertyRef Name="GeneratorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SurveyLocation_Survey_SruveyID">
           <End Role="Survey1" Type="Self.Survey1" Multiplicity="1" />
           <End Role="SurveyLocation" Type="Self.SurveyLocation" Multiplicity="*" />
@@ -247,6 +267,7 @@
           <EntitySet Name="Survey" EntityType="Self.Survey" Schema="bird" store:Type="Tables" />
           <EntitySet Name="SurveyDetail" EntityType="Self.SurveyDetail" Schema="bird" store:Type="Tables" />
           <EntitySet Name="Surveyor" EntityType="Self.Surveyor" Schema="bird" store:Type="Tables" />
+          <EntitySet Name="Generator" EntityType="Self.Generator" Schema="fish" store:Type="Tables" />
           <EntitySet Name="Species1" EntityType="Self.Species1" Schema="fish" Table="Species" store:Type="Tables" />
           <EntitySet Name="SpeciesGroup" EntityType="Self.SpeciesGroup" Schema="fish" store:Type="Tables" />
           <EntitySet Name="Survey1" EntityType="Self.Survey1" Schema="fish" Table="Survey" store:Type="Tables" />
@@ -289,6 +310,10 @@
           <AssociationSet Name="FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" Association="Self.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber">
             <End Role="SurveyLocation" EntitySet="SurveyLocation" />
             <End Role="SurveyDetail1" EntitySet="SurveyDetail1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SurveyLocation_Generator_GeneratorID" Association="Self.FK_SurveyLocation_Generator_GeneratorID">
+            <End Role="Generator" EntitySet="Generator" />
+            <End Role="SurveyLocation" EntitySet="SurveyLocation" />
           </AssociationSet>
           <AssociationSet Name="FK_SurveyLocation_Survey_SruveyID" Association="Self.FK_SurveyLocation_Survey_SruveyID">
             <End Role="Survey1" EntitySet="Survey1" />
@@ -478,6 +503,11 @@
             <End Role="SurveyLocation" EntitySet="Fish_SurveyLocation" />
             <End Role="SurveyDetail1" EntitySet="Fish_SurveyDetail" />
           </AssociationSet>
+          <EntitySet Name="Fish_Generator" EntityType="RCID_DWHModel.Fish_Generator" />
+          <AssociationSet Name="FK_SurveyLocation_Generator_GeneratorID" Association="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID">
+            <End Role="Generator" EntitySet="Fish_Generator" />
+            <End Role="Fish_SurveyLocation" EntitySet="Fish_SurveyLocation" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Fish_Species">
           <Key>
@@ -544,6 +574,7 @@
           <Property Name="SurveyLocationComments" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Survey1" Relationship="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" FromRole="SurveyLocation" ToRole="Survey1" />
           <NavigationProperty Name="SurveyDetail1" Relationship="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" FromRole="SurveyLocation" ToRole="SurveyDetail1" />
+          <NavigationProperty Name="Generator" Relationship="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID" FromRole="Fish_SurveyLocation" ToRole="Generator" />
         </EntityType>
         <Association Name="FK_Species_SpeciesGroup_SpeciesGroupID">
           <End Type="RCID_DWHModel.Fish_SpeciesGroup" Role="SpeciesGroup" Multiplicity="0..1" />
@@ -606,6 +637,27 @@
             <Dependent Role="SurveyDetail1">
               <PropertyRef Name="SurveyID" />
               <PropertyRef Name="SurveyNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Fish_Generator">
+          <Key>
+            <PropertyRef Name="GeneratorID" />
+          </Key>
+          <Property Name="GeneratorID" Type="Byte" Nullable="false" />
+          <Property Name="GeneratorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GeneratorActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SurveyLocations" Relationship="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID" FromRole="Generator" ToRole="Fish_SurveyLocation" />
+        </EntityType>
+        <Association Name="FK_SurveyLocation_Generator_GeneratorID">
+          <End Type="RCID_DWHModel.Fish_Generator" Role="Generator" Multiplicity="0..1" />
+          <End Type="RCID_DWHModel.Fish_SurveyLocation" Role="Fish_SurveyLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Generator">
+              <PropertyRef Name="GeneratorID" />
+            </Principal>
+            <Dependent Role="Fish_SurveyLocation">
+              <PropertyRef Name="GeneratorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -729,6 +781,15 @@
                 <ScalarProperty Name="LocationDetails" ColumnName="LocationDetails" />
                 <ScalarProperty Name="SurveyNumber" ColumnName="SurveyNumber" />
                 <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fish_Generator">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Fish_Generator">
+              <MappingFragment StoreEntitySet="Generator">
+                <ScalarProperty Name="GeneratorActive" ColumnName="GeneratorActive" />
+                <ScalarProperty Name="GeneratorName" ColumnName="GeneratorName" />
+                <ScalarProperty Name="GeneratorID" ColumnName="GeneratorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

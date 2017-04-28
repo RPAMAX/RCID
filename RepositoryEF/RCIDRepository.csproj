@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="DataAccess\FishRepository.cs" />
     <Compile Include="DataAccess\IFishRepository.cs" />
+    <Compile Include="Domain\Fish\FishGenerator.cs" />
     <Compile Include="Domain\Fish\FishSpecies.cs" />
     <Compile Include="Domain\Fish\FishSpeciesGroup.cs" />
     <Compile Include="Domain\Fish\FishSurvey.cs" />
@@ -123,6 +124,9 @@
     <Compile Include="Domain\Birds\BirdSurveyor.cs" />
     <Compile Include="DataAccess\IGeneralRepository.cs" />
     <Compile Include="DataAccess\IBirdRepository.cs" />
+    <Compile Include="Fish_Generator.cs">
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Fish_Species.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
@@ -157,6 +161,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RCIDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Enums\WeatherEnum.cs" />
     <Compile Include="Weather_Climate.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
