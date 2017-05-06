@@ -12,11 +12,13 @@ namespace RCIDRepository.Domain
         public byte SurveyNumber { get; set; }
         public short SurveyDetailID { get; set; }
         public short SpeciesID { get; set; }
+        public string SpeciesName { get; set; }
         public short SpeciesSizeMillimeters { get; set; }
         public Nullable<decimal> SpeciesSizeInches { get; set; }
         public Nullable<byte> SpeciesSizeInchGroup { get; set; }
         public byte SpeciesWeightPounds { get; set; }
         public decimal SpeciesWeightOunces { get; set; }
         public Nullable<decimal> SpeciesWeightLbs { get; set; }
+        public bool SurveyDetailActive { get; set; }
     }
 }

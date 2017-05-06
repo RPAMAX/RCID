@@ -15,6 +15,7 @@ namespace RCIDRepository
         IEnumerable<FishGenerator> GetAllGenerators();
         IEnumerable<FishSurvey> GetAllSurveys();
         IEnumerable<FishSurveyLocation> GetSurveyLocations(int surveyID);
+        IEnumerable<FishSurveyDetails> GetSurveyDetails(int locationID, int surveyID);
 
         bool UpdateSpecies(FishSpecies item);
         bool CreateSpecies(FishSpecies item);
@@ -30,12 +31,17 @@ namespace RCIDRepository
         bool CreateGenerator(FishGenerator item);
         bool InactivateGenerator(FishGenerator item);
         
-
         bool UpdateSurvey(FishSurvey item);
         int CreateSurvey(FishSurvey item);
+        bool InactivateSurvey(FishSurvey item);
 
         bool UpdateSurveyLocation(FishSurveyLocation item);
         int CreateSurveyLocation(FishSurveyLocation item);
+        bool InactivateSurveyLocation(FishSurveyLocation item);
+
+        bool UpdateSurveyDetail(FishSurveyDetails item);
+        short CreateSurveyDetail(FishSurveyDetails item);
+        bool InactivateSurveyDetail(FishSurveyDetails item);
 
     }
 }

@@ -45,6 +45,11 @@ namespace RCIDService
             return _fishRepo.GetSurveyLocations(surveyID);
         }
 
+        public IEnumerable<FishSurveyDetails> GetSurveyDetails(int locationID, int surveyID)
+        {
+            return _fishRepo.GetSurveyDetails(locationID, surveyID);
+        }
+
         public bool UpdateSpecies(FishSpecies item) {
             return _fishRepo.UpdateSpecies(item);
         }
@@ -100,6 +105,11 @@ namespace RCIDService
             return (_fishRepo.CreateSurvey(item) > 0);
         }
 
+        public bool InactivateSurvey(FishSurvey item)
+        {
+            return _fishRepo.InactivateSurvey(item);
+        }
+
         public bool UpdateSurveyLocation(FishSurveyLocation item)
         {
             return _fishRepo.UpdateSurveyLocation(item);
@@ -110,6 +120,25 @@ namespace RCIDService
             return (_fishRepo.CreateSurveyLocation(item) > 0);
         }
 
-        
+        public bool InactivateSurveyLocation(FishSurveyLocation item)
+        {
+            return _fishRepo.InactivateSurveyLocation(item);
+        }
+
+        public bool UpdateSurveyDetail(FishSurveyDetails item)
+        {
+            return _fishRepo.UpdateSurveyDetail(item);
+        }
+
+        public bool CreateSurveyDetail(FishSurveyDetails item)
+        {
+            return (_fishRepo.CreateSurveyDetail(item) > 0);
+        }
+
+        public bool InactivateSurveyDetail(FishSurveyDetails item)
+        {
+            return _fishRepo.InactivateSurveyDetail(item);
+        }
+
     }
 }

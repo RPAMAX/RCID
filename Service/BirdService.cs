@@ -67,6 +67,11 @@ namespace RCIDService
             return _birdRepo.UpdateSurveyor(item);
         }
 
+        public bool InactivateSurvey(BirdSurvey item)
+        {
+            return _birdRepo.InactivateSurvey(item);
+        }
+
         public bool CreateSurveyor(BirdSurveyor item)
         {
             return _birdRepo.CreateSurveyor(item);

@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'SamplePointAreaName', 'Sample Point Area'],
+            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'SamplePointAreaName', 'Sample Point Area', 'Is Active'],
             prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
@@ -19,10 +19,9 @@
                 }, {
                     key: false,
                     label: 'SurveyDate',
-                    name: 'SurveyDate',
-                    //index: 'SurveyorName',
+                    name: 'SurveyDate',                    
                     editable: true,
-                    formatter: 'date',
+                    formatter: 'date',                    
                     editoptions: {
                         size: 20,
                         maxlengh: 10,
@@ -30,7 +29,8 @@
                             $(element).datepicker({                                
                                 constrainInput: false,
                                 showOn: 'button',
-                                buttonText: '...'
+                                buttonText: '...',
+                                maxDate: new Date()
                             });
                         }
                     },
@@ -118,6 +118,12 @@
 
                         }
                     }
+                }, {
+                    key: false,
+                    name: 'SurveyActive',                    
+                    editable: true,
+                    edittype: 'checkbox',
+                    editoptions: { value: "true:false" }
                 }],
 
             pager: jQuery('#pager'),
@@ -149,7 +155,7 @@
         {
             edit: true,
             add: true,
-           // del: true,
+            del: true,
             search: false,
             refresh: true
         }, {
@@ -161,10 +167,7 @@
             closeAfterEdit: true,
             recreateForm: true,
             afterComplete: function (response) {
-                if (response.responseText) {                    
-                    $("#successMsgDiv").text(response.responseText);
-                    $("#successMsgDiv").show();
-                }
+                DisplayResult(response);
             }
         }, {
             // add options  
@@ -174,24 +177,17 @@
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
-                if (response.responseText) {
-                    $("#successMsgDiv").text(response.responseText);
-                    $("#successMsgDiv").show();
-                }
+                DisplayResult(response);
             }
-        //}, {
-        //    //// delete options  
-        //    //zIndex: 100,
-        //    //url: "/Jqgrid/Delete",
-        //    //closeOnEscape: true,
-        //    //closeAfterDelete: true,
-        //    //recreateForm: true,
-        //    //msg: "Are you sure you want to delete this task?",
-        //    //afterComplete: function (response) {
-        //    //    if (response.responseText) {
-        //    //        alert(response.responseText);
-        //    //    }
-        //    //}
+        }, {
+            // delete options  
+            zIndex: 100,
+            url: "/Birds/DeleteSurvey",
+            closeOnEscape: true,
+            closeAfterDelete: true,                        
+            afterComplete: function (response) {
+                DisplayResult(response);
+            }
         });
     
     $("#detailGrid").jqGrid

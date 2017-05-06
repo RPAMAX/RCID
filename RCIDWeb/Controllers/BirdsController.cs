@@ -351,7 +351,29 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
+        public string DeleteSurvey(BirdSurvey item)
+        {
+            string msg = string.Empty;                     
 
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _birdSvc.InactivateSurvey(item);
+                    msg = "Survey inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Delete Survey. An error has ocurred";
+            }
+
+            return msg;
+        }
 
         #region import excel
 

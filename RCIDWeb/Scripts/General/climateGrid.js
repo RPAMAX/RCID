@@ -67,10 +67,7 @@
             closeAfterEdit: true,
             recreateForm: true,               
             afterComplete: function (response) {
-                if (response.responseText) {                   
-                    $("#successMsgDiv").text(response.responseText);
-                    $("#successMsgDiv").show();
-                }
+                DisplayResult(response);
             }
         }, {
             // add options  
@@ -79,10 +76,7 @@
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
-                if (response.responseText) {                   
-                    $("#successMsgDiv").text(response.responseText);
-                    $("#successMsgDiv").show();
-                }
+                DisplayResult(response);
             }
         }, {
             // delete options  
@@ -92,10 +86,7 @@
             closeAfterDelete: true,
             recreateForm: true,           
             afterComplete: function (response) {
-                if (response.responseText) {
-                    $("#successMsgDiv").text(response.responseText);
-                    $("#successMsgDiv").show();
-                }
+                DisplayResult(response);
             }
         });
 });  

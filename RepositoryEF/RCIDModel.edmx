@@ -23,6 +23,7 @@
           <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
           <Property Name="ClimateID" Type="tinyint" Nullable="false" />
           <Property Name="SurveyorID" Type="tinyint" Nullable="false" />
+          <Property Name="SurveyActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SurveyDetail">
           <Key>
@@ -32,6 +33,7 @@
           <Property Name="SurveyID" Type="int" Nullable="false" />
           <Property Name="SpeciesID" Type="smallint" Nullable="false" />
           <Property Name="SurveyDetailCount" Type="int" Nullable="false" />
+          <Property Name="SurveyDetailActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Surveyor">
           <Key>
@@ -75,6 +77,7 @@
           <Property Name="SourceID" Type="tinyint" Nullable="false" />
           <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
           <Property Name="SurveyComments" Type="varchar" MaxLength="1000" />
+          <Property Name="SurveyActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SurveyDetail1">
           <Key>
@@ -92,6 +95,7 @@
           <Property Name="SpeciesWeightPounds" Type="tinyint" Nullable="false" />
           <Property Name="SpeciesWeightOunces" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="SpeciesWeightLbs" Type="decimal" Precision="8" Scale="2" StoreGeneratedPattern="Computed" />
+          <Property Name="SurveyDetailActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SurveyLocation">
           <Key>
@@ -105,6 +109,7 @@
           <Property Name="SurveyDurationSeconds" Type="smallint" />
           <Property Name="GeneratorID" Type="tinyint" />
           <Property Name="SurveyLocationComments" Type="varchar" MaxLength="250" />
+          <Property Name="SurveyLocationActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SamplePointArea">
           <Key>
@@ -347,6 +352,7 @@
           <NavigationProperty Name="SamplePointArea" Relationship="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" FromRole="Survey" ToRole="SamplePointArea" />
           <NavigationProperty Name="Surveyor" Relationship="Self.FK_Survey_Surveyor_SurveyorID" FromRole="Survey" ToRole="Surveyor" />
           <NavigationProperty Name="SurveyDetails" Relationship="Self.FK_SurveyDetail_Survey_SurveyID" FromRole="Survey" ToRole="SurveyDetail" />
+          <Property Name="SurveyActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Bird_SurveyDetail">
           <Key>
@@ -358,6 +364,7 @@
           <Property Name="SurveyDetailCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Species" Relationship="Self.FK_SurveyDetail_Species_SpeciesID" FromRole="SurveyDetail" ToRole="Species" />
           <NavigationProperty Name="Survey" Relationship="Self.FK_SurveyDetail_Survey_SurveyID" FromRole="SurveyDetail" ToRole="Survey" />
+          <Property Name="SurveyDetailActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Bird_Surveyor">
           <Key>
@@ -540,6 +547,7 @@
           <Property Name="SurveyComments" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SamplePointArea" Relationship="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" FromRole="Survey1" ToRole="Lims_SamplePointArea" />
           <NavigationProperty Name="SurveyLocations" Relationship="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" FromRole="Survey1" ToRole="SurveyLocation" />
+          <Property Name="SurveyActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Fish_SurveyDetail">
           <Key>
@@ -559,6 +567,7 @@
           <Property Name="SpeciesWeightLbs" Type="Decimal" Precision="8" Scale="2" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Species1" Relationship="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID1" FromRole="SurveyDetail1" ToRole="Species1" />
           <NavigationProperty Name="SurveyLocation" Relationship="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" FromRole="SurveyDetail1" ToRole="SurveyLocation" />
+          <Property Name="SurveyDetailActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Fish_SurveyLocation">
           <Key>
@@ -575,6 +584,7 @@
           <NavigationProperty Name="Survey1" Relationship="RCID_DWHModel.FK_SurveyLocation_Survey_SruveyID" FromRole="SurveyLocation" ToRole="Survey1" />
           <NavigationProperty Name="SurveyDetail1" Relationship="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" FromRole="SurveyLocation" ToRole="SurveyDetail1" />
           <NavigationProperty Name="Generator" Relationship="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID" FromRole="Fish_SurveyLocation" ToRole="Generator" />
+          <Property Name="SurveyLocationActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Species_SpeciesGroup_SpeciesGroupID">
           <End Type="RCID_DWHModel.Fish_SpeciesGroup" Role="SpeciesGroup" Multiplicity="0..1" />
@@ -679,6 +689,7 @@
           <EntitySetMapping Name="Bird_Survey">
             <EntityTypeMapping TypeName="RCID_DWHModel.Bird_Survey">
               <MappingFragment StoreEntitySet="Survey">
+                <ScalarProperty Name="SurveyActive" ColumnName="SurveyActive" />
                 <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
                 <ScalarProperty Name="SurveyDate" ColumnName="SurveyDate" />
                 <ScalarProperty Name="SourceID" ColumnName="SourceID" />
@@ -691,6 +702,7 @@
           <EntitySetMapping Name="Bird_SurveyDetail">
             <EntityTypeMapping TypeName="RCID_DWHModel.Bird_SurveyDetail">
               <MappingFragment StoreEntitySet="SurveyDetail">
+                <ScalarProperty Name="SurveyDetailActive" ColumnName="SurveyDetailActive" />
                 <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
                 <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
                 <ScalarProperty Name="SurveyDetailCount" ColumnName="SurveyDetailCount" />
@@ -747,6 +759,7 @@
           <EntitySetMapping Name="Fish_Survey">
             <EntityTypeMapping TypeName="RCID_DWHModel.Fish_Survey">
               <MappingFragment StoreEntitySet="Survey1">
+                <ScalarProperty Name="SurveyActive" ColumnName="SurveyActive" />
                 <ScalarProperty Name="SurveyComments" ColumnName="SurveyComments" />
                 <ScalarProperty Name="SamplePointAreaID" ColumnName="SamplePointAreaID" />
                 <ScalarProperty Name="SourceID" ColumnName="SourceID" />
@@ -758,6 +771,7 @@
           <EntitySetMapping Name="Fish_SurveyDetail">
             <EntityTypeMapping TypeName="RCID_DWHModel.Fish_SurveyDetail">
               <MappingFragment StoreEntitySet="SurveyDetail1">
+                <ScalarProperty Name="SurveyDetailActive" ColumnName="SurveyDetailActive" />
                 <ScalarProperty Name="SpeciesWeightLbs" ColumnName="SpeciesWeightLbs" />
                 <ScalarProperty Name="SpeciesWeightOunces" ColumnName="SpeciesWeightOunces" />
                 <ScalarProperty Name="SpeciesWeightPounds" ColumnName="SpeciesWeightPounds" />
@@ -774,6 +788,7 @@
           <EntitySetMapping Name="Fish_SurveyLocation">
             <EntityTypeMapping TypeName="RCID_DWHModel.Fish_SurveyLocation">
               <MappingFragment StoreEntitySet="SurveyLocation">
+                <ScalarProperty Name="SurveyLocationActive" ColumnName="SurveyLocationActive" />
                 <ScalarProperty Name="SurveyLocationComments" ColumnName="SurveyLocationComments" />
                 <ScalarProperty Name="GeneratorID" ColumnName="GeneratorID" />
                 <ScalarProperty Name="SurveyDurationSeconds" ColumnName="SurveyDurationSeconds" />

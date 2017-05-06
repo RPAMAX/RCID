@@ -184,11 +184,45 @@ namespace RCIDWeb.Controllers
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
-        
-       
+
+        public JsonResult GetSurveyDetails(int id, int surveyID, string sidx, string sord, int page, int rows)
+        {
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
+            var results = _fishSvc.GetSurveyDetails(id,surveyID);
+
+            int totalRecords = results.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+            if (sord.ToUpper() == "DESC")
+            {
+                results = results.OrderByDescending(s => s.SurveyNumber);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            else
+            {
+                results = results.OrderBy(s => s.SurveyNumber);
+                results = results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+
+            var jsonData = new
+            {
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = results
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
+        #region GetListData
+        public JsonResult GetSpeciesList()
+        {
+            var results = _fishSvc.GetAllSpecies().OrderBy(c => c.SpeciesName).ToList();
 
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
         #region Species
 
         public string EditSpecies(FishSpecies item)
@@ -342,7 +376,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
         #endregion
-#region Generators
+        #region Generators
 
         public string EditGenerator(FishGenerator item)
         {
@@ -419,7 +453,7 @@ namespace RCIDWeb.Controllers
         }
 
         #endregion
-#region Surveys
+        #region Surveys
         public string EditSurvey(FishSurvey item)
         {
             string msg = string.Empty;
@@ -463,6 +497,30 @@ namespace RCIDWeb.Controllers
             catch (Exception e)
             {
                 msg = "Create Survey. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string DeleteSurvey(FishSurvey item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _fishSvc.InactivateSurvey(item);
+                    msg = "Survey inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Delete Survey. An error has ocurred";
             }
 
             return msg;
@@ -517,8 +575,105 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
+        public string DeleteSurveyLocation(FishSurveyLocation item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _fishSvc.InactivateSurveyLocation(item);
+                    msg = "Survey location inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Delete Survey location. An error has ocurred";
+            }
+
+            return msg;
+        }
+
         #endregion
 
+        #region Survey Details
+        public string CreateSurveyDetail(FishSurveyDetails item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _fishSvc.CreateSurveyDetail(item);
+                    msg = "Survey detail created succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Create Survey detail. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string EditSurveyDetail(FishSurveyDetails item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _fishSvc.UpdateSurveyDetail(item);
+                    msg = "Survey Detail saved succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Edit Survey Detail. An error has ocurred";
+            }
+
+            return msg;
+        }
+
+        public string DeleteSurveyDetail(FishSurveyDetails item)
+        {
+            string msg = string.Empty;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _fishSvc.InactivateSurveyDetail(item);
+                    msg = "Survey Detail inactivated succesfully";
+                }
+                else
+                {
+                    msg = "Data validation not successfull";
+                }
+            }
+            catch (Exception e)
+            {
+                msg = "Delete Survey Detail. An error has ocurred";
+            }
+
+            return msg;
+        }
+        #endregion
 
         #region Get Dropdown lists
         public JsonResult GetGenerators()

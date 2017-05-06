@@ -16,5 +16,6 @@ namespace RCIDRepository.Domain
         public Nullable<byte> GeneratorID { get; set; }
         public string GeneratorName { get; set; }
         public string SurveyLocationComments { get; set; }
+        public bool SurveyLocationActive { get; set; }
     }
 }

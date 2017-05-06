@@ -14,5 +14,6 @@ namespace RCIDRepository.Domain
         public short SamplePointAreaID { get; set; }
         public string SamplePointAreaName { get; set; }
         public string SurveyComments { get; set; }
+        public bool SurveyActive { get; set; }
     }
 }

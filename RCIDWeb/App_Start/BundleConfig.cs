@@ -33,8 +33,9 @@ namespace RCIDWeb
             bundles.Add(new ScriptBundle("~/bundles/grid").Include(
                     "~/Scripts/jquery-1.10.0.min.js",
                     "~/Scripts/jquery-ui-1.10.0.min.js",
-                     "~/Scripts/i18n/grid.locale-en.js",
-                      "~/Scripts/jquery.jqGrid.min.js"));              
+                    "~/Scripts/i18n/grid.locale-en.js",
+                    "~/Scripts/jquery.jqGrid.min.js",
+                    "~/Scripts/RCIDGeneral.js"));              
           
         }
     }

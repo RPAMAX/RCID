@@ -50,7 +50,8 @@ namespace RCIDRepository
                                  SurveyDate = survey.SurveyDate,
                                  SurveyID = survey.SurveyID,
                                  SurveyorID = survey.SurveyorID,
-                                 SurveyorName = surveyor.SurveyorName
+                                 SurveyorName = surveyor.SurveyorName,
+                                 SurveyActive = survey.SurveyActive 
                              };
 
                 return efList.ToList();                
@@ -74,6 +75,7 @@ namespace RCIDRepository
                     efItem.SourceID = LIMS_SOURCEID;
                     efItem.SurveyDate = item.SurveyDate;
                     efItem.SurveyorID = item.SurveyorID;
+                    efItem.SurveyActive = item.SurveyActive;
 
                     if (context.SaveChanges() > 0)
                     {
@@ -118,6 +120,30 @@ namespace RCIDRepository
             return newid;
         }
 
+        public bool InactivateSurvey(BirdSurvey item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_Survey efItem = context.Bird_Survey.Where(b => b.SurveyID == item.SurveyID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SurveyActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
         public IEnumerable<BirdSurveyDetails> GetSurveyDetails(int surveyID)
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
@@ -130,7 +156,8 @@ namespace RCIDRepository
                              {
                                   SpeciesID = surveyDetail.SpeciesID,
                                   SurveyDetailCount = surveyDetail.SurveyDetailCount,
-                                  SpeciesName = species.SpeciesName
+                                  SpeciesName = species.SpeciesName,
+                                  SurveyDetailActive = surveyDetail.SurveyDetailActive
                              };
 
                 return efList.ToList();
@@ -164,6 +191,30 @@ namespace RCIDRepository
             catch (Exception e) { throw e; }
             return result;
 
+        }
+
+        public bool InactivateSurveyDetail(BirdSurveyDetails item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Bird_SurveyDetail efItem = context.Bird_SurveyDetail.Where(b => b.SurveyID == item.SurveyID && b.SpeciesID == item.SpeciesID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SurveyDetailActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
         }
         #endregion
 

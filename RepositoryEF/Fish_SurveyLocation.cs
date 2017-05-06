@@ -27,6 +27,7 @@ namespace RCIDRepository
         public Nullable<short> SurveyDurationSeconds { get; set; }
         public Nullable<byte> GeneratorID { get; set; }
         public string SurveyLocationComments { get; set; }
+        public bool SurveyLocationActive { get; set; }
     
         public virtual Fish_Survey Survey1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

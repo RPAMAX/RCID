@@ -26,6 +26,7 @@ namespace RCIDRepository
         public short SamplePointAreaID { get; set; }
         public byte ClimateID { get; set; }
         public byte SurveyorID { get; set; }
+        public bool SurveyActive { get; set; }
     
         public virtual Weather_Climate Climate { get; set; }
         public virtual Lims_SamplePointArea SamplePointArea { get; set; }

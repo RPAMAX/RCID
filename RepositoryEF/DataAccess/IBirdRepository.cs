@@ -20,9 +20,11 @@ namespace RCIDRepository
 
         bool UpdateSurvey(BirdSurvey item);
         int CreateSurvey(BirdSurvey item);
+        bool InactivateSurvey(BirdSurvey item);
 
         IEnumerable<BirdSurveyDetails> GetSurveyDetails(int surveyID);
         bool CreateSurveyDetail(BirdSurveyDetails item);
+        bool InactivateSurveyDetail(BirdSurveyDetails item);
 
         bool UpdateSurveyor(BirdSurveyor item);
         bool CreateSurveyor(BirdSurveyor item);

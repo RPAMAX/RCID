@@ -17,6 +17,7 @@ namespace RCIDRepository
         public int SurveyID { get; set; }
         public short SpeciesID { get; set; }
         public int SurveyDetailCount { get; set; }
+        public bool SurveyDetailActive { get; set; }
     
         public virtual Bird_Species Species { get; set; }
         public virtual Bird_Survey Survey { get; set; }

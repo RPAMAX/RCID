@@ -25,6 +25,7 @@ namespace RCIDRepository
         public byte SourceID { get; set; }
         public short SamplePointAreaID { get; set; }
         public string SurveyComments { get; set; }
+        public bool SurveyActive { get; set; }
     
         public virtual Lims_SamplePointArea SamplePointArea { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
