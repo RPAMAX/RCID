@@ -45,6 +45,9 @@ namespace RCIDWeb.App_Start
             container.RegisterType<IFishRepository, FishRepository>();
             container.RegisterType<IFishService, FishService>();
 
+            container.RegisterType<IPhytoRepository, PhytoRepository>();
+            container.RegisterType<IPhytoService, PhytoService>();
+
             container.RegisterType<IGeneralRepository, GeneralRepository>();
             container.RegisterType<IGeneralService, GeneralService>();
         }

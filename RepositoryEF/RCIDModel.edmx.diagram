@@ -28,6 +28,14 @@
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_SurveyLocation_SurveyID_SurveyNumber" />
         <EntityTypeShape EntityType="RCID_DWHModel.Fish_Generator" Width="1.5" PointX="4.375" PointY="5.875" />
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyLocation_Generator_GeneratorID" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Phyto_Division" Width="1.5" PointX="9.125" PointY="20.875" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Phyto_Species" Width="1.5" PointX="6.875" PointY="20.75" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Phyto_Survey" Width="1.5" PointX="4.5" PointY="16.875" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Phyto_SurveyDetail" Width="1.5" PointX="6.75" PointY="17.125" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID2" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Species_Division_DivisionID" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID2" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Survey_SurveyID1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

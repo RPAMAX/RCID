@@ -37,5 +37,9 @@ namespace RCIDRepository
         public virtual DbSet<Fish_SurveyDetail> Fish_SurveyDetail { get; set; }
         public virtual DbSet<Fish_SurveyLocation> Fish_SurveyLocation { get; set; }
         public virtual DbSet<Fish_Generator> Fish_Generator { get; set; }
+        public virtual DbSet<Phyto_Division> Phyto_Division { get; set; }
+        public virtual DbSet<Phyto_Species> Phyto_Species { get; set; }
+        public virtual DbSet<Phyto_Survey> Phyto_Survey { get; set; }
+        public virtual DbSet<Phyto_SurveyDetail> Phyto_SurveyDetail { get; set; }
     }
 }

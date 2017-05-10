@@ -10,13 +10,11 @@ namespace RCIDService
 {
     public class FishService : IFishService
     {
-        IFishRepository _fishRepo;
-        IGeneralRepository _generalRepo;
+        IFishRepository _fishRepo;        
 
-        public FishService(IFishRepository repo, IGeneralRepository genRepo)
+        public FishService(IFishRepository repo)
         {
-            _fishRepo = repo;
-            _generalRepo = genRepo;
+            _fishRepo = repo;            
         }
 
       

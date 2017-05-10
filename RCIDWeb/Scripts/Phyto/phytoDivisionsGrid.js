@@ -2,34 +2,39 @@
    // debugger;
     $("#grid").jqGrid
         ({
-            url: "/Fish/GetGeneratorsGrid",
+            url: "/Phyto/GetDivisionsGrid",
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['GeneratorID', 'Generator Name', 'Is Active'],
+            colNames: ['DivisionID', 'Division Name', 'Common Name','Is Active'],
             //prmNames is needed to send the id to the controller
-            prmNames: { id: "GeneratorID" },
+            prmNames: { id: "DivisionID" },
             //colModel takes the data from controller and binds to grid 
-            sortname: 'GeneratorName',
+            sortname: 'DivisionName',
             colModel: [
                 {
                     key: true,
                     hidden: true,
-                    name: 'GeneratorID',
-                    index: 'GeneratorID', 
+                    name: 'DivisionID',
+                    index: 'DivisionID', 
                     defaultValue: 0
                 }, {
                     key: false,
-                    name: 'GeneratorName',
-                    index: 'GeneratorName',
+                    name: 'DivisionName',
+                    index: 'DivisionName',
+                    editable: true
+                },{
+                    key: false,
+                    name: 'DivisionCommonName',
+                    index: 'DivisionCommonName',
                     editable: true
                 }, {
                     key: false,
-                    name: 'GeneratorActive',
-                    index: 'GeneratorActive',
+                    name: 'DivisionActive',
+                    index: 'DivisionActive',
                     editable: true,                    
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false", defaultValue:"true" } }
+                    editoptions: { value: "true:false", defaultValue:"true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -37,7 +42,7 @@
             rowList: [10, 20, 30, 40],
             height: '100%',
             viewrecords: true,
-            caption: 'Fish Generator',
+            caption: 'Phyto Division',
             emptyrecords: 'No records to display',
             jsonReader:
             {
@@ -62,7 +67,7 @@
         }, {
             // edit options  
             zIndex: 100,
-            url: '/Fish/EditGenerator',
+            url: '/Phyto/EditDivision',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,               
@@ -72,7 +77,7 @@
         }, {
             // add options  
             zIndex: 100,
-            url: "/Fish/CreateGenerator",
+            url: "/Phyto/CreateDivision",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -81,7 +86,7 @@
         }, {
             // delete options  
             zIndex: 100,
-            url: "/Fish/DeleteGenerator",
+            url: "/Phyto/DeleteDivision",
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,           

@@ -2,34 +2,64 @@
    // debugger;
     $("#grid").jqGrid
         ({
-            url: "/Fish/GetGeneratorsGrid",
+            url: "/Phyto/GetSpecies",
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['GeneratorID', 'Generator Name', 'Is Active'],
+            colNames: ['SpeciesID', 'Species Name', 'Division', 'DivisionID', 'Is Active'],
             //prmNames is needed to send the id to the controller
-            prmNames: { id: "GeneratorID" },
+            prmNames: { id: "SpeciesID" },
             //colModel takes the data from controller and binds to grid 
-            sortname: 'GeneratorName',
+            sortname: 'SpeciesName',
             colModel: [
                 {
                     key: true,
                     hidden: true,
-                    name: 'GeneratorID',
-                    index: 'GeneratorID', 
+                    name: 'SpeciesID',
+                    index: 'SpeciesID', 
                     defaultValue: 0
                 }, {
                     key: false,
-                    name: 'GeneratorName',
-                    index: 'GeneratorName',
-                    editable: true
+                    name: 'SpeciesName',
+                    index: 'SpeciesName',
+                    editable: true,
+                    editoptions: {size: '20', maxlength: '50'}
                 }, {
                     key: false,
-                    name: 'GeneratorActive',
-                    index: 'GeneratorActive',
+                    label: 'DivisionName',
+                    name: 'DivisionName',
+                    index: 'DivisionName',
+                    editable: false
+
+                }, {
+                    key: false,
+                    label: 'DivisionID',
+                    name: 'DivisionID',
+                    index: 'DivisionID',
+                    shrinktofit: true,
+                    editrules: { edithidden: true }, hidedlg: true,
+                    hidden: true,
+                    editable: true,
+                    edittype: 'select',
+                    editoptions: {
+                        dataUrl: "/Phyto/GetDivisionsList",
+                        buildSelect: function (data) {
+                            var response = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            jQuery.each(response, function (i, item) {
+                                s += '<option value="' + response[i].DivisionID + '">' + response[i].DivisionName + '</option>';
+                            });
+                            return s + "</select>";
+
+                        }
+                    }
+                }, {
+                    key: false,
+                    name: 'SpeciesActive',
+                    index: 'SpeciesActive',
                     editable: true,                    
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false", defaultValue:"true" } }
+                    editoptions: { value: "true:false", defaultValue:"true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -37,7 +67,7 @@
             rowList: [10, 20, 30, 40],
             height: '100%',
             viewrecords: true,
-            caption: 'Fish Generator',
+            caption: 'Phyto Species',
             emptyrecords: 'No records to display',
             jsonReader:
             {
@@ -62,7 +92,8 @@
         }, {
             // edit options  
             zIndex: 100,
-            url: '/Fish/EditGenerator',
+            width: 400,
+            url: '/Phyto/EditSpecies',
             closeOnEscape: true,
             closeAfterEdit: true,
             recreateForm: true,               
@@ -72,7 +103,8 @@
         }, {
             // add options  
             zIndex: 100,
-            url: "/Fish/CreateGenerator",
+            width: 400,
+            url: "/Phyto/CreateSpecies",
             closeOnEscape: true,
             closeAfterAdd: true,
             afterComplete: function (response) {
@@ -81,7 +113,7 @@
         }, {
             // delete options  
             zIndex: 100,
-            url: "/Fish/DeleteGenerator",
+            url: "/Phyto/DeleteSpecies",
             closeOnEscape: true,
             closeAfterDelete: true,
             recreateForm: true,           

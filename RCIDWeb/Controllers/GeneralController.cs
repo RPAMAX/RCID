@@ -33,14 +33,14 @@ namespace RCIDWeb.Controllers
 
         public JsonResult GetClimates()
         {
-            var results = _genSvc.GetAllClimates().ToList();
+            var results = _genSvc.GetAllClimates().Where(c=>c.ClimateActive==true).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetSamplePointAreas()
         {
-            var results = _genSvc.GetAllSamplePointAreas().ToList();
+            var results = _genSvc.GetAllSamplePointAreas().Where(s=>s.SamplePointAreaActive == true).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }

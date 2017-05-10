@@ -10,37 +10,32 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
-    public class FishController : Controller
+    public class PhytoController : Controller
     {
 
-        IFishService _fishSvc;
+        IPhytoService _PhytoSvc;
         
 
-        public FishController(IFishService service)
+        public PhytoController(IPhytoService service)
         {
-            _fishSvc = service;           
+            _PhytoSvc = service;           
         }
 
 
-        // GET: Fish
+        // GET: Phyto
         public ActionResult Species()
         {
             return View("SpeciesView");
-        }
-
-        public ActionResult SpeciesGroup()
-        {
-            return View("SpeciesGroupView");
-        }
+        }               
 
         public ActionResult Surveys()
         {
             return View("SurveysView");
         }
 
-        public ActionResult Generators()
+        public ActionResult Divisions()
         {
-            return View("GeneratorsView");
+            return View("DivisionsView");
         }
 
         #region Get Grid Data
@@ -48,7 +43,7 @@ namespace RCIDWeb.Controllers
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var Results = _fishSvc.GetAllSpecies();
+            var Results = _PhytoSvc.GetAllSpecies();
 
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
@@ -72,50 +67,24 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSpeciesGroup(string sidx, string sord, int page, int rows)
+        
+
+        public JsonResult GetDivisionsGrid(string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var Results = _fishSvc.GetAllSpeciesGroup();
+            var Results = _PhytoSvc.GetAllDivisions();
 
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SpeciesGroupName);
+                Results = Results.OrderByDescending(s => s.DivisionName);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SpeciesGroupName);
-                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-            var jsonData = new
-            {
-                total = totalPages,
-                page,
-                records = totalRecords,
-                rows = Results
-            };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetGeneratorsGrid(string sidx, string sord, int page, int rows)
-        {
-            int pageIndex = Convert.ToInt32(page) - 1;
-            int pageSize = rows;
-            var Results = _fishSvc.GetAllGenerators();
-
-            int totalRecords = Results.Count();
-            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-            if (sord.ToUpper() == "DESC")
-            {
-                Results = Results.OrderByDescending(s => s.GeneratorName);
-                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-            else
-            {
-                Results = Results.OrderBy(s => s.GeneratorName);
+                Results = Results.OrderBy(s => s.DivisionName);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -132,7 +101,7 @@ namespace RCIDWeb.Controllers
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var results = _fishSvc.GetAllSurveys();
+            var results = _PhytoSvc.GetAllSurveys();
 
             int totalRecords = results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
@@ -156,51 +125,24 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSurveyLocations(int id, string sidx, string sord, int page, int rows)
+       
+
+        public JsonResult GetSurveyDetails(short id, int surveyID, string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var results = _fishSvc.GetSurveyLocations(id);
+            var results = _PhytoSvc.GetSurveyDetails(id,surveyID);
 
             int totalRecords = results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyNumber);
+                results = results.OrderByDescending(s => s.SpeciesName);
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyNumber);
-                results = results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-
-            var jsonData = new
-            {
-                total = totalPages,
-                page,
-                records = totalRecords,
-                rows = results
-            };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetSurveyDetails(int id, int surveyID, string sidx, string sord, int page, int rows)
-        {
-            int pageIndex = Convert.ToInt32(page) - 1;
-            int pageSize = rows;
-            var results = _fishSvc.GetSurveyDetails(id,surveyID);
-
-            int totalRecords = results.Count();
-            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-            if (sord.ToUpper() == "DESC")
-            {
-                results = results.OrderByDescending(s => s.SurveyNumber);
-                results = results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-            else
-            {
-                results = results.OrderBy(s => s.SurveyNumber);
+                results = results.OrderBy(s => s.SpeciesName);
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
 
@@ -218,14 +160,21 @@ namespace RCIDWeb.Controllers
         #region GetListData
         public JsonResult GetSpeciesList()
         {
-            var results = _fishSvc.GetAllSpecies().Where(s=>s.SpeciesActive==true).OrderBy(c => c.SpeciesName).ToList();
+            var results = _PhytoSvc.GetAllSpecies().Where(s=>s.SpeciesActive == true).OrderBy(c => c.SpeciesName).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetDivisionsList()
+        {
+            var results = _PhytoSvc.GetAllDivisions().Where(g => g.DivisionActive == true).OrderBy(g => g.DivisionName).ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
         #region Species
 
-        public string EditSpecies(FishSpecies item)
+        public string EditSpecies(PhytoSpecies item)
         {
             string msg = "Edit Species. An error has ocurred";
 
@@ -238,7 +187,7 @@ namespace RCIDWeb.Controllers
                     return msg;
                 }
 
-                if (_fishSvc.UpdateSpecies(item))
+                if (_PhytoSvc.UpdateSpecies(item))
                 {
                     msg = "Species saved succesfully";
                 }
@@ -251,7 +200,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string CreateSpecies([Bind(Exclude ="SpeciesID")] FishSpecies item)
+        public string CreateSpecies([Bind(Exclude ="SpeciesID")] PhytoSpecies item)
         {
             string msg = string.Empty;
 
@@ -259,7 +208,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.CreateSpecies(item);
+                    _PhytoSvc.CreateSpecies(item);
                     msg = "Species created succesfully";
                 }
                 else
@@ -275,7 +224,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string DeleteSpecies(FishSpecies item)
+        public string DeleteSpecies(PhytoSpecies item)
         {
             string msg = string.Empty;
 
@@ -285,7 +234,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.InactivateSpecies(item);
+                    _PhytoSvc.InactivateSpecies(item);
                     msg = "Species inactivated succesfully";
                 }
                 else
@@ -301,8 +250,10 @@ namespace RCIDWeb.Controllers
             return msg;
         }
         #endregion
-        #region Species Groups
-        public string EditSpeciesGroup(FishSpeciesGroup item)
+    
+        #region Divisions
+
+        public string EditDivision(PhytoDivision item)
         {
             string msg = string.Empty;
 
@@ -310,8 +261,8 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.UpdateSpeciesGroup(item);
-                    msg = "Species Group saved succesfully";
+                    _PhytoSvc.UpdateDivision(item);
+                    msg = "Division saved succesfully";
                 }
                 else
                 {
@@ -320,13 +271,13 @@ namespace RCIDWeb.Controllers
             }
             catch (Exception e)
             {
-                msg = "Edit Species Group. An error has ocurred";
+                msg = "Edit Division. An error has ocurred";
             }
 
             return msg;
         }
 
-        public string CreateSpeciesGroup([Bind(Exclude = "SpeciesGroupID")] FishSpeciesGroup item)
+        public string CreateDivision([Bind(Exclude = "DivisionID")] PhytoDivision item)
         {
             string msg = string.Empty;
 
@@ -334,8 +285,8 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.CreateSpeciesGroup(item);
-                    msg = "Species Group created succesfully";
+                    _PhytoSvc.CreateDivision(item);
+                    msg = "Division created succesfully";
                 }
                 else
                 {
@@ -344,24 +295,24 @@ namespace RCIDWeb.Controllers
             }
             catch (Exception e)
             {
-                msg = "Create Species Group. An error has ocurred";
+                msg = "Create Division. An error has ocurred";
             }
 
             return msg;
         }
 
-        public string DeleteSpeciesGroup(FishSpeciesGroup item)
+        public string DeleteDivision(PhytoDivision item)
         {
             string msg = string.Empty;
 
-            item.SpeciesGroupActive = false;
+            item.DivisionActive = false;
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.InactivateSpeciesGroup(item);
-                    msg = "SpeciesGroup inactivated succesfully";
+                    _PhytoSvc.InactivateDivision(item);
+                    msg = "Division inactivated succesfully";
                 }
                 else
                 {
@@ -370,83 +321,7 @@ namespace RCIDWeb.Controllers
             }
             catch (Exception e)
             {
-                msg = "Delete Species Group. An error has ocurred";
-            }
-
-            return msg;
-        }
-        #endregion
-        #region Generators
-
-        public string EditGenerator(FishGenerator item)
-        {
-            string msg = string.Empty;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.UpdateGenerator(item);
-                    msg = "Generator saved succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Edit Generator. An error has ocurred";
-            }
-
-            return msg;
-        }
-
-        public string CreateGenerator([Bind(Exclude = "GeneratorID")] FishGenerator item)
-        {
-            string msg = string.Empty;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.CreateGenerator(item);
-                    msg = "Generator created succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Create Generator. An error has ocurred";
-            }
-
-            return msg;
-        }
-
-        public string DeleteGenerator(FishGenerator item)
-        {
-            string msg = string.Empty;
-
-            item.GeneratorActive = false;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.InactivateGenerator(item);
-                    msg = "Generator inactivated succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Delete Generator. An error has ocurred";
+                msg = "Delete Division. An error has ocurred";
             }
 
             return msg;
@@ -454,7 +329,7 @@ namespace RCIDWeb.Controllers
 
         #endregion
         #region Surveys
-        public string EditSurvey(FishSurvey item)
+        public string EditSurvey(PhytoSurvey item)
         {
             string msg = string.Empty;
 
@@ -462,7 +337,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.UpdateSurvey(item);
+                    _PhytoSvc.UpdateSurvey(item);
                     msg = "Survey saved succesfully";
                 }
                 else
@@ -478,7 +353,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string CreateSurvey([Bind(Exclude = "SurveyID")] FishSurvey item)
+        public string CreateSurvey([Bind(Exclude = "SurveyID")] PhytoSurvey item)
         {
             string msg = string.Empty;
 
@@ -486,7 +361,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.CreateSurvey(item);
+                    _PhytoSvc.CreateSurvey(item);
                     msg = "Survey created succesfully";
                 }
                 else
@@ -502,7 +377,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string DeleteSurvey(FishSurvey item)
+        public string DeleteSurvey(PhytoSurvey item)
         {
             string msg = string.Empty;
 
@@ -510,7 +385,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.InactivateSurvey(item);
+                    _PhytoSvc.InactivateSurvey(item);
                     msg = "Survey inactivated succesfully";
                 }
                 else
@@ -526,83 +401,9 @@ namespace RCIDWeb.Controllers
             return msg;
         }
         #endregion
-        #region Survey Locations
-        public string CreateSurveyLocation(FishSurveyLocation item)
-        {
-            string msg = string.Empty;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.CreateSurveyLocation(item);
-                    msg = "Survey location created succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Create Survey location. An error has ocurred";
-            }
-
-            return msg;
-        }
-
-        public string EditSurveyLocation(FishSurveyLocation item)
-        {
-            string msg = string.Empty;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.UpdateSurveyLocation(item);
-                    msg = "Survey location saved succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Edit Survey location. An error has ocurred";
-            }
-
-            return msg;
-        }
-
-        public string DeleteSurveyLocation(FishSurveyLocation item)
-        {
-            string msg = string.Empty;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _fishSvc.InactivateSurveyLocation(item);
-                    msg = "Survey location inactivated succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
-            }
-            catch (Exception e)
-            {
-                msg = "Delete Survey location. An error has ocurred";
-            }
-
-            return msg;
-        }
-
-        #endregion
-
+ 
         #region Survey Details
-        public string CreateSurveyDetail(FishSurveyDetails item)
+        public string CreateSurveyDetail(PhytoSurveyDetails item)
         {
             string msg = string.Empty;
 
@@ -610,7 +411,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.CreateSurveyDetail(item);
+                    _PhytoSvc.CreateSurveyDetail(item);
                     msg = "Survey detail created succesfully";
                 }
                 else
@@ -626,7 +427,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string EditSurveyDetail(FishSurveyDetails item)
+        public string EditSurveyDetail(PhytoSurveyDetails item)
         {
             string msg = string.Empty;
 
@@ -634,7 +435,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.UpdateSurveyDetail(item);
+                    _PhytoSvc.UpdateSurveyDetail(item);
                     msg = "Survey Detail saved succesfully";
                 }
                 else
@@ -650,7 +451,7 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-        public string DeleteSurveyDetail(FishSurveyDetails item)
+        public string DeleteSurveyDetail(PhytoSurveyDetails item)
         {
             string msg = string.Empty;
 
@@ -658,7 +459,7 @@ namespace RCIDWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _fishSvc.InactivateSurveyDetail(item);
+                    _PhytoSvc.InactivateSurveyDetail(item);
                     msg = "Survey Detail inactivated succesfully";
                 }
                 else
@@ -675,15 +476,7 @@ namespace RCIDWeb.Controllers
         }
         #endregion
 
-        #region Get Dropdown lists
-        public JsonResult GetGenerators()
-        {
-            var results = _fishSvc.GetAllGenerators().Where(g=>g.GeneratorActive == true).OrderBy(g=>g.GeneratorName).ToList();
-
-            return Json(results, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-
+       
 
     }
 }

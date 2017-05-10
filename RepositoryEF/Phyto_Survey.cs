@@ -12,26 +12,23 @@ namespace RCIDRepository
     using System;
     using System.Collections.Generic;
     
-    public partial class Lims_SamplePointArea
+    public partial class Phyto_Survey
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Lims_SamplePointArea()
+        public Phyto_Survey()
         {
-            this.Surveys = new HashSet<Bird_Survey>();
-            this.Survey1 = new HashSet<Fish_Survey>();
-            this.Survey2 = new HashSet<Phyto_Survey>();
+            this.SurveyDetail2 = new HashSet<Phyto_SurveyDetail>();
         }
     
+        public int SurveyID { get; set; }
+        public System.DateTime SurveyDate { get; set; }
         public byte SourceID { get; set; }
         public short SamplePointAreaID { get; set; }
-        public string SamplePointAreaName { get; set; }
-        public bool SamplePointAreaActive { get; set; }
+        public string LocationDetails { get; set; }
+        public bool SurveyActive { get; set; }
     
+        public virtual Lims_SamplePointArea SamplePointArea { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bird_Survey> Surveys { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fish_Survey> Survey1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Phyto_Survey> Survey2 { get; set; }
+        public virtual ICollection<Phyto_SurveyDetail> SurveyDetail2 { get; set; }
     }
 }

@@ -106,7 +106,9 @@
     <Compile Include="Bird_Surveyor.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\PhytoRepository.cs" />
     <Compile Include="DataAccess\FishRepository.cs" />
+    <Compile Include="DataAccess\IPhytoRepository.cs" />
     <Compile Include="DataAccess\IFishRepository.cs" />
     <Compile Include="Domain\Fish\FishGenerator.cs" />
     <Compile Include="Domain\Fish\FishSpecies.cs" />
@@ -124,6 +126,10 @@
     <Compile Include="Domain\Birds\BirdSurveyor.cs" />
     <Compile Include="DataAccess\IGeneralRepository.cs" />
     <Compile Include="DataAccess\IBirdRepository.cs" />
+    <Compile Include="Domain\Phyto\PhytoDivision.cs" />
+    <Compile Include="Domain\Phyto\PhytoSpecies.cs" />
+    <Compile Include="Domain\Phyto\PhytoSurvey.cs" />
+    <Compile Include="Domain\Phyto\PhytoSurveyDetails.cs" />
     <Compile Include="Fish_Generator.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
@@ -143,6 +149,18 @@
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Lims_SamplePointArea.cs">
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phyto_Division.cs">
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phyto_Species.cs">
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phyto_Survey.cs">
+      <DependentUpon>RCIDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phyto_SurveyDetail.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,6 +209,7 @@
       <DependentUpon>RCIDModel.edmx</DependentUpon>
       <LastGenOutput>RCIDModel.cs</LastGenOutput>
     </Content>
+    <None Include="DBScripts\001_Add IsActive column_schema.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,7 +37,7 @@ namespace RCIDWeb.Controllers
         {
             return View("SurveysView");
         }
-
+        #region Get Grid data
         public JsonResult GetSpecies(string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
@@ -94,12 +94,7 @@ namespace RCIDWeb.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSurveyorsList()
-        {
-            var results = _birdSvc.GetAllSurveyors().OrderBy(c=>c.SurveyorName).ToList();
-
-            return Json(results, JsonRequestBehavior.AllowGet);
-        }
+        
 
         public JsonResult GetSurveys(string sidx, string sord, int page, int rows)
         {
@@ -157,7 +152,16 @@ namespace RCIDWeb.Controllers
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+        #region List data
+        public JsonResult GetSurveyorsList()
+        {
+            var results = _birdSvc.GetAllSurveyors().Where(s => s.SurveyorActive == true).OrderBy(c => c.SurveyorName).ToList();
 
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region Species
         public string EditSpecies(BirdSpecies item)
         {
             string msg = string.Empty;
@@ -229,6 +233,8 @@ namespace RCIDWeb.Controllers
 
             return msg;
         }
+        #endregion
+        #region Surveyor
 
         public string EditSurveyor(BirdSurveyor item)
         {
@@ -302,7 +308,8 @@ namespace RCIDWeb.Controllers
             return msg;
         }
 
-
+        #endregion
+        #region Surveys
         public string EditSurvey(BirdSurvey item)
         {
             string msg = string.Empty;
@@ -374,6 +381,7 @@ namespace RCIDWeb.Controllers
 
             return msg;
         }
+        #endregion
 
         #region import excel
 

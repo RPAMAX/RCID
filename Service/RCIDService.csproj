@@ -82,9 +82,11 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="PhytoService.cs" />
     <Compile Include="FishService.cs" />
     <Compile Include="GeneralService.cs" />
     <Compile Include="BirdService.cs" />
+    <Compile Include="IPhytoService.cs" />
     <Compile Include="IFishService.cs" />
     <Compile Include="IGeneralService.cs" />
     <Compile Include="IBirdService.cs" />

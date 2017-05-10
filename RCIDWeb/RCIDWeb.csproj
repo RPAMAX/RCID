@@ -177,6 +177,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\PhytoController.cs" />
     <Compile Include="Controllers\FishController.cs" />
     <Compile Include="Controllers\BirdsController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
@@ -268,6 +269,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Phyto\phytoDivisionsGrid.js" />
+    <Content Include="Scripts\Phyto\phytoSpeciesGrid.js" />
+    <Content Include="Scripts\Phyto\phytoSurveysGrid.js" />
     <Content Include="Scripts\Fish\fishSurveysGrid.js" />
     <Content Include="Scripts\Fish\fishGeneratorsGrid.js" />
     <Content Include="Scripts\Fish\fishSpeciesGroupGrid.js" />
@@ -343,8 +347,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Birds\SpeciesView.cshtml" />
     <Content Include="Views\Birds\SurveyorsView.cshtml" />
@@ -356,6 +358,9 @@
     <Content Include="Views\General\SamplePointAreaView.cshtml" />
     <Content Include="Views\Fish\GeneratorsView.cshtml" />
     <Content Include="Views\Fish\SurveysView.cshtml" />
+    <Content Include="Views\Phyto\DivisionsView.cshtml" />
+    <Content Include="Views\Phyto\SpeciesView.cshtml" />
+    <Content Include="Views\Phyto\SurveysView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
