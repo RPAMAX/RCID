@@ -39,8 +39,11 @@ namespace RCIDRepository
                                  SurveyID = survey.SurveyID,                                 
                                  SurveyDate = survey.SurveyDate,
                                  SamplePointAreaID = spa.SamplePointAreaID,
+                                 SamplePointAreaName = spa.SamplePointAreaName,
                                  SourceID = spa.SourceID,                                 
-                                 SurveyActive = survey.SurveyActive
+                                 SurveyActive = survey.SurveyActive,
+                                 LocationDetails = survey.LocationDetails
+                                 
                              };
 
                 return efList.ToList();                
@@ -91,7 +94,8 @@ namespace RCIDRepository
                         SamplePointAreaID = item.SamplePointAreaID,
                         SourceID = LIMS_SOURCEID,
                         LocationDetails = item.LocationDetails,
-                        SurveyDate = item.SurveyDate
+                        SurveyDate = item.SurveyDate,
+                        SurveyActive = item.SurveyActive
                     };
 
                     context.Phyto_Survey.Add(efItem);
@@ -336,15 +340,14 @@ namespace RCIDRepository
 
         
         #region Survey Details
-        public IEnumerable<PhytoSurveyDetails> GetSurveyDetails(short speciesID, int surveyID)
+        public IEnumerable<PhytoSurveyDetails> GetSurveyDetails( int surveyID)
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
             {
                 var efList = from surveyDetails in context.Phyto_SurveyDetail
                              join species in context.Phyto_Species
                              on surveyDetails.SpeciesID equals species.SpeciesID
-                             where surveyDetails.SurveyID == surveyID && 
-                                   surveyDetails.SpeciesID == speciesID
+                             where surveyDetails.SurveyID == surveyID                                   
                              select new PhytoSurveyDetails
                              {
                                   SpeciesID = surveyDetails.SpeciesID,
@@ -359,43 +362,35 @@ namespace RCIDRepository
             }
         }
 
-        public short CreateSurveyDetail(PhytoSurveyDetails item)
-        {
-         
-            short newid = 0;
+        public bool CreateSurveyDetail(PhytoSurveyDetails item)
+        {   
             try
             {
                using (RCID_DWHEntities context = new RCID_DWHEntities())
                {
-                   // newid = context.Phyto_SurveyDetail.Where(s => s.SurveyID == item.SurveyID && s.SpeciesID == item.SpeciesID)
-                   //                                 .OrderByDescending(u => u.).FirstOrDefault().SurveyDetailID;
-                   // newid++;
+                    var efitem = context.Phyto_SurveyDetail.Where(s => s.SurveyID == item.SurveyID && s.SpeciesID == item.SpeciesID).FirstOrDefault();
+                    //item already exists
+                    if (efitem != null) return false;
 
-                   // Phyto_SurveyDetail efItem = new Phyto_SurveyDetail()
-                   // {
-                   //     SurveyDetailID = newid,
-                   //     SurveyID = item.SurveyID,
-                   //     SurveyNumber = item.SurveyNumber,                       
-                   //     SpeciesSizeMillimeters = item.SpeciesSizeMillimeters,                        
-                   //     SpeciesWeightOunces = item.SpeciesWeightOunces,
-                   //     SpeciesWeightPounds = item.SpeciesWeightPounds,                  
-                   //     SpeciesID = item.SpeciesID
-                       
-                   // };
+                    Phyto_SurveyDetail efItem = new Phyto_SurveyDetail()
+                    {
+                         SpeciesID = item.SpeciesID,
+                         SurveyCount  = item.SurveyCount, 
+                         SurveyID = item.SurveyID, 
+                         SurveyDetailActive = item.SurveyDetailActive
 
-                   // // These other values are computed by the DB: 
-                   // // SpeciesWeightLbs, SpeciesSizeInches,SpeciesSizeInchGroup 
+                    };
+                    
+                    context.Phyto_SurveyDetail.Add(efItem);
 
-                   // context.Phyto_SurveyDetail.Add(efItem);
-
-                   //if (context.SaveChanges() > 0)
-                   //{
-                   //    return newid;
-                   //}
-               }
-           }
+                    if (context.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
            catch (Exception e) { throw e; }
-           return newid;
+           return false;
 
         }
         public bool UpdateSurveyDetail(PhytoSurveyDetails item)
@@ -412,7 +407,9 @@ namespace RCIDRepository
 
                     if (efItem == null) return result;
 
+                    efItem.SpeciesID = item.SpeciesID;
                     efItem.SurveyCount = item.SurveyCount;
+                    efItem.SurveyDetailActive = item.SurveyDetailActive;
                                        
                     if (context.SaveChanges() > 0)
                     {

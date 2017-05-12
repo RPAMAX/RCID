@@ -106,12 +106,48 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyorID);
+                switch (sidx) {
+                    case "SurveyDate":
+                        results = results.OrderByDescending(s => s.SurveyDate);
+                        break;
+                    case "ClimateName":
+                        results = results.OrderByDescending(s => s.ClimateName);
+                        break;
+                    case "SurveyorName":
+                        results = results.OrderByDescending(s => s.SurveyorName);
+                        break;
+                    case "SamplePointAreaName":
+                        results = results.OrderByDescending(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderByDescending(s => s.SurveyActive);
+                        break;
+
+                }
+                
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyorID);
+                switch (sidx)
+                {
+                    case "SurveyDate":
+                        results = results.OrderBy(s => s.SurveyDate);
+                        break;
+                    case "ClimateName":
+                        results = results.OrderBy(s => s.ClimateName);
+                        break;
+                    case "SurveyorName":
+                        results = results.OrderBy(s => s.SurveyorName);
+                        break;
+                    case "SamplePointAreaName":
+                        results = results.OrderBy(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderBy(s => s.SurveyActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new

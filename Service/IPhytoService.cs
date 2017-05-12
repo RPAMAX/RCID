@@ -13,7 +13,7 @@ namespace RCIDService
         IEnumerable<PhytoSpecies> GetAllSpecies();
         IEnumerable<PhytoDivision> GetAllDivisions();
         IEnumerable<PhytoSurvey> GetAllSurveys();
-        IEnumerable<PhytoSurveyDetails> GetSurveyDetails(short speciesID, int surveyID);
+        IEnumerable<PhytoSurveyDetails> GetSurveyDetails(int surveyID);
 
         bool UpdateSpecies(PhytoSpecies item);
         bool CreateSpecies(PhytoSpecies item);

@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['DivisionID', 'Division Name', 'Common Name','Is Active'],
+            colNames: ['DivisionName', 'Division', 'Common Name','Is Active'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "DivisionID" },
             //colModel takes the data from controller and binds to grid 
@@ -34,7 +34,7 @@
                     index: 'DivisionActive',
                     editable: true,                    
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false", defaultValue:"true" }
+                    editoptions: { value: "true:false", defaultValue: "true", defaultValue:"true" }
                 }],
 
             pager: jQuery('#pager'),

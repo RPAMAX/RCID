@@ -35,7 +35,7 @@
                     index: 'SamplePointAreaActive',
                     editable: true,                    
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -60,8 +60,8 @@
             //like edit,create,delete icons  
         }).navGrid('#pager',
         {
-            edit: true,
-            add: true,
+            edit: false,
+            add: false,
             //del: true,
             search: false,
             refresh: true

@@ -13,7 +13,7 @@ namespace RCIDRepository
         IEnumerable<PhytoSpecies> GetAllSpecies();
         IEnumerable<PhytoDivision> GetAllDivisions();
         IEnumerable<PhytoSurvey> GetAllSurveys();        
-        IEnumerable<PhytoSurveyDetails> GetSurveyDetails(short speciesID, int surveyID);
+        IEnumerable<PhytoSurveyDetails> GetSurveyDetails(int surveyID);
 
         bool UpdateSpecies(PhytoSpecies item);
         bool CreateSpecies(PhytoSpecies item);
@@ -28,7 +28,7 @@ namespace RCIDRepository
         bool InactivateSurvey(PhytoSurvey item);
 
         bool UpdateSurveyDetail(PhytoSurveyDetails item);
-        short CreateSurveyDetail(PhytoSurveyDetails item);
+        bool CreateSurveyDetail(PhytoSurveyDetails item);
         bool InactivateSurveyDetail(PhytoSurveyDetails item);
 
     }

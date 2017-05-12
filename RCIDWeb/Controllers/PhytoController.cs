@@ -107,12 +107,42 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SamplePointAreaID);
+                switch (sidx)
+                {
+                    case "SurveyDate":
+                        results = results.OrderByDescending(s => s.SurveyDate);
+                        break;
+                    case "LocationDetails":
+                        results = results.OrderByDescending(s => s.LocationDetails);
+                        break;                    
+                    case "SamplePointAreaName":
+                        results = results.OrderByDescending(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderByDescending(s => s.SurveyActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SamplePointAreaID);
+                switch (sidx)
+                {
+                    case "SurveyDate":
+                        results = results.OrderBy(s => s.SurveyDate);
+                        break;
+                    case "LocationDetails":
+                        results = results.OrderBy(s => s.LocationDetails);
+                        break;
+                    case "SamplePointAreaName":
+                        results = results.OrderBy(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderBy(s => s.SurveyActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -127,22 +157,44 @@ namespace RCIDWeb.Controllers
 
        
 
-        public JsonResult GetSurveyDetails(short id, int surveyID, string sidx, string sord, int page, int rows)
+        public JsonResult GetSurveyDetails(int id, string sidx, string sord, int page, int rows)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
-            var results = _PhytoSvc.GetSurveyDetails(id,surveyID);
+            var results = _PhytoSvc.GetSurveyDetails(id);
 
             int totalRecords = results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        results = results.OrderByDescending(s => s.SpeciesName);
+                        break;
+                    case "SurveyCount":
+                        results = results.OrderByDescending(s => s.SurveyCount);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderByDescending(s => s.SurveyDetailActive);
+                        break;     
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        results = results.OrderBy(s => s.SpeciesName);
+                        break;
+                    case "SurveyCount":
+                        results = results.OrderBy(s => s.SurveyCount);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderBy(s => s.SurveyDetailActive);
+                        break;
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
 

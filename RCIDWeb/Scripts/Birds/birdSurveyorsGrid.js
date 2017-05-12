@@ -28,7 +28,7 @@
                     index: 'SurveyorActive',
                     editable: true,
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }],
 
             pager: jQuery('#pager'),

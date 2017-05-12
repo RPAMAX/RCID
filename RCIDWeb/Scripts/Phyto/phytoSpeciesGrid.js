@@ -59,7 +59,7 @@
                     index: 'SpeciesActive',
                     editable: true,                    
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false", defaultValue:"true" }
+                    editoptions: { value: "true:false", defaultValue: "true", defaultValue:"true" }
                 }],
 
             pager: jQuery('#pager'),

@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyID', 'Survey Year', 'Sample Point Area Name', 'Sample Point Area', 'Comments', 'Is Active'],
+            colNames: ['SurveyID', 'Survey Date', 'SamplePointArea', 'Sample Point Area Name','Location Details', 'Is Active'],
             prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
@@ -18,15 +18,21 @@
                     editable: true
                 }, {
                     key: false,
-                    label: 'SurveyYear',
-                    name: 'SurveyYear',
-                    width: 40,
+                    label: 'SurveyDate',
+                    name: 'SurveyDate',
                     editable: true,
-                    editrules:
-                    {
-                        number: true,
-                        minValue: 1950,
-                        maxValue: new Date().getFullYear()
+                    formatter: 'date',
+                    editoptions: {
+                        size: 20,
+                        maxlengh: 10,
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                constrainInput: false,
+                                showOn: 'button',
+                                buttonText: '...',
+                                maxDate: new Date()
+                            });
+                        }
                     },
                 }, {
                     key: false,
@@ -59,7 +65,7 @@
                     }
                 }, {
                     key: false,                    
-                    name: 'SurveyComments',
+                    name: 'LocationDetails',
                     shrinktofit: true,
                     editable: true,
                     edittype: 'textarea',
@@ -71,7 +77,7 @@
                     shrinktofit: true,
                     editable: true,
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -92,8 +98,8 @@
             },
             autowidth: true,
             multiselect: false,
-            onSelectRow: function (id) {                
-                jQuery("#locationGrid")
+            onSelectRow: function (id) {                    
+                jQuery("#detailGrid")
                     .setGridParam({ postData: { id: id } })                   
                     .trigger('reloadGrid');                
             }, 
@@ -138,13 +144,13 @@
             }
         });
     
-    $("#locationGrid").jqGrid
+    $("#detailGrid").jqGrid
         ({
-            url: '/Phyto/GetSurveyLocations',
+            url: '/Phyto/GetSurveyDetails',
             datatype: 'json',
             mtype: 'Get',
-            colNames: ['SurveyID', 'Number', 'Location Details', 'Date', 'Duration(seconds)', 'Generator', 'Generator Name', 'Comments', 'Is Active'],
-            prmNames: { id: "SurveyNumber" },
+            colNames: ['SurveyID', 'Species', 'Species Name', 'Count', 'Is Active'],
+            prmNames: { id: "SpeciesID" },
             colModel: [
                 {
                     key: false,
@@ -153,45 +159,7 @@
                     index: 'SurveyID',
                 }, {
                     key: true,
-                    hidden: true,
-                    name: 'SurveyNumber',
-                    index: 'SurveyNumber',
-                    editable: true
-                }, {
-                    key: false,
-                    name: 'LocationDetails',                    
-                    editable: true
-                }, {
-                    key: false,
-                    label: 'SurveyDate',
-                    name: 'SurveyDate',
-                    width: 40,
-                    editable: true,
-                    formatter: 'date',
-                    editoptions: {
-                        size: 20,
-                        maxlengh: 10,
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                constrainInput: false,
-                                showOn: 'button',
-                                buttonText: '...'
-                            });
-                        }
-                    },
-                }, {
-                    key: false,
-                    name: 'SurveyDurationSeconds',
-                    width: 60,
-                    editable: true,
-                    editrules:
-                    {
-                        number: true,
-                        minValue: 0
-                    },
-                }, {
-                    key: false,
-                    name: 'GeneratorID',                    
+                    name: 'SpeciesID',
                     hidden: true,
                     editable: true,
                     editrules: { edithidden: true }, hidedlg: true,
@@ -199,12 +167,12 @@
                     editable: true,
                     edittype: 'select',
                     editoptions: {
-                        dataUrl: "/Phyto/GetGenerators",
+                        dataUrl: "/Phyto/GetSpeciesList",
                         buildSelect: function (data) {
                             var response = jQuery.parseJSON(data);
                             var s = '<select>';
                             jQuery.each(response, function (i, item) {
-                                s += '<option value="' + response[i].GeneratorID + '">' + response[i].GeneratorName + '</option>';
+                                s += '<option value="' + response[i].SpeciesID + '">' + response[i].SpeciesName + '</option>';
                             });
                             return s + "</select>";
 
@@ -212,38 +180,35 @@
                     }
                 }, {
                     key: false,
-                    name: 'GeneratorName',
-                    width: 50,
+                    name: 'SpeciesName',
                     editable: false
-                }, {
+                },{
                     key: false,
-                    name: 'SurveyLocationComments',
+                    name: 'SurveyCount',
+                    width: 60,
                     editable: true,
-                    edittype: 'textarea',
-                    editoptions: { rows: '5', cols: 50 }
-                }, {
+                    editrules:
+                    {
+                        number: true,
+                        minValue: 0
+                    },
+                },{
                     key: false,
-                    name: 'SurveyLocationActive',
+                    name: 'SurveyDetailActive',
                     width: 40,
                     editable: true,
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }
             ],
-            pager: jQuery('#pagerL'),
+            pager: jQuery('#pagerD'),
             rowNum: 10,
             rowList: [10, 20, 30, 40],
             height: '100%',
             viewrecords: true,
             autowidth: true,
-            multiselect: false,
-            onSelectRow: function (id) {
-                var masterId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                jQuery("#detailGrid")
-                    .setGridParam({ postData: { id: id, surveyID: masterId } })
-                    .trigger('reloadGrid');
-            }, 
-            caption: 'Survey Locations',
+            multiselect: false,             
+            caption: 'Survey Details',
             emptyrecords: 'No records to display',
             jsonReader:
             {
@@ -255,7 +220,7 @@
                 Id: "0"
             }
 
-        }).navGrid('#pagerL',
+        }).navGrid('#pagerD',
                 {
                     edit: true,
                     add: true,
@@ -266,12 +231,12 @@
             // edit options  
             zIndex: 100,
             width: 500,
-            url: '/Phyto/EditSurveyLocation',
+            url: '/Phyto/EditSurveyDetail',
             closeOnEscape: true,
             closeAfterEdit: true,
             onclickSubmit: function (response, postdata) {
                 var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                response.url = '/Phyto/EditSurveyLocation' + "?SurveyID=" + selectedRowId;
+                response.url = '/Phyto/EditSurveyDetail' + "?SurveyID=" + selectedRowId;
             },
             afterComplete: function (response) {
                 DisplayResult(response);
@@ -280,12 +245,12 @@
             // add options  
             zIndex: 100,
             width: 500,
-            url: '/Phyto/CreateSurveyLocation',
+            url: '/Phyto/CreateSurveyDetail',
             closeOnEscape: true,
             closeAfterAdd: true,            
             onclickSubmit: function (response, postdata) {                
                 var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                response.url = '/Phyto/CreateSurveyLocation' + "?SurveyID=" + selectedRowId;
+                response.url = '/Phyto/CreateSurveyDetail' + "?SurveyID=" + selectedRowId;
             },
             afterComplete: function (response) {
                 DisplayResult(response);
@@ -293,191 +258,18 @@
         }, {
             // delete options  
             zIndex: 100,            
-            url: '/Phyto/DeleteSurveyLocation',
+            url: '/Phyto/DeleteSurveyDetail',
             closeOnEscape: true,
             closeAfterDelete: true,
             onclickSubmit: function (response, postdata) {
                 var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                response.url = '/Phyto/DeleteSurveyLocation' + "?SurveyID=" + selectedRowId;
+                response.url = '/Phyto/DeleteSurveyDetail' + "?SurveyID=" + selectedRowId;
             },
             afterComplete: function (response) {
                 DisplayResult(response);
             }
         }
         );
-
-
-        $("#detailGrid").jqGrid
-            ({
-                url: '/Phyto/GetSurveyDetails',
-                datatype: 'json',
-                mtype: 'Get',
-                colNames: ['SurveyID', 'SurveyNumber', 'Detail #', 'Species Name', 'Species Name', 'Size mm', 'Size Inches',
-                    'Size Inch Group', 'Weight(pounds)', 'Weight(ounces)', 'Weight(Lbs)', 'Is Active'],
-                prmNames: { id: "SurveyDetailID" },
-                colModel: [
-                    {
-                        key: false,
-                        hidden: true,
-                        name: 'SurveyID'                        
-                    }, {
-                        key: false,
-                        hidden: true,
-                        name: 'SurveyNumber'                        
-                    }, {
-                        key: true,
-                        name: 'SurveyDetailID',
-                        width: 40
-                    }, {
-                        key: false,
-                        name: 'SpeciesID',
-                        hidden: true,
-                        editable: true,
-                        editrules: { edithidden: true }, hidedlg: true,
-                        hidden: true,
-                        editable: true,
-                        edittype: 'select',
-                        editoptions: {
-                            dataUrl: "/Phyto/GetSpeciesList",
-                            buildSelect: function (data) {
-                                var response = jQuery.parseJSON(data);
-                                var s = '<select>';
-                                jQuery.each(response, function (i, item) {
-                                    s += '<option value="' + response[i].SpeciesID + '">' + response[i].SpeciesName + '</option>';
-                                });
-                                return s + "</select>";
-
-                            }
-                        }
-                    }, {
-                        key: false,
-                        name: 'SpeciesName',
-                        editable: false
-                    },{
-                        key: false,
-                        name: 'SpeciesSizeMillimeters',
-                        width: 50,
-                        editable: true,
-                        editrules:
-                        {
-                            number: true,
-                            minValue: 0
-                        },
-                    },{
-                        key: false,
-                        name: 'SpeciesSizeInches',
-                        width: 40,
-                        editable: false
-                    }, {
-                        key: false,
-                        name: 'SpeciesSizeInchGroup',
-                        width: 50,
-                        editable: false
-                    }, {
-                        key: false,
-                        name: 'SpeciesWeightPounds',
-                        width: 50,
-                        editable: true,
-                        editrules:
-                        {
-                            number: true,
-                            minValue: 0
-                        },
-                    }, {
-                        key: false,
-                        name: 'SpeciesWeightOunces',
-                        width: 50,
-                        editable: true,
-                        editrules:
-                        {
-                            number: true,
-                            minValue: 0
-                        },
-                    }, {
-                        key: false,
-                        name: 'SpeciesWeightLbs',
-                        width: 40,
-                        editable: false
-                    }, {
-                        key: false,
-                        name: 'SurveyDetailActive',
-                        width: 40,
-                        editable: true,
-                        edittype: 'checkbox',
-                        editoptions: { value: "true:false" }
-                    }
-                ],
-                pager: jQuery('#pagerD'),
-                rowNum: 10,
-                rowList: [10, 20, 30, 40],
-                height: '100%',
-                viewrecords: true,
-                autowidth: true,
-                multiselect: false,                
-                caption: 'Survey Details',
-                emptyrecords: 'No records to display',
-                jsonReader:
-                {
-                    root: "rows",
-                    page: "page",
-                    total: "total",
-                    records: "records",
-                    repeatitems: false,
-                    Id: "0"
-                }
-
-            }).navGrid('#pagerD',
-            {
-                edit: true,
-                add: true,
-                del: true,
-                search: false,
-                refresh: true
-            }, {
-                // edit options  
-                zIndex: 100,
-                width: 500,
-                url: '/Phyto/EditSurveyDetail',
-                closeOnEscape: true,
-                closeAfterEdit: true,
-                onclickSubmit: function (response, postdata) {
-                    var surveyRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    var surveyNumberId = $("#locationGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Phyto/EditSurveyDetail' + "?SurveyID=" + surveyRowId + "&SurveyNumber=" + surveyNumberId;
-                },
-                afterComplete: function (response) {
-                    DisplayResult(response);
-                }
-            }, {
-                // add options  
-                zIndex: 100,
-                width: 500,
-                url: '/Phyto/CreateSurveyDetail',
-                closeOnEscape: true,
-                closeAfterAdd: true,
-                onclickSubmit: function (response, postdata) {
-                    var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Phyto/CreateSurveyDetail' + "?SurveyID=" + selectedRowId;
-                },
-                afterComplete: function (response) {
-                    DisplayResult(response);
-                }
-            }, {
-                // delete options  
-                zIndex: 100,
-                url: '/Phyto/DeleteSurveyDetail',
-                closeOnEscape: true,
-                closeAfterDelete: true,
-                onclickSubmit: function (response, postdata) {
-                    var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Phyto/DeleteSurveyLocation' + "?SurveyID=" + selectedRowId;
-                },
-                afterComplete: function (response) {
-                    DisplayResult(response);
-                }
-            }
-            );
-
 
 });  
 

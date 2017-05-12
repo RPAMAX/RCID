@@ -35,9 +35,9 @@ namespace RCIDService
         }
         
 
-        public IEnumerable<PhytoSurveyDetails> GetSurveyDetails(short speciesID, int surveyID)
+        public IEnumerable<PhytoSurveyDetails> GetSurveyDetails(int surveyID)
         {
-            return _PhytoRepo.GetSurveyDetails(speciesID, surveyID);
+            return _PhytoRepo.GetSurveyDetails(surveyID);
         }
 
         public bool UpdateSpecies(PhytoSpecies item) {
@@ -95,7 +95,7 @@ namespace RCIDService
 
         public bool CreateSurveyDetail(PhytoSurveyDetails item)
         {
-            return (_PhytoRepo.CreateSurveyDetail(item) > 0);
+            return _PhytoRepo.CreateSurveyDetail(item);
         }
 
         public bool InactivateSurveyDetail(PhytoSurveyDetails item)

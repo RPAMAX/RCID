@@ -71,7 +71,7 @@
                     shrinktofit: true,
                     editable: true,
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -175,7 +175,8 @@
                             $(element).datepicker({
                                 constrainInput: false,
                                 showOn: 'button',
-                                buttonText: '...'
+                                buttonText: '...',
+                                maxDate: new Date()
                             });
                         }
                     },
@@ -227,7 +228,7 @@
                     width: 40,
                     editable: true,
                     edittype: 'checkbox',
-                    editoptions: { value: "true:false" }
+                    editoptions: { value: "true:false", defaultValue: "true" }
                 }
             ],
             pager: jQuery('#pagerL'),
@@ -327,6 +328,7 @@
                     }, {
                         key: true,
                         name: 'SurveyDetailID',
+                        hidden: true,
                         width: 40
                     }, {
                         key: false,
@@ -404,7 +406,7 @@
                         width: 40,
                         editable: true,
                         edittype: 'checkbox',
-                        editoptions: { value: "true:false" }
+                        editoptions: { value: "true:false", defaultValue: "true" }
                     }
                 ],
                 pager: jQuery('#pagerD'),

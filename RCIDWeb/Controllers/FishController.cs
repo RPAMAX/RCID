@@ -138,12 +138,42 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SamplePointAreaID);
+                switch (sidx)
+                {
+                    case "SurveyYear":
+                        results = results.OrderByDescending(s => s.SurveyYear);
+                        break;
+                    case "SurveyComments":
+                        results = results.OrderByDescending(s => s.SurveyComments);
+                        break;                  
+                    case "SamplePointAreaName":
+                        results = results.OrderByDescending(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderByDescending(s => s.SurveyActive);
+                        break;
+
+                }               
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SamplePointAreaID);
+                switch (sidx)
+                {
+                    case "SurveyYear":
+                        results = results.OrderBy(s => s.SurveyYear);
+                        break;
+                    case "SurveyComments":
+                        results = results.OrderBy(s => s.SurveyComments);
+                        break;
+                    case "SamplePointAreaName":
+                        results = results.OrderBy(s => s.SamplePointAreaName);
+                        break;
+                    case "SurveyActive":
+                        results = results.OrderBy(s => s.SurveyActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -166,12 +196,60 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyNumber);
+                switch (sidx)
+                {
+                    case "SurveyNumber":
+                        results = results.OrderByDescending(s => s.SurveyNumber);
+                        break;
+                    case "LocationDetails":
+                        results = results.OrderByDescending(s => s.LocationDetails);
+                        break;
+                    case "SurveyDate":
+                        results = results.OrderByDescending(s => s.SurveyDate);
+                        break;
+                    case "SurveyDurationSeconds":
+                        results = results.OrderByDescending(s => s.SurveyDurationSeconds);
+                        break;
+                    case "GeneratorName":
+                        results = results.OrderByDescending(s => s.GeneratorName);
+                        break;
+                    case "SurveyLocationComments":
+                        results = results.OrderByDescending(s => s.SurveyLocationComments);
+                        break;
+                    case "SurveyLocationActive":
+                        results = results.OrderByDescending(s => s.SurveyLocationActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyNumber);
+                switch (sidx)
+                {
+                    case "SurveyNumber":
+                        results = results.OrderBy(s => s.SurveyNumber);
+                        break;
+                    case "LocationDetails":
+                        results = results.OrderBy(s => s.LocationDetails);
+                        break;
+                    case "SurveyDate":
+                        results = results.OrderBy(s => s.SurveyDate);
+                        break;
+                    case "SurveyDurationSeconds":
+                        results = results.OrderBy(s => s.SurveyDurationSeconds);
+                        break;
+                    case "GeneratorName":
+                        results = results.OrderBy(s => s.GeneratorName);
+                        break;
+                    case "SurveyLocationComments":
+                        results = results.OrderBy(s => s.SurveyLocationComments);
+                        break;
+                    case "SurveyLocationActive":
+                        results = results.OrderBy(s => s.SurveyLocationActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
 
@@ -195,12 +273,72 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyNumber);
+                switch (sidx)
+                {
+                    case "SurveyNumber":
+                        results = results.OrderByDescending(s => s.SurveyNumber);
+                        break;
+                    case "SpeciesName":
+                        results = results.OrderByDescending(s => s.SpeciesName);
+                        break;
+                    case "SpeciesSizeMillimeters":
+                        results = results.OrderByDescending(s => s.SpeciesSizeMillimeters);
+                        break;
+                    case "SpeciesSizeInches":
+                        results = results.OrderByDescending(s => s.SpeciesSizeInches);
+                        break;
+                    case "SpeciesSizeInchGroup":
+                        results = results.OrderByDescending(s => s.SpeciesSizeInchGroup);
+                        break;
+                    case "SpeciesWeightPounds":
+                        results = results.OrderByDescending(s => s.SpeciesWeightPounds);
+                        break;
+                    case "SpeciesWeightOunces":
+                        results = results.OrderByDescending(s => s.SpeciesWeightOunces);
+                        break;
+                    case "SpeciesWeightLbs":
+                        results = results.OrderByDescending(s => s.SpeciesWeightLbs);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderByDescending(s => s.SurveyDetailActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyNumber);
+                switch (sidx)
+                {
+                    case "SurveyNumber":
+                        results = results.OrderBy(s => s.SurveyNumber);
+                        break;
+                    case "SpeciesName":
+                        results = results.OrderBy(s => s.SpeciesName);
+                        break;
+                    case "SpeciesSizeMillimeters":
+                        results = results.OrderBy(s => s.SpeciesSizeMillimeters);
+                        break;
+                    case "SpeciesSizeInches":
+                        results = results.OrderBy(s => s.SpeciesSizeInches);
+                        break;
+                    case "SpeciesSizeInchGroup":
+                        results = results.OrderBy(s => s.SpeciesSizeInchGroup);
+                        break;
+                    case "SpeciesWeightPounds":
+                        results = results.OrderBy(s => s.SpeciesWeightPounds);
+                        break;
+                    case "SpeciesWeightOunces":
+                        results = results.OrderBy(s => s.SpeciesWeightOunces);
+                        break;
+                    case "SpeciesWeightLbs":
+                        results = results.OrderBy(s => s.SpeciesWeightLbs);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderBy(s => s.SurveyDetailActive);
+                        break;
+
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
 

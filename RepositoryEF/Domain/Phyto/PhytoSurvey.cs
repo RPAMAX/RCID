@@ -12,6 +12,7 @@ namespace RCIDRepository.Domain
         public DateTime SurveyDate { get; set; }
         public byte SourceID { get; set; }
         public short SamplePointAreaID { get; set; }
+        public string SamplePointAreaName { get; set; }
         public string LocationDetails { get; set; }
         public bool SurveyActive { get; set; }
     }
