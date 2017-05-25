@@ -111,6 +111,71 @@
           <Property Name="SurveyLocationComments" Type="varchar" MaxLength="250" />
           <Property Name="SurveyLocationActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParameterID" />
+          </Key>
+          <Property Name="ParameterID" Type="tinyint" Nullable="false" />
+          <Property Name="ParameterName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParameterFullName" Type="varchar" MaxLength="50" />
+          <Property Name="ParameterTestMethod" Type="varchar" MaxLength="50" />
+          <Property Name="ParameterUnit" Type="varchar" MaxLength="50" />
+          <Property Name="ParameterActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="ProfileDate" Type="datetime" Nullable="false" />
+          <Property Name="SourceID" Type="tinyint" Nullable="false" />
+          <Property Name="SamplePointID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileDetail">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="DepthFeet" />
+            <PropertyRef Name="ParameterID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="DepthFeet" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="ParameterID" Type="tinyint" Nullable="false" />
+          <Property Name="ParameterValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProfileDetailNotes" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SamplePoint">
+          <Key>
+            <PropertyRef Name="SourceID" />
+            <PropertyRef Name="SamplePointID" />
+          </Key>
+          <Property Name="SourceID" Type="tinyint" Nullable="false" />
+          <Property Name="SamplePointID" Type="int" Nullable="false" />
+          <Property Name="ClientLocationID" Type="int" Nullable="false" />
+          <Property Name="SamplePointRefID" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="SamplePointAreaID" Type="smallint" Nullable="false" />
+          <Property Name="SamplePointName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SamplePointLatitude" Type="numeric" Precision="9" Scale="6" />
+          <Property Name="SamplePointLongitude" Type="numeric" Precision="9" Scale="6" />
+          <Property Name="RoleID" Type="smallint" />
+          <Property Name="SamplePointAllProcess" Type="bit" />
+          <Property Name="SamplePointPermitted" Type="bit" />
+          <Property Name="SamplePointProcess" Type="bit" />
+          <Property Name="SampleTypeID" Type="smallint" />
+          <Property Name="SamplePointClientSampleName" Type="varchar" MaxLength="50" />
+          <Property Name="POTWID" Type="smallint" />
+          <Property Name="SamplePointFlowMeters" Type="bit" />
+          <Property Name="SamplePointHazzardWasteDischarge" Type="bit" />
+          <Property Name="SamplePointChemicalFeed" Type="bit" />
+          <Property Name="SamplePointSampleEquipment" Type="bit" />
+          <Property Name="SamplePointProcessDiagnosticURL" Type="varchar" MaxLength="255" />
+          <Property Name="SamplePointSurchargeable" Type="bit" />
+          <Property Name="SamplePointPercentTotalOfFlow" Type="float" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="CreatedUserID" Type="int" />
+          <Property Name="EditedDate" Type="smalldatetime" />
+          <Property Name="EditedUserID" Type="int" />
+          <Property Name="SamplePointActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="SamplePointArea">
           <Key>
             <PropertyRef Name="SourceID" />
@@ -168,6 +233,58 @@
           <Property Name="ClimateName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ClimateActive" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Profile_SamplePoint_SourceID_SamplePointID">
+          <End Role="SamplePoint" Type="Self.SamplePoint" Multiplicity="1" />
+          <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePoint">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointID" />
+            </Principal>
+            <Dependent Role="Profile">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfileDetail_Parameter_ParameterID">
+          <End Role="Parameter" Type="Self.Parameter" Multiplicity="1" />
+          <End Role="ProfileDetail" Type="Self.ProfileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parameter">
+              <PropertyRef Name="ParameterID" />
+            </Principal>
+            <Dependent Role="ProfileDetail">
+              <PropertyRef Name="ParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfileDetail_Profile_ProfileID">
+          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+          <End Role="ProfileDetail" Type="Self.ProfileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="ProfileDetail">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID">
+          <End Role="SamplePointArea" Type="Self.SamplePointArea" Multiplicity="1" />
+          <End Role="SamplePoint" Type="Self.SamplePoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="SamplePoint">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Species_Division_DivisionID">
           <End Role="Division" Type="Self.Division" Multiplicity="1" />
           <End Role="Species2" Type="Self.Species2" Multiplicity="*" />
@@ -367,12 +484,32 @@
           <EntitySet Name="Survey1" EntityType="Self.Survey1" Schema="fish" Table="Survey" store:Type="Tables" />
           <EntitySet Name="SurveyDetail1" EntityType="Self.SurveyDetail1" Schema="fish" Table="SurveyDetail" store:Type="Tables" />
           <EntitySet Name="SurveyLocation" EntityType="Self.SurveyLocation" Schema="fish" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="lake" store:Type="Tables" />
+          <EntitySet Name="Profile" EntityType="Self.Profile" Schema="lake" store:Type="Tables" />
+          <EntitySet Name="ProfileDetail" EntityType="Self.ProfileDetail" Schema="lake" store:Type="Tables" />
+          <EntitySet Name="SamplePoint" EntityType="Self.SamplePoint" Schema="lims" store:Type="Tables" />
           <EntitySet Name="SamplePointArea" EntityType="Self.SamplePointArea" Schema="lims" store:Type="Tables" />
           <EntitySet Name="Division" EntityType="Self.Division" Schema="phyto" store:Type="Tables" />
           <EntitySet Name="Species2" EntityType="Self.Species2" Schema="phyto" Table="Species" store:Type="Tables" />
           <EntitySet Name="Survey2" EntityType="Self.Survey2" Schema="phyto" Table="Survey" store:Type="Tables" />
           <EntitySet Name="SurveyDetail2" EntityType="Self.SurveyDetail2" Schema="phyto" Table="SurveyDetail" store:Type="Tables" />
           <EntitySet Name="Climate" EntityType="Self.Climate" Schema="weather" store:Type="Tables" />
+          <AssociationSet Name="FK_Profile_SamplePoint_SourceID_SamplePointID" Association="Self.FK_Profile_SamplePoint_SourceID_SamplePointID">
+            <End Role="SamplePoint" EntitySet="SamplePoint" />
+            <End Role="Profile" EntitySet="Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfileDetail_Parameter_ParameterID" Association="Self.FK_ProfileDetail_Parameter_ParameterID">
+            <End Role="Parameter" EntitySet="Parameter" />
+            <End Role="ProfileDetail" EntitySet="ProfileDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfileDetail_Profile_ProfileID" Association="Self.FK_ProfileDetail_Profile_ProfileID">
+            <End Role="Profile" EntitySet="Profile" />
+            <End Role="ProfileDetail" EntitySet="ProfileDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID" Association="Self.FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID">
+            <End Role="SamplePointArea" EntitySet="SamplePointArea" />
+            <End Role="SamplePoint" EntitySet="SamplePoint" />
+          </AssociationSet>
           <AssociationSet Name="FK_Species_Division_DivisionID" Association="Self.FK_Species_Division_DivisionID">
             <End Role="Division" EntitySet="Division" />
             <End Role="Species2" EntitySet="Species2" />
@@ -496,6 +633,7 @@
           <NavigationProperty Name="Surveys" Relationship="Self.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID" FromRole="SamplePointArea" ToRole="Survey" />
           <NavigationProperty Name="Survey1" Relationship="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID1" FromRole="Lims_SamplePointArea" ToRole="Survey1" />
           <NavigationProperty Name="Survey2" Relationship="RCID_DWHModel.FK_Survey_SamplePointArea_SourceID_SamplePointAreaID2" FromRole="Lims_SamplePointArea" ToRole="Survey2" />
+          <NavigationProperty Name="SamplePoints" Relationship="RCID_DWHModel.FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID" FromRole="Lims_SamplePointArea" ToRole="SamplePoint" />
         </EntityType>
         <EntityType Name="Weather_Climate">
           <Key>
@@ -644,6 +782,26 @@
           <AssociationSet Name="FK_SurveyDetail_Survey_SurveyID1" Association="RCID_DWHModel.FK_SurveyDetail_Survey_SurveyID1">
             <End Role="Survey2" EntitySet="Phyto_Survey" />
             <End Role="SurveyDetail2" EntitySet="Phyto_SurveyDetail" />
+          </AssociationSet>
+          <EntitySet Name="Lake_Parameter" EntityType="RCID_DWHModel.Lake_Parameter" />
+          <EntitySet Name="Lake_Profile" EntityType="RCID_DWHModel.Lake_Profile" />
+          <EntitySet Name="Lake_ProfileDetail" EntityType="RCID_DWHModel.Lake_ProfileDetail" />
+          <AssociationSet Name="FK_ProfileDetail_Parameter_ParameterID" Association="RCID_DWHModel.FK_ProfileDetail_Parameter_ParameterID">
+            <End Role="Parameter" EntitySet="Lake_Parameter" />
+            <End Role="ProfileDetail" EntitySet="Lake_ProfileDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfileDetail_Profile_ProfileID" Association="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID">
+            <End Role="Profile" EntitySet="Lake_Profile" />
+            <End Role="ProfileDetail" EntitySet="Lake_ProfileDetail" />
+          </AssociationSet>
+          <EntitySet Name="Lims_SamplePoint" EntityType="RCID_DWHModel.Lims_SamplePoint" />
+          <AssociationSet Name="FK_Profile_SamplePoint_SourceID_SamplePointID" Association="RCID_DWHModel.FK_Profile_SamplePoint_SourceID_SamplePointID">
+            <End Role="SamplePoint" EntitySet="Lims_SamplePoint" />
+            <End Role="Lake_Profile" EntitySet="Lake_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID" Association="RCID_DWHModel.FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID">
+            <End Role="Lims_SamplePointArea" EntitySet="Lims_SamplePointArea" />
+            <End Role="SamplePoint" EntitySet="Lims_SamplePoint" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Fish_Species">
@@ -897,6 +1055,130 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Lake_Parameter">
+          <Key>
+            <PropertyRef Name="ParameterID" />
+          </Key>
+          <Property Name="ParameterID" Type="Byte" Nullable="false" />
+          <Property Name="ParameterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParameterFullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParameterTestMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParameterUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParameterActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProfileDetails" Relationship="RCID_DWHModel.FK_ProfileDetail_Parameter_ParameterID" FromRole="Parameter" ToRole="ProfileDetail" />
+        </EntityType>
+        <EntityType Name="Lake_Profile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="ProfileDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SourceID" Type="Byte" Nullable="false" />
+          <Property Name="SamplePointID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProfileDetails" Relationship="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID" FromRole="Profile" ToRole="ProfileDetail" />
+          <NavigationProperty Name="SamplePoint" Relationship="RCID_DWHModel.FK_Profile_SamplePoint_SourceID_SamplePointID" FromRole="Lake_Profile" ToRole="SamplePoint" />
+        </EntityType>
+        <EntityType Name="Lake_ProfileDetail">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="DepthFeet" />
+            <PropertyRef Name="ParameterID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="DepthFeet" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="ParameterID" Type="Byte" Nullable="false" />
+          <Property Name="ParameterValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ProfileDetailNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Parameter" Relationship="RCID_DWHModel.FK_ProfileDetail_Parameter_ParameterID" FromRole="ProfileDetail" ToRole="Parameter" />
+          <NavigationProperty Name="Profile" Relationship="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID" FromRole="ProfileDetail" ToRole="Profile" />
+        </EntityType>
+        <Association Name="FK_ProfileDetail_Parameter_ParameterID">
+          <End Type="RCID_DWHModel.Lake_Parameter" Role="Parameter" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Lake_ProfileDetail" Role="ProfileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parameter">
+              <PropertyRef Name="ParameterID" />
+            </Principal>
+            <Dependent Role="ProfileDetail">
+              <PropertyRef Name="ParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfileDetail_Profile_ProfileID">
+          <End Type="RCID_DWHModel.Lake_Profile" Role="Profile" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Lake_ProfileDetail" Role="ProfileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="ProfileDetail">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Lims_SamplePoint">
+          <Key>
+            <PropertyRef Name="SourceID" />
+            <PropertyRef Name="SamplePointID" />
+          </Key>
+          <Property Name="SourceID" Type="Byte" Nullable="false" />
+          <Property Name="SamplePointID" Type="Int32" Nullable="false" />
+          <Property Name="ClientLocationID" Type="Int32" Nullable="false" />
+          <Property Name="SamplePointRefID" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SamplePointAreaID" Type="Int16" Nullable="false" />
+          <Property Name="SamplePointName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SamplePointLatitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="SamplePointLongitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="RoleID" Type="Int16" />
+          <Property Name="SamplePointAllProcess" Type="Boolean" />
+          <Property Name="SamplePointPermitted" Type="Boolean" />
+          <Property Name="SamplePointProcess" Type="Boolean" />
+          <Property Name="SampleTypeID" Type="Int16" />
+          <Property Name="SamplePointClientSampleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="POTWID" Type="Int16" />
+          <Property Name="SamplePointFlowMeters" Type="Boolean" />
+          <Property Name="SamplePointHazzardWasteDischarge" Type="Boolean" />
+          <Property Name="SamplePointChemicalFeed" Type="Boolean" />
+          <Property Name="SamplePointSampleEquipment" Type="Boolean" />
+          <Property Name="SamplePointProcessDiagnosticURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SamplePointSurchargeable" Type="Boolean" />
+          <Property Name="SamplePointPercentTotalOfFlow" Type="Double" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedUserID" Type="Int32" />
+          <Property Name="EditedDate" Type="DateTime" Precision="0" />
+          <Property Name="EditedUserID" Type="Int32" />
+          <Property Name="SamplePointActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Profiles" Relationship="RCID_DWHModel.FK_Profile_SamplePoint_SourceID_SamplePointID" FromRole="SamplePoint" ToRole="Lake_Profile" />
+          <NavigationProperty Name="SamplePointArea" Relationship="RCID_DWHModel.FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID" FromRole="SamplePoint" ToRole="Lims_SamplePointArea" />
+        </EntityType>
+        <Association Name="FK_Profile_SamplePoint_SourceID_SamplePointID">
+          <End Type="RCID_DWHModel.Lims_SamplePoint" Role="SamplePoint" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Lake_Profile" Role="Lake_Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SamplePoint">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointID" />
+            </Principal>
+            <Dependent Role="Lake_Profile">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID">
+          <End Type="RCID_DWHModel.Lims_SamplePointArea" Role="Lims_SamplePointArea" Multiplicity="1" />
+          <End Type="RCID_DWHModel.Lims_SamplePoint" Role="SamplePoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lims_SamplePointArea">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Principal>
+            <Dependent Role="SamplePoint">
+              <PropertyRef Name="SourceID" />
+              <PropertyRef Name="SamplePointAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1073,6 +1355,72 @@
                 <ScalarProperty Name="SurveyCount" ColumnName="SurveyCount" />
                 <ScalarProperty Name="SpeciesID" ColumnName="SpeciesID" />
                 <ScalarProperty Name="SurveyID" ColumnName="SurveyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lake_Parameter">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Lake_Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="ParameterActive" ColumnName="ParameterActive" />
+                <ScalarProperty Name="ParameterUnit" ColumnName="ParameterUnit" />
+                <ScalarProperty Name="ParameterTestMethod" ColumnName="ParameterTestMethod" />
+                <ScalarProperty Name="ParameterFullName" ColumnName="ParameterFullName" />
+                <ScalarProperty Name="ParameterName" ColumnName="ParameterName" />
+                <ScalarProperty Name="ParameterID" ColumnName="ParameterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lake_Profile">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Lake_Profile">
+              <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="SamplePointID" ColumnName="SamplePointID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="ProfileDate" ColumnName="ProfileDate" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lake_ProfileDetail">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Lake_ProfileDetail">
+              <MappingFragment StoreEntitySet="ProfileDetail">
+                <ScalarProperty Name="ProfileDetailNotes" ColumnName="ProfileDetailNotes" />
+                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+                <ScalarProperty Name="ParameterID" ColumnName="ParameterID" />
+                <ScalarProperty Name="DepthFeet" ColumnName="DepthFeet" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lims_SamplePoint">
+            <EntityTypeMapping TypeName="RCID_DWHModel.Lims_SamplePoint">
+              <MappingFragment StoreEntitySet="SamplePoint">
+                <ScalarProperty Name="SamplePointActive" ColumnName="SamplePointActive" />
+                <ScalarProperty Name="EditedUserID" ColumnName="EditedUserID" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="SamplePointPercentTotalOfFlow" ColumnName="SamplePointPercentTotalOfFlow" />
+                <ScalarProperty Name="SamplePointSurchargeable" ColumnName="SamplePointSurchargeable" />
+                <ScalarProperty Name="SamplePointProcessDiagnosticURL" ColumnName="SamplePointProcessDiagnosticURL" />
+                <ScalarProperty Name="SamplePointSampleEquipment" ColumnName="SamplePointSampleEquipment" />
+                <ScalarProperty Name="SamplePointChemicalFeed" ColumnName="SamplePointChemicalFeed" />
+                <ScalarProperty Name="SamplePointHazzardWasteDischarge" ColumnName="SamplePointHazzardWasteDischarge" />
+                <ScalarProperty Name="SamplePointFlowMeters" ColumnName="SamplePointFlowMeters" />
+                <ScalarProperty Name="POTWID" ColumnName="POTWID" />
+                <ScalarProperty Name="SamplePointClientSampleName" ColumnName="SamplePointClientSampleName" />
+                <ScalarProperty Name="SampleTypeID" ColumnName="SampleTypeID" />
+                <ScalarProperty Name="SamplePointProcess" ColumnName="SamplePointProcess" />
+                <ScalarProperty Name="SamplePointPermitted" ColumnName="SamplePointPermitted" />
+                <ScalarProperty Name="SamplePointAllProcess" ColumnName="SamplePointAllProcess" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="SamplePointLongitude" ColumnName="SamplePointLongitude" />
+                <ScalarProperty Name="SamplePointLatitude" ColumnName="SamplePointLatitude" />
+                <ScalarProperty Name="SamplePointName" ColumnName="SamplePointName" />
+                <ScalarProperty Name="SamplePointAreaID" ColumnName="SamplePointAreaID" />
+                <ScalarProperty Name="SamplePointRefID" ColumnName="SamplePointRefID" />
+                <ScalarProperty Name="ClientLocationID" ColumnName="ClientLocationID" />
+                <ScalarProperty Name="SamplePointID" ColumnName="SamplePointID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

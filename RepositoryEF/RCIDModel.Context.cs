@@ -41,5 +41,9 @@ namespace RCIDRepository
         public virtual DbSet<Phyto_Species> Phyto_Species { get; set; }
         public virtual DbSet<Phyto_Survey> Phyto_Survey { get; set; }
         public virtual DbSet<Phyto_SurveyDetail> Phyto_SurveyDetail { get; set; }
+        public virtual DbSet<Lake_Parameter> Lake_Parameter { get; set; }
+        public virtual DbSet<Lake_Profile> Lake_Profile { get; set; }
+        public virtual DbSet<Lake_ProfileDetail> Lake_ProfileDetail { get; set; }
+        public virtual DbSet<Lims_SamplePoint> Lims_SamplePoint { get; set; }
     }
 }

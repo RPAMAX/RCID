@@ -15,6 +15,7 @@ namespace RCIDRepository
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Weather_Climate, WeatherClimate>();
                 cfg.CreateMap<Lims_SamplePointArea, SamplePointArea>();
+                cfg.CreateMap<Lims_SamplePoint, SamplePoint>();
             });
 
         }
@@ -37,6 +38,16 @@ namespace RCIDRepository
                 var efList = context.Lims_SamplePointArea.ToList();
 
                 return Mapper.Map<List<Lims_SamplePointArea>, List<SamplePointArea>>(efList);
+            }
+        }
+
+        public IEnumerable<SamplePoint> GetAllSamplePoints()
+        {
+            using (RCID_DWHEntities context = new RCID_DWHEntities())
+            {
+                var efList = context.Lims_SamplePoint.ToList();
+
+                return Mapper.Map<List<Lims_SamplePoint>, List<SamplePoint>>(efList);
             }
         }
 
@@ -199,6 +210,88 @@ namespace RCIDRepository
                     if (efItem == null) return result;
 
                     efItem.SamplePointAreaActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+        #endregion
+
+        #region Sample point 
+        public bool UpdateSamplePoint(SamplePoint item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Lims_SamplePoint efItem = context.Lims_SamplePoint.Where(b => b.SamplePointID == item.SamplePointID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SamplePointName = item.SamplePointName;
+                    efItem.SamplePointActive = item.SamplePointActive;
+                    efItem.SourceID = item.SourceID;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        public bool CreateSamplePoint(SamplePoint item)
+        {
+
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    int newid = context.Lims_SamplePoint.OrderByDescending(u => u.SamplePointID).FirstOrDefault().SamplePointID;
+                    newid++;
+
+                    Lims_SamplePoint efItem = new Lims_SamplePoint()
+                    {
+                        SamplePointID = newid,
+                        SamplePointActive = true,
+                        SamplePointName = item.SamplePointName,
+                        SourceID = item.SourceID
+                    };
+
+                    context.Lims_SamplePoint.Add(efItem);
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception e) { throw e; }
+            return result;
+        }
+
+        public bool InactivateSamplePoint(SamplePoint item)
+        {
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Lims_SamplePoint efItem = context.Lims_SamplePoint.Where(b => b.SamplePointID == item.SamplePointID).FirstOrDefault();
+
+                    if (efItem == null) return result;
+
+                    efItem.SamplePointActive = false;
 
                     if (context.SaveChanges() > 0)
                     {

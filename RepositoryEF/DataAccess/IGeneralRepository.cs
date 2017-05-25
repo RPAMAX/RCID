@@ -11,6 +11,7 @@ namespace RCIDRepository
     {
         IEnumerable<WeatherClimate> GetAllClimates();
         IEnumerable<SamplePointArea> GetAllSamplePointAreas();
+        IEnumerable<SamplePoint> GetAllSamplePoints();
         SamplePointArea GetSamplePointAreaByName(string name);
 
         bool InactivateClimate(WeatherClimate item);
@@ -21,6 +22,9 @@ namespace RCIDRepository
         bool UpdateSamplePointArea(SamplePointArea item);
         bool CreateSamplePointArea(SamplePointArea item);
 
+        bool InactivateSamplePoint(SamplePoint item);
+        bool UpdateSamplePoint(SamplePoint item);
+        bool CreateSamplePoint(SamplePoint item);
 
     }
 }

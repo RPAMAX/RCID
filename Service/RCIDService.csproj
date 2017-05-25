@@ -82,6 +82,8 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="ILakeService.cs" />
+    <Compile Include="LakeService.cs" />
     <Compile Include="PhytoService.cs" />
     <Compile Include="FishService.cs" />
     <Compile Include="GeneralService.cs" />

@@ -20,6 +20,7 @@ namespace RCIDRepository
             this.Surveys = new HashSet<Bird_Survey>();
             this.Survey1 = new HashSet<Fish_Survey>();
             this.Survey2 = new HashSet<Phyto_Survey>();
+            this.SamplePoints = new HashSet<Lims_SamplePoint>();
         }
     
         public byte SourceID { get; set; }
@@ -33,5 +34,7 @@ namespace RCIDRepository
         public virtual ICollection<Fish_Survey> Survey1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Phyto_Survey> Survey2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Lims_SamplePoint> SamplePoints { get; set; }
     }
 }

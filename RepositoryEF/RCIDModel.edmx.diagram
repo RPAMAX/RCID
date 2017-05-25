@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="295431fc58244b029ee683a85a0b6d43" Name="Diagram1">
+      <Diagram DiagramId="295431fc58244b029ee683a85a0b6d43" Name="Diagram1" ZoomLevel="116">
         <EntityTypeShape EntityType="RCID_DWHModel.Bird_Species" Width="1.5" PointX="8.875" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="RCID_DWHModel.Bird_Survey" Width="1.5" PointX="4.625" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="RCID_DWHModel.Bird_SurveyDetail" Width="1.5" PointX="6.625" PointY="1" IsExpanded="true" />
@@ -36,6 +36,14 @@
         <AssociationConnector Association="RCID_DWHModel.FK_Species_Division_DivisionID" />
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Species_SpeciesID2" />
         <AssociationConnector Association="RCID_DWHModel.FK_SurveyDetail_Survey_SurveyID1" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Lake_Parameter" Width="1.5" PointX="13" PointY="5.625" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Lake_Profile" Width="1.5" PointX="10.125" PointY="1.875" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Lake_ProfileDetail" Width="1.5" PointX="12.875" PointY="1.875" />
+        <AssociationConnector Association="RCID_DWHModel.FK_ProfileDetail_Parameter_ParameterID" />
+        <AssociationConnector Association="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID" />
+        <EntityTypeShape EntityType="RCID_DWHModel.Lims_SamplePoint" Width="1.5" PointX="4.5" PointY="20.875" />
+        <AssociationConnector Association="RCID_DWHModel.FK_Profile_SamplePoint_SourceID_SamplePointID" />
+        <AssociationConnector Association="RCID_DWHModel.FK_SamplePoint_SamplePointArea_SourceID_SamplePointAreaID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
