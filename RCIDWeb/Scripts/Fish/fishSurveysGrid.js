@@ -367,13 +367,13 @@
                         },
                     },{
                         key: false,
-                        name: 'SpeciesSizeInches',
+                        name: 'SpeciesSizeInchesStr',
                         width: 40,
                         editable: false
                     }, {
                         key: false,
                         name: 'SpeciesSizeInchGroup',
-                        width: 50,
+                        width: 50,                                                
                         editable: false
                     }, {
                         key: false,

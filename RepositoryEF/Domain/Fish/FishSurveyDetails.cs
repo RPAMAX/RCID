@@ -15,6 +15,9 @@ namespace RCIDRepository.Domain
         public string SpeciesName { get; set; }
         public short SpeciesSizeMillimeters { get; set; }
         public Nullable<decimal> SpeciesSizeInches { get; set; }
+        public string SpeciesSizeInchesStr {
+            get {
+                return (this.SpeciesSizeInches == null) ? String.Empty : this.SpeciesSizeInches.Value.ToString("0.##"); } }
         public Nullable<byte> SpeciesSizeInchGroup { get; set; }
         public byte SpeciesWeightPounds { get; set; }
         public decimal SpeciesWeightOunces { get; set; }

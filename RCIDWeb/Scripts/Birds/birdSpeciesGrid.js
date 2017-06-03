@@ -22,6 +22,7 @@
                     key: false,
                     name: 'SpeciesName',
                     index: 'SpeciesName',
+                    width: 200,
                     editable: true
                 }, {
                     key: false,
@@ -62,6 +63,7 @@
         }, {
             // edit options  
             zIndex: 100,
+            width: 400,
             url: '/Birds/EditSpecies',
             closeOnEscape: true,
             closeAfterEdit: true,

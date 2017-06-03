@@ -48,12 +48,29 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        Results = Results.OrderByDescending(s => s.SpeciesName);
+                        break;
+                    case "SpeciesActive":
+                        Results = Results.OrderByDescending(s => s.SpeciesActive);
+                        break;
+                }
+               
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        Results = Results.OrderBy(s => s.SpeciesName);
+                        break;
+                    case "SpeciesActive":
+                        Results = Results.OrderBy(s => s.SpeciesActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -76,12 +93,29 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SurveyorName);
+                switch (sidx)
+                {
+                    case "SurveyorName":
+                        results = results.OrderByDescending(s => s.SurveyorName);
+                        break;
+                    case "SpeciesActive":
+                        results = results.OrderByDescending(s => s.SurveyorActive);
+                        break;
+                }
+              
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SurveyorName);
+                switch (sidx)
+                {
+                    case "SurveyorName":
+                        results = results.OrderBy(s => s.SurveyorName);
+                        break;
+                    case "SpeciesActive":
+                        results = results.OrderBy(s => s.SurveyorActive);
+                        break;
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -170,12 +204,34 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                results = results.OrderByDescending(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        results = results.OrderByDescending(s => s.SpeciesName);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderByDescending(s => s.SurveyDetailActive);
+                        break;
+                    case "SurveyDetailCount":
+                        results = results.OrderByDescending(s => s.SurveyDetailCount);
+                        break;                   
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                results = results.OrderBy(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        results = results.OrderBy(s => s.SpeciesName);
+                        break;
+                    case "SurveyDetailActive":
+                        results = results.OrderBy(s => s.SurveyDetailActive);
+                        break;
+                    case "SurveyDetailCount":
+                        results = results.OrderBy(s => s.SurveyDetailCount);
+                        break;
+                }
                 results = results.Skip(pageIndex * pageSize).Take(pageSize);
             }
 

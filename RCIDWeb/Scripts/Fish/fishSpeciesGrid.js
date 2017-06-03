@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SpeciesID', 'Species Name', 'Is Active'],
+            colNames: ['SpeciesID', 'Species Name', 'Group Name', 'Species Group', 'Is Active'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "SpeciesID" },
             //colModel takes the data from controller and binds to grid 
@@ -24,7 +24,33 @@
                     index: 'SpeciesName',
                     editable: true,
                     editoptions: {size: '20', maxlength: '50'}
+                },{
+                    key: false,
+                    name: 'SpeciesGroupName',
+                    index: 'SpeciesGroupName',                   
                 }, {
+                    key: false,
+                    label: 'SpeciesGroupID',
+                    name: 'SpeciesGroupID',
+                    index: 'SpeciesGroupID',
+                    shrinktofit: true,
+                    editrules: { edithidden: true }, hidedlg: true,
+                    hidden: true,
+                    editable: true,
+                    edittype: 'select',
+                    editoptions: {
+                        dataUrl: "/Fish/GetSpeciesGroupList",
+                        buildSelect: function (data) {
+                            var response = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            jQuery.each(response, function (i, item) {
+                                s += '<option value="' + response[i].SpeciesGroupID + '">' + response[i].SpeciesGroupName + '</option>';
+                            });
+                            return s + "</select>";
+
+                        }
+                    }
+                },{
                     key: false,
                     name: 'SpeciesActive',
                     index: 'SpeciesActive',

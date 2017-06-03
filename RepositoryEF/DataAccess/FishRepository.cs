@@ -16,7 +16,9 @@ namespace RCIDRepository
 
         public FishRepository() {
             var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Fish_Species, FishSpecies>();
+                cfg.CreateMap<Fish_Species, FishSpecies>()
+                    .ForMember(dest=> dest.SpeciesGroupName, 
+                               opts=> opts.MapFrom(src=>src.SpeciesGroup.SpeciesGroupName) );
                 cfg.CreateMap<Fish_SpeciesGroup, FishSpeciesGroup>();
                 cfg.CreateMap<Fish_Generator, FishGenerator>();
             });
@@ -142,7 +144,7 @@ namespace RCIDRepository
 
             using (RCID_DWHEntities context = new RCID_DWHEntities())
             {
-                var efList = context.Fish_Species.OrderBy(s=>s.SpeciesName).ToList();
+                var efList = context.Fish_Species.Include("SpeciesGroup").OrderBy(s=>s.SpeciesName).ToList();
 
                 return mapper.Map<List<Fish_Species>, List<FishSpecies>>(efList);
             }
@@ -565,7 +567,7 @@ namespace RCIDRepository
                              {
                                  SpeciesID = species.SpeciesID,
                                  SpeciesName = species.SpeciesName,
-                                 SpeciesSizeInches = surveyDetails.SpeciesSizeInchGroup,
+                                 SpeciesSizeInches = surveyDetails.SpeciesSizeInches,
                                  SpeciesSizeInchGroup = surveyDetails.SpeciesSizeInchGroup,
                                  SpeciesSizeMillimeters = surveyDetails.SpeciesSizeMillimeters,
                                  SpeciesWeightLbs = surveyDetails.SpeciesWeightLbs,

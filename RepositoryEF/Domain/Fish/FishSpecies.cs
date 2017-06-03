@@ -11,6 +11,7 @@ namespace RCIDRepository.Domain
         public short SpeciesID { get; set; }
         public string SpeciesName { get; set; }
         public Nullable<byte> SpeciesGroupID { get; set; }
+        public string SpeciesGroupName { get; set; }
         public bool SpeciesActive { get; set; }
 
     }

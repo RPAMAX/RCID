@@ -39,7 +39,7 @@
                 }, {
                     key: false,
                     name: 'SamplePointRefID',
-                    width: 40,
+                    width: 60,
                     editable: false
                 }, {
                     key: false,
@@ -69,9 +69,10 @@
                     }
                 },{
                     key: false,
-                    name: 'ProfileActive',                    
+                    name: 'ProfileActive',
+                    width: 50,
                     editable: true,                    
-                    edittype: 'checkbox',
+                    edittype: 'checkbox',                    
                     editoptions: { value: "true:false", defaultValue: "true", defaultValue:"true" }
                 }],
 

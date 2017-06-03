@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'SamplePointAreaName', 'Sample Point Area', 'Is Active'],
+            colNames: ['SurveyID', 'Survey Date', 'Climate Name', 'Climate', 'Surveyor Name', 'Surveyor', 'Sample Point Area', 'Sample Point Area', 'Is Active'],
             prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [

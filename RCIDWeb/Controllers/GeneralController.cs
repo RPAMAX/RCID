@@ -73,12 +73,28 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.ClimateName);
+                switch (sidx)
+                {
+                    case "ClimateName":
+                        Results = Results.OrderByDescending(s => s.ClimateName);
+                        break;
+                    case "ClimateActive":
+                        Results = Results.OrderByDescending(s => s.ClimateActive);
+                        break;                   
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.ClimateName);
+                switch (sidx)
+                {
+                    case "ClimateName":
+                        Results = Results.OrderBy(s => s.ClimateName);
+                        break;
+                    case "ClimateActive":
+                        Results = Results.OrderBy(s => s.ClimateActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -101,12 +117,28 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SamplePointAreaName);
+                switch (sidx)
+                {
+                    case "SamplePointAreaName":
+                        Results = Results.OrderByDescending(s => s.SamplePointAreaName);
+                        break;
+                    case "SamplePointAreaActive":
+                        Results = Results.OrderByDescending(s => s.SamplePointAreaActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SamplePointAreaName);
+                switch (sidx)
+                {
+                    case "SamplePointAreaName":
+                        Results = Results.OrderBy(s => s.SamplePointAreaName);
+                        break;
+                    case "SamplePointAreaActive":
+                        Results = Results.OrderBy(s => s.SamplePointAreaActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new

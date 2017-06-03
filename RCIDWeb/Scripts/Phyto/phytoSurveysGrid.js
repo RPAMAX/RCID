@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SurveyID', 'Survey Date', 'SamplePointArea', 'Sample Point Area Name','Location Details', 'Is Active'],
+            colNames: ['SurveyID', 'Survey Date', 'Sample Point Area', 'Sample Point Area Name','Location Details', 'Is Active'],
             prmNames: { id: "SurveyID" },
             //colModel takes the data from controller and binds to grid   
             colModel: [
@@ -98,6 +98,7 @@
             },
             autowidth: true,
             multiselect: false,
+            multisort:true,
             onSelectRow: function (id) {                    
                 jQuery("#detailGrid")
                     .setGridParam({ postData: { id: id } })                   

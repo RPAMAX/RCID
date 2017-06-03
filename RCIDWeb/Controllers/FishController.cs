@@ -54,12 +54,34 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        Results = Results.OrderByDescending(s => s.SpeciesName);
+                        break;
+                    case "SpeciesActive":
+                        Results = Results.OrderByDescending(s => s.SpeciesActive);
+                        break;
+                    case "SpeciesGroupName":
+                        Results = Results.OrderByDescending(s => s.SpeciesGroupName);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SpeciesName);
+                switch (sidx)
+                {
+                    case "SpeciesName":
+                        Results = Results.OrderBy(s => s.SpeciesName);
+                        break;
+                    case "SpeciesActive":
+                        Results = Results.OrderBy(s => s.SpeciesActive);
+                        break;
+                    case "SpeciesGroupName":
+                        Results = Results.OrderBy(s => s.SpeciesGroupName);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -82,12 +104,28 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.SpeciesGroupName);
+                switch (sidx)
+                {
+                    case "SpeciesGroupName":
+                        Results = Results.OrderByDescending(s => s.SpeciesGroupName);
+                        break;
+                    case "SpeciesGroupActive":
+                        Results = Results.OrderByDescending(s => s.SpeciesGroupActive);
+                        break;                   
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.SpeciesGroupName);
+                switch (sidx)
+                {
+                    case "SpeciesGroupName":
+                        Results = Results.OrderBy(s => s.SpeciesGroupName);
+                        break;
+                    case "SpeciesGroupActive":
+                        Results = Results.OrderBy(s => s.SpeciesGroupActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -110,12 +148,28 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.GeneratorName);
+                switch (sidx)
+                {
+                    case "GeneratorName":
+                        Results = Results.OrderByDescending(s => s.GeneratorName);
+                        break;
+                    case "GeneratorActive":
+                        Results = Results.OrderByDescending(s => s.GeneratorActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.GeneratorName);
+                switch (sidx)
+                {
+                    case "GeneratorName":
+                        Results = Results.OrderBy(s => s.GeneratorName);
+                        break;
+                    case "GeneratorActive":
+                        Results = Results.OrderBy(s => s.GeneratorActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -357,6 +411,12 @@ namespace RCIDWeb.Controllers
         public JsonResult GetSpeciesList()
         {
             var results = _fishSvc.GetAllSpecies().Where(s=>s.SpeciesActive==true).OrderBy(c => c.SpeciesName).ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetSpeciesGroupList()
+        {
+            var results = _fishSvc.GetAllSpeciesGroup().Where(s => s.SpeciesGroupActive == true).OrderBy(c => c.SpeciesGroupName).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }

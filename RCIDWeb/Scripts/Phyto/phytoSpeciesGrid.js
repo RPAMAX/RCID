@@ -79,7 +79,8 @@
                 Id: "0"
             },
             autowidth: true,
-            multiselect: false
+            multiselect: false,
+            multisort:true
             //pager-you have to choose here what icons should appear at the bottom  
             //like edit,create,delete icons  
         }).navGrid('#pager',
@@ -87,7 +88,7 @@
             edit: true,
             add: true,
             //del: true,
-            search: false,
+            search: true,
             refresh: true
         }, {
             // edit options  
@@ -120,5 +121,8 @@
             afterComplete: function (response) {
                 DisplayResult(response);
             }
+        },{
+            zIndex: 100,            
+            sopt: ['cn','bw']
         });
 });  

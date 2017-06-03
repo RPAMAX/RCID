@@ -39,12 +39,41 @@ namespace RCIDWeb.Controllers
         }
 
         #region Get Grid Data
-        public JsonResult GetSpecies(string sidx, string sord, int page, int rows)
+        public JsonResult GetSpecies(string sidx, string sord, int page, int rows,
+            bool _search, string searchField, string searchOper, string searchString)
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
+
             var Results = _PhytoSvc.GetAllSpecies();
 
+            if (_search)
+            {
+                switch (searchOper)
+                {
+                    case "cn":
+                        switch(searchField){
+                            case "SpeciesName":
+                                Results = Results.Where(s => s.SpeciesName.Contains(searchString));
+                                break;
+                            case "DivisionName":
+                                Results = Results.Where(s => s.DivisionName.Contains(searchString));
+                                break;
+                        }                       
+                        break;
+                    case "bw":
+                        switch (searchField)
+                        {
+                            case "SpeciesName":
+                                Results = Results.Where(s => s.SpeciesName.StartsWith(searchString));
+                                break;
+                            case "DivisionName":
+                                Results = Results.Where(s => s.DivisionName.StartsWith(searchString));
+                                break;
+                        }
+                        break;
+                }
+            }
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
@@ -79,12 +108,34 @@ namespace RCIDWeb.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.DivisionName);
+                switch (sidx)
+                {
+                    case "DivisionName":
+                        Results = Results.OrderByDescending(s => s.DivisionName);
+                        break;
+                    case "DivisionCommonName":
+                        Results = Results.OrderByDescending(s => s.DivisionCommonName);
+                        break;
+                    case "DivisionActive":
+                        Results = Results.OrderByDescending(s => s.DivisionActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.DivisionName);
+                switch (sidx)
+                {
+                    case "DivisionName":
+                        Results = Results.OrderBy(s => s.DivisionName);
+                        break;
+                    case "DivisionCommonName":
+                        Results = Results.OrderBy(s => s.DivisionCommonName);
+                        break;
+                    case "DivisionActive":
+                        Results = Results.OrderBy(s => s.DivisionActive);
+                        break;
+                }
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
