@@ -11,6 +11,9 @@ namespace RCIDWeb.Controllers
     public class GeneralController : Controller
     {
         IGeneralService _genSvc;
+        //TO DO: change sourceid to 5
+        readonly byte LIMS_SOURCEID = 1;
+        readonly byte LIMS_SAMPLETYPEID = 2;
 
         public GeneralController(IGeneralService genService)
         {
@@ -40,7 +43,19 @@ namespace RCIDWeb.Controllers
 
         public JsonResult GetSamplePointAreas()
         {
-            var results = _genSvc.GetAllSamplePointAreas().Where(s=>s.SamplePointAreaActive == true).ToList();
+            var results = _genSvc.GetAllSamplePointAreas().Where(s=>s.SamplePointAreaActive == true 
+                                                                    && s.SourceID == LIMS_SOURCEID)
+                                                                    .OrderBy(s=>s.SamplePointAreaName).ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetActiveSamplePoints()
+        {
+            var results = _genSvc.GetAllSamplePoints().Where(s => s.SamplePointActive == true
+                                                                && s.SourceID == LIMS_SOURCEID
+                                                                && s.SampleTypeID == LIMS_SAMPLETYPEID)
+                                                                .OrderBy(s=>s.SamplePointRefID).ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
@@ -92,6 +107,34 @@ namespace RCIDWeb.Controllers
             else
             {
                 Results = Results.OrderBy(s => s.SamplePointAreaName);
+                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            var jsonData = new
+            {
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = Results
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSamplePointsGrid(string sidx, string sord, int page, int rows)
+        {
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
+            var Results = _genSvc.GetAllSamplePoints();
+
+            int totalRecords = Results.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+            if (sord.ToUpper() == "DESC")
+            {
+                Results = Results.OrderByDescending(s => s.SamplePointName);
+                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            else
+            {
+                Results = Results.OrderBy(s => s.SamplePointName);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -259,6 +302,11 @@ namespace RCIDWeb.Controllers
             return msg;
         }
         #endregion
+
+      
+
     }
-}  
-   
+
+
+}
+

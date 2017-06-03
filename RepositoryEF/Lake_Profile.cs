@@ -24,6 +24,7 @@ namespace RCIDRepository
         public System.DateTime ProfileDate { get; set; }
         public byte SourceID { get; set; }
         public int SamplePointID { get; set; }
+        public bool ProfileActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lake_ProfileDetail> ProfileDetails { get; set; }

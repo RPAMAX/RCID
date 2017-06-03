@@ -221,7 +221,7 @@
                     name: 'SurveyLocationComments',
                     editable: true,
                     edittype: 'textarea',
-                    editoptions: { rows: '5', cols: 50 }
+                    editoptions: { rows: '5', cols: 50}
                 }, {
                     key: false,
                     name: 'SurveyLocationActive',
@@ -314,7 +314,7 @@
                 datatype: 'json',
                 mtype: 'Get',
                 colNames: ['SurveyID', 'SurveyNumber', 'Detail #', 'Species Name', 'Species Name', 'Size mm', 'Size Inches',
-                    'Size Inch Group', 'Weight(pounds)', 'Weight(ounces)', 'Weight(Lbs)', 'Is Active'],
+                    'Size Inch Group', 'Weight(pounds)', 'Weight(ounces)', 'Total Weight(Lbs)', 'Is Active'],
                 prmNames: { id: "SurveyDetailID" },
                 colModel: [
                     {
@@ -398,7 +398,7 @@
                     }, {
                         key: false,
                         name: 'SpeciesWeightLbs',
-                        width: 40,
+                        width: 60,
                         editable: false
                     }, {
                         key: false,
@@ -472,7 +472,7 @@
                 closeAfterDelete: true,
                 onclickSubmit: function (response, postdata) {
                     var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Fish/DeleteSurveyLocation' + "?SurveyID=" + selectedRowId;
+                    response.url = '/Fish/DeleteSurveyDetail' + "?SurveyID=" + selectedRowId;
                 },
                 afterComplete: function (response) {
                     DisplayResult(response);

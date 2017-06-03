@@ -14,5 +14,6 @@ namespace RCIDRepository.Domain
         public string ParameterName { get; set; }
         public decimal ParameterValue { get; set; }
         public string ProfileDetailNotes { get; set; }
+        public bool ProfileDetailActive { get; set; }
     }
 }

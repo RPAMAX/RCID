@@ -229,6 +229,5 @@
     </Content>
     <None Include="DBScripts\001_Add IsActive column_schema.sql" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

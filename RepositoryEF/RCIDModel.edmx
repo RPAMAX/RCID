@@ -130,6 +130,7 @@
           <Property Name="ProfileDate" Type="datetime" Nullable="false" />
           <Property Name="SourceID" Type="tinyint" Nullable="false" />
           <Property Name="SamplePointID" Type="int" Nullable="false" />
+          <Property Name="ProfileActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProfileDetail">
           <Key>
@@ -142,6 +143,7 @@
           <Property Name="ParameterID" Type="tinyint" Nullable="false" />
           <Property Name="ParameterValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ProfileDetailNotes" Type="varchar" MaxLength="500" />
+          <Property Name="ProfileDetailActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SamplePoint">
           <Key>
@@ -1077,6 +1079,7 @@
           <Property Name="SamplePointID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProfileDetails" Relationship="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID" FromRole="Profile" ToRole="ProfileDetail" />
           <NavigationProperty Name="SamplePoint" Relationship="RCID_DWHModel.FK_Profile_SamplePoint_SourceID_SamplePointID" FromRole="Lake_Profile" ToRole="SamplePoint" />
+          <Property Name="ProfileActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Lake_ProfileDetail">
           <Key>
@@ -1091,6 +1094,7 @@
           <Property Name="ProfileDetailNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Parameter" Relationship="RCID_DWHModel.FK_ProfileDetail_Parameter_ParameterID" FromRole="ProfileDetail" ToRole="Parameter" />
           <NavigationProperty Name="Profile" Relationship="RCID_DWHModel.FK_ProfileDetail_Profile_ProfileID" FromRole="ProfileDetail" ToRole="Profile" />
+          <Property Name="ProfileDetailActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_ProfileDetail_Parameter_ParameterID">
           <End Type="RCID_DWHModel.Lake_Parameter" Role="Parameter" Multiplicity="1" />
@@ -1373,6 +1377,7 @@
           <EntitySetMapping Name="Lake_Profile">
             <EntityTypeMapping TypeName="RCID_DWHModel.Lake_Profile">
               <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="ProfileActive" ColumnName="ProfileActive" />
                 <ScalarProperty Name="SamplePointID" ColumnName="SamplePointID" />
                 <ScalarProperty Name="SourceID" ColumnName="SourceID" />
                 <ScalarProperty Name="ProfileDate" ColumnName="ProfileDate" />
@@ -1383,6 +1388,7 @@
           <EntitySetMapping Name="Lake_ProfileDetail">
             <EntityTypeMapping TypeName="RCID_DWHModel.Lake_ProfileDetail">
               <MappingFragment StoreEntitySet="ProfileDetail">
+                <ScalarProperty Name="ProfileDetailActive" ColumnName="ProfileDetailActive" />
                 <ScalarProperty Name="ProfileDetailNotes" ColumnName="ProfileDetailNotes" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="ParameterID" ColumnName="ParameterID" />

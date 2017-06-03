@@ -33,7 +33,6 @@ namespace RCIDService
         bool CreateSurvey(FishSurvey item);
         bool InactivateSurvey(FishSurvey item);
 
-
         bool UpdateSurveyLocation(FishSurveyLocation item);
         bool CreateSurveyLocation(FishSurveyLocation item);
         bool InactivateSurveyLocation(FishSurveyLocation item);

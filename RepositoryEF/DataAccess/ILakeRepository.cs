@@ -11,7 +11,7 @@ namespace RCIDRepository
     {
         
         IEnumerable<LakeParameter> GetAllParameters();
-        IEnumerable<LakeProfileDetail> GetAllProfileDetails();
+        IEnumerable<LakeProfileDetail> GetProfileDetails(int id);
         IEnumerable<LakeProfile> GetAllProfiles();
 
 
@@ -21,11 +21,11 @@ namespace RCIDRepository
 
         bool UpdateProfile(LakeProfile item);
         int CreateProfile(LakeProfile item);
-        //bool InactivateProfile(LakeProfile item);
+        bool InactivateProfile(LakeProfile item);
 
         bool UpdateProfileDetails(LakeProfileDetail item);
         bool CreateProfileDetails(LakeProfileDetail item);
-        //bool InactivateProfileDetails(LakeProfileDetail item);
+        bool InactivateProfileDetails(LakeProfileDetail item);
 
        
 

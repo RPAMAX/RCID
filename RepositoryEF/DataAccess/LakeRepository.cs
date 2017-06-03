@@ -12,7 +12,8 @@ namespace RCIDRepository
     {
         IMapper mapper;
 
-        readonly byte LIMS_SOURCEID = 5;
+        //TO DO: change sourceid to 5
+        readonly byte LIMS_SOURCEID = 1;
 
         public LakeRepository() {
             var config = new MapperConfiguration(cfg => {
@@ -126,7 +127,7 @@ namespace RCIDRepository
 
         #region ProfileDetail
 
-        public IEnumerable<LakeProfileDetail> GetAllProfileDetails()
+        public IEnumerable<LakeProfileDetail> GetProfileDetails(int profileID)
         {
 
             using (RCID_DWHEntities context = new RCID_DWHEntities())
@@ -134,13 +135,15 @@ namespace RCIDRepository
                 var efList = from profile in context.Lake_ProfileDetail
                              join param in context.Lake_Parameter
                              on profile.ParameterID equals param.ParameterID
+                             where profile.ProfileID == profileID
                              select new LakeProfileDetail
                              {
                                  DepthFeet = profile.DepthFeet,
                                  ParameterID = profile.ParameterID,
-                                 ParameterName = param.ParameterName, 
+                                 ParameterName = param.ParameterFullName, 
                                  ParameterValue = profile.ParameterValue, 
-                                 ProfileDetailNotes = profile.ProfileDetailNotes
+                                 ProfileDetailNotes = profile.ProfileDetailNotes,
+                                 ProfileDetailActive = profile.ProfileDetailActive
                              };
 
                 return efList.ToList();
@@ -161,7 +164,8 @@ namespace RCIDRepository
                     if (efItem == null) return result;
 
                     efItem.ParameterValue = item.ParameterValue;
-                    efItem.ProfileDetailNotes = item.ProfileDetailNotes;                    
+                    efItem.ProfileDetailNotes = item.ProfileDetailNotes;
+                    efItem.ProfileDetailActive = item.ProfileDetailActive;
 
                     if (context.SaveChanges() > 0) {
                         result = true;
@@ -187,8 +191,8 @@ namespace RCIDRepository
                          ParameterID = item.ParameterID,
                          ProfileID = item.ProfileID,
                          ParameterValue = item.ParameterValue,
-                         ProfileDetailNotes = item.ProfileDetailNotes
-                             
+                         ProfileDetailNotes = item.ProfileDetailNotes,
+                         ProfileDetailActive = item.ProfileDetailActive                             
                     };
 
                     context.Lake_ProfileDetail.Add(efItem);
@@ -203,34 +207,34 @@ namespace RCIDRepository
             return result;
         }
 
-        //public bool InactivateProfileDetail(LakeProfileDetail item)
-        //{
+        public bool InactivateProfileDetails(LakeProfileDetail item)
+        {
 
-        //    bool result = false;
-        //    try
-        //    {
-        //        using (RCID_DWHEntities context = new RCID_DWHEntities())
-        //        {
-        //            Lake_ProfileDetail efItem = context.Lake_ProfileDetail.Where(u => u.ProfileID == item.ProfileID
-        //                                                                            && u.DepthFeet == item.DepthFeet
-        //                                                                            && u.ParameterID == item.ParameterID).FirstOrDefault();
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Lake_ProfileDetail efItem = context.Lake_ProfileDetail.Where(u => u.ProfileID == item.ProfileID
+                                                                                    && u.DepthFeet == item.DepthFeet
+                                                                                    && u.ParameterID == item.ParameterID).FirstOrDefault();
 
-        //            if (efItem == null) return result;
+                    if (efItem == null) return result;
 
-        //            efItem. = false;
+                    efItem.ProfileDetailActive = false;
 
-        //            if (context.SaveChanges() > 0)
-        //            {
-        //                result = true;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception) { }
-        //    return result;
-        //}
-                
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
+
         #endregion
-              
+
 
         #region Profile
 
@@ -248,7 +252,9 @@ namespace RCIDRepository
                                   ProfileID = profile.ProfileID,
                                   SamplePointID = profile.SamplePointID,
                                   SamplePointName = sp.SamplePointName,
-                                  SourceID = profile.SourceID
+                                  SourceID = profile.SourceID,
+                                  ProfileActive = profile.ProfileActive,
+                                  SamplePointRefID = sp.SamplePointRefID
                              };
 
                 return efList.ToList();
@@ -269,6 +275,7 @@ namespace RCIDRepository
 
                     efItem.ProfileDate = item.ProfileDate;
                     efItem.SamplePointID = item.SamplePointID;
+                    efItem.ProfileActive = item.ProfileActive;
 
                     if (context.SaveChanges() > 0)
                     {
@@ -294,6 +301,7 @@ namespace RCIDRepository
                     {
                         ProfileDate = item.ProfileDate,
                         ProfileID = newid,
+                        ProfileActive = item.ProfileActive,
                         SourceID = LIMS_SOURCEID,
                         SamplePointID = item.SamplePointID
                     };
@@ -310,32 +318,32 @@ namespace RCIDRepository
             return newid;
         }
 
-       
-        //public bool InactivateDivision(PhytoDivision item)
-        //{
-        //    bool result = false;
-        //    try
-        //    {
-        //        using (RCID_DWHEntities context = new RCID_DWHEntities())
-        //        {
-        //            Phyto_Division efItem = context.Phyto_Division.Where(b => b.DivisionID == item.DivisionID).FirstOrDefault();
 
-        //            if (efItem == null) return result;
+        public bool InactivateProfile(LakeProfile item)
+        {
+            bool result = false;
+            try
+            {
+                using (RCID_DWHEntities context = new RCID_DWHEntities())
+                {
+                    Lake_Profile efItem = context.Lake_Profile.Where(b => b.ProfileID == item.ProfileID).FirstOrDefault();
 
-        //            efItem.DivisionActive = false;
+                    if (efItem == null) return result;
 
-        //            if (context.SaveChanges() > 0)
-        //            {
-        //                result = true;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception) { }
-        //    return result;
-        //}
+                    efItem.ProfileActive = false;
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return result;
+        }
 
         #endregion
-                        
-   
+
+
     }
 }

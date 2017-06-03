@@ -50,6 +50,9 @@ namespace RCIDWeb.App_Start
 
             container.RegisterType<IGeneralRepository, GeneralRepository>();
             container.RegisterType<IGeneralService, GeneralService>();
+
+            container.RegisterType<ILakeRepository, LakeRepository>();
+            container.RegisterType<ILakeService, LakeService>();
         }
     }
 }

@@ -13,5 +13,8 @@ namespace RCIDRepository.Domain
         public byte SourceID { get; set; }
         public int SamplePointID { get; set; }
         public string SamplePointName { get; set; }
+        public string SamplePointRefID { get; set; }
+        public bool ProfileActive { get; set; }
+
     }
 }

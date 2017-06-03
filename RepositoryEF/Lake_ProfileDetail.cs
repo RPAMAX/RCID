@@ -19,6 +19,7 @@ namespace RCIDRepository
         public byte ParameterID { get; set; }
         public decimal ParameterValue { get; set; }
         public string ProfileDetailNotes { get; set; }
+        public bool ProfileDetailActive { get; set; }
     
         public virtual Lake_Parameter Parameter { get; set; }
         public virtual Lake_Profile Profile { get; set; }

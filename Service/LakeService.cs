@@ -22,9 +22,9 @@ namespace RCIDService
         {
             return _LakeRepo.GetAllParameters();
         }
-        public IEnumerable<LakeProfileDetail> GetAllProfileDetails()
+        public IEnumerable<LakeProfileDetail> GetProfileDetails(int id)
         {
-            return _LakeRepo.GetAllProfileDetails();
+            return _LakeRepo.GetProfileDetails(id);
         }
         public IEnumerable<LakeProfile> GetAllProfiles()
         {
@@ -57,6 +57,11 @@ namespace RCIDService
             return _LakeRepo.CreateProfile(item);
         }
 
+        public bool InactivateProfile(LakeProfile item)
+        {
+            return _LakeRepo.InactivateProfile(item);
+        }
+
         public bool UpdateProfileDetails(LakeProfileDetail item)
         {
             return _LakeRepo.UpdateProfileDetails(item);
@@ -66,7 +71,12 @@ namespace RCIDService
         {
             return _LakeRepo.CreateProfileDetails(item);
         }
-        
+
+        public bool InactivateProfileDetails(LakeProfileDetail item)
+        {
+            return _LakeRepo.InactivateProfileDetails(item);
+        }
+
 
     }
 }

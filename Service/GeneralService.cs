@@ -27,6 +27,11 @@ namespace RCIDService
             return _genRepo.GetAllSamplePointAreas();
         }
 
+        public IEnumerable<SamplePoint> GetAllSamplePoints()
+        {
+            return _genRepo.GetAllSamplePoints();
+        }
+
         public bool CreateSamplePointArea(SamplePointArea item)
         {
             return _genRepo.CreateSamplePointArea(item);
@@ -40,7 +45,7 @@ namespace RCIDService
         public bool UpdateSamplePointArea(SamplePointArea item)
         {
             return _genRepo.UpdateSamplePointArea(item);
-        }
+        }     
 
         public bool CreateClimate(WeatherClimate item)
         {

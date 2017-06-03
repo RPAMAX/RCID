@@ -177,6 +177,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\LakeController.cs" />
     <Compile Include="Controllers\PhytoController.cs" />
     <Compile Include="Controllers\FishController.cs" />
     <Compile Include="Controllers\BirdsController.cs" />
@@ -269,6 +270,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Lake\lakeProfilesGrid.js" />
+    <Content Include="Scripts\Lake\lakeParametersGrid.js" />
     <Content Include="Scripts\Phyto\phytoDivisionsGrid.js" />
     <Content Include="Scripts\Phyto\phytoSpeciesGrid.js" />
     <Content Include="Scripts\Phyto\phytoSurveysGrid.js" />
@@ -361,6 +364,8 @@
     <Content Include="Views\Phyto\DivisionsView.cshtml" />
     <Content Include="Views\Phyto\SpeciesView.cshtml" />
     <Content Include="Views\Phyto\SurveysView.cshtml" />
+    <Content Include="Views\Lake\ParametersView.cshtml" />
+    <Content Include="Views\Lake\ProfilesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
