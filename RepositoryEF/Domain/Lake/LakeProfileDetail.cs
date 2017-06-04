@@ -8,6 +8,7 @@ namespace RCIDRepository.Domain
 {
     public class LakeProfileDetail
     {
+        
         public int ProfileID { get; set; }
         public decimal DepthFeet { get; set; }
         public byte ParameterID { get; set; }
@@ -15,5 +16,12 @@ namespace RCIDRepository.Domain
         public decimal ParameterValue { get; set; }
         public string ProfileDetailNotes { get; set; }
         public bool ProfileDetailActive { get; set; }
+
+        public string PrimaryKeyForView
+        {
+            get {
+                return String.Concat(DepthFeet.ToString(), ParameterID.ToString());
+            }
+        }
     }
 }

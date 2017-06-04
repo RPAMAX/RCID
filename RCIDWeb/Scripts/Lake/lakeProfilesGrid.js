@@ -12,7 +12,8 @@
             //colModel takes the data from controller and binds to grid 
             sortname: 'ProfileDate',
             colModel: [
-                {
+                {            
+
                     key: true,
                     hidden: true,
                     name: 'ProfileID',
@@ -146,10 +147,15 @@ $("#detailGrid").jqGrid
         datatype: 'json',
         mtype: 'Get',     
         prmNames: { id: "DepthFeet", ParameterID:'ParameterID' },
-        colNames: ['Depth Feet', 'Parameter Name', 'Parameter', 'Value', 'Notes', 'Is Active'],
+        colNames: ['PK','Depth Feet', 'Parameter Name', 'Parameter', 'Value', 'Notes', 'Is Active'],
         colModel: [
             {
-                key: true,               
+                key: true,
+                hidden: true,
+                name: 'PrimaryKeyForView',
+                index: 'PrimaryKeyForView',
+            },{
+                key: false,               
                 name: 'DepthFeet',
                 index: 'DepthFeet',
                 editable: true,
@@ -206,7 +212,7 @@ $("#detailGrid").jqGrid
         rowList: [10, 20, 30, 40],
         height: '100%',
         viewrecords: true,
-        caption: 'Detail grid',
+        caption: 'Lake profile details',
         emptyrecords: 'No records to display',
         jsonReader:
         {
