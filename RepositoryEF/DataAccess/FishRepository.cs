@@ -21,6 +21,9 @@ namespace RCIDRepository
                                opts=> opts.MapFrom(src=>src.SpeciesGroup.SpeciesGroupName) );
                 cfg.CreateMap<Fish_SpeciesGroup, FishSpeciesGroup>();
                 cfg.CreateMap<Fish_Generator, FishGenerator>();
+                cfg.CreateMap<Fish_Survey, FishSurvey>()
+                   .ForMember(dest => dest.SamplePointAreaName,
+                              opts => opts.MapFrom(src => src.SamplePointArea.SamplePointAreaName));
             });
 
             this.mapper = config.CreateMapper();           
@@ -33,22 +36,11 @@ namespace RCIDRepository
         public IEnumerable<FishSurvey> GetAllSurveys()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {              
-                var efList = from survey in context.Fish_Survey                             
-                             join spa in context.Lims_SamplePointArea
-                             on survey.SamplePointAreaID equals spa.SamplePointAreaID                             
-                             select new FishSurvey
-                             {
-                                 SurveyID = survey.SurveyID,
-                                 SamplePointAreaID = spa.SamplePointAreaID,
-                                 SamplePointAreaName = spa.SamplePointAreaName,
-                                 SourceID = spa.SourceID, 
-                                 SurveyComments = survey.SurveyComments,
-                                 SurveyYear = survey.SurveyYear,
-                                 SurveyActive = survey.SurveyActive
-                             };
+            {
+                var efList = context.Fish_Survey.Include("SamplePointArea").OrderBy(s => s.SurveyYear).ToList();
 
-                return efList.ToList();                
+                return mapper.Map<List<Fish_Survey>, List<FishSurvey>>(efList);
+               
             }
         }
 

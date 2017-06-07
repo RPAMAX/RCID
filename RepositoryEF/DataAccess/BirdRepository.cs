@@ -103,7 +103,7 @@ namespace RCIDRepository
                         SurveyID = newid,
                         ClimateID = item.ClimateID,
                         SamplePointAreaID = item.SamplePointAreaID,
-                        SourceID = LIMS_SOURCEID,
+                        SourceID = item.SourceID ==0? LIMS_SOURCEID:item.SourceID,
                         SurveyDate = item.SurveyDate,
                         SurveyorID = item.SurveyorID
                     };

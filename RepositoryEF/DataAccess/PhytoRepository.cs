@@ -18,6 +18,9 @@ namespace RCIDRepository
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Phyto_Species, PhytoSpecies>();                
                 cfg.CreateMap<Phyto_Division, PhytoDivision>();
+                cfg.CreateMap<Phyto_Survey, PhytoSurvey>()
+                   .ForMember(dest => dest.SamplePointAreaName,
+                              opts => opts.MapFrom(src => src.SamplePointArea.SamplePointAreaName));
             });
 
             this.mapper = config.CreateMapper();           
@@ -30,23 +33,11 @@ namespace RCIDRepository
         public IEnumerable<PhytoSurvey> GetAllSurveys()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {              
-                var efList = from survey in context.Phyto_Survey                             
-                             join spa in context.Lims_SamplePointArea
-                             on survey.SamplePointAreaID equals spa.SamplePointAreaID                             
-                             select new PhytoSurvey
-                             {
-                                 SurveyID = survey.SurveyID,                                 
-                                 SurveyDate = survey.SurveyDate,
-                                 SamplePointAreaID = spa.SamplePointAreaID,
-                                 SamplePointAreaName = spa.SamplePointAreaName,
-                                 SourceID = spa.SourceID,                                 
-                                 SurveyActive = survey.SurveyActive,
-                                 LocationDetails = survey.LocationDetails
-                                 
-                             };
+            {
+                var efList = context.Phyto_Survey.Include("SamplePointArea").OrderBy(s => s.SurveyDate).ToList();
 
-                return efList.ToList();                
+                return mapper.Map<List<Phyto_Survey>, List<PhytoSurvey>>(efList);
+                                            
             }
         }
 
