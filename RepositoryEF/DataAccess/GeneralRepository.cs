@@ -10,6 +10,8 @@ namespace RCIDRepository
 {
     public class GeneralRepository : IGeneralRepository
     {
+        readonly byte LIMS_SOURCEID = 5;
+
         public GeneralRepository() {
 
             Mapper.Initialize(cfg => {
@@ -54,8 +56,8 @@ namespace RCIDRepository
         public SamplePointArea GetSamplePointAreaByName(string name)
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {
-                var efitem = context.Lims_SamplePointArea.Where(s => s.SamplePointAreaName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+            {                
+                var efitem = context.Lims_SamplePointArea.Where(s => s.SamplePointAreaName.ToUpper().Equals(name.ToUpper())).Where(s=>s.SourceID == LIMS_SOURCEID).FirstOrDefault();
                 return Mapper.Map<Lims_SamplePointArea, SamplePointArea>(efitem);
             }
         }
