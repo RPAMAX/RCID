@@ -224,9 +224,9 @@
 
         }).navGrid('#pagerD',
                 {
-                    edit: false,
-                    add: false,
-                    del: false,
+                    edit: true,
+                    add: true,
+                    del: true,
                     search: false,
                     refresh: true
         }, {
@@ -243,21 +243,21 @@
             afterComplete: function (response) {
                 DisplayResult(response);
             },
-            beforeShowForm: function ($form) {
+            beforeShowForm: function ($form) {                                
                 $form.find(".FormElement[readonly]")
                     .prop("disabled", true)
                     .addClass("ui-state-disabled")
                     .closest(".DataTD")
                     .prev(".CaptionTD")
                     .prop("disabled", true)
-                    .addClass("ui-state-disabled");
+                    .addClass("ui-state-disabled");  
                 $form.find("select")
                     .prop("disabled", true)
                     .addClass("ui-state-disabled")
                     .closest(".DataTD")
                     .prev(".CaptionTD")
                     .prop("disabled", true)
-                    .addClass("ui-state-disabled");
+                    .addClass("ui-state-disabled");                  
             }
             
         }, {
