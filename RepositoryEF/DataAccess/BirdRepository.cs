@@ -17,9 +17,15 @@ namespace RCIDRepository
         public BirdRepository() {
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Bird_Species, BirdSpecies>();
-                cfg.CreateMap<Bird_Surveyor, BirdSurveyor>();
-                cfg.CreateMap<Bird_Survey, BirdSurvey>();
+                cfg.CreateMap<Bird_Surveyor, BirdSurveyor>();               
                 cfg.CreateMap<Bird_SurveyDetail, BirdSurveyDetails>();
+                cfg.CreateMap<Bird_Survey, BirdSurvey>()
+                   .ForMember(dest => dest.SamplePointAreaName,
+                              opts => opts.MapFrom(src => src.SamplePointArea.SamplePointAreaName))
+                    .ForMember(dest => dest.ClimateName,
+                              opts => opts.MapFrom(src => src.Climate.ClimateName))
+                    .ForMember(dest => dest.SurveyorName,
+                              opts => opts.MapFrom(src => src.Surveyor.SurveyorName));
             });
 
             this.mapper = config.CreateMapper();           
@@ -32,29 +38,37 @@ namespace RCIDRepository
         public IEnumerable<BirdSurvey> GetAllSurveys()
         {
             using (RCID_DWHEntities context = new RCID_DWHEntities())
-            {              
-                var efList = from survey in context.Bird_Survey
-                             join climate in context.Weather_Climate
-                             on survey.ClimateID equals climate.ClimateID
-                             join spa in context.Lims_SamplePointArea
-                             on survey.SamplePointAreaID equals spa.SamplePointAreaID
-                             join surveyor in context.Bird_Surveyor
-                             on survey.SurveyorID equals surveyor.SurveyorID
-                             select new BirdSurvey
-                             {
-                                 ClimateID = survey.ClimateID,
-                                 ClimateName = climate.ClimateName,
-                                 SamplePointAreaID = survey.SamplePointAreaID,
-                                 SamplePointAreaName = spa.SamplePointAreaName,
-                                 SourceID = survey.SourceID,
-                                 SurveyDate = survey.SurveyDate,
-                                 SurveyID = survey.SurveyID,
-                                 SurveyorID = survey.SurveyorID,
-                                 SurveyorName = surveyor.SurveyorName,
-                                 SurveyActive = survey.SurveyActive 
-                             };
+            {
+                var efList = context.Bird_Survey
+                                    .Include("Climate")
+                                    .Include("SamplePointArea")
+                                    .Include("Surveyor")
+                                    .OrderBy(s => s.SurveyDate).ToList();
 
-                return efList.ToList();                
+                return mapper.Map<List<Bird_Survey>, List<BirdSurvey>>(efList);
+
+                //var efList = from survey in context.Bird_Survey
+                //             join climate in context.Weather_Climate
+                //             on survey.ClimateID equals climate.ClimateID
+                //             join spa in context.Lims_SamplePointArea
+                //             on survey.SamplePointAreaID equals spa.SamplePointAreaID
+                //             join surveyor in context.Bird_Surveyor
+                //             on survey.SurveyorID equals surveyor.SurveyorID
+                //             select new BirdSurvey
+                //             {
+                //                 ClimateID = survey.ClimateID,
+                //                 ClimateName = climate.ClimateName,
+                //                 SamplePointAreaID = survey.SamplePointAreaID,
+                //                 SamplePointAreaName = spa.SamplePointAreaName,
+                //                 SourceID = survey.SourceID,
+                //                 SurveyDate = survey.SurveyDate,
+                //                 SurveyID = survey.SurveyID,
+                //                 SurveyorID = survey.SurveyorID,
+                //                 SurveyorName = surveyor.SurveyorName,
+                //                 SurveyActive = survey.SurveyActive 
+                //             };
+
+                //return efList.ToList();                
             }
         }
 

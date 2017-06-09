@@ -46,7 +46,7 @@
                     editable: true,
                     edittype: 'select',                 
                     editoptions: {
-                        dataUrl: "/General/GetSamplePointAreas",
+                        dataUrl: "/General/GetSamplePointAreasList",
                         buildSelect: function (data) {
                             var response = jQuery.parseJSON(data);
                             var s = '<select>';
@@ -444,7 +444,7 @@
                 closeAfterEdit: true,
                 onclickSubmit: function (response, postdata) {
                     var surveyRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    var surveyNumberId = $("#locationGrid").jqGrid('getGridParam', 'selrow');
+                    var surveyNumberId = $("#locationGrid").jqGrid('getGridParam', 'selrow');                    
                     response.url = '/Fish/EditSurveyDetail' + "?SurveyID=" + surveyRowId + "&SurveyNumber=" + surveyNumberId;
                 },
                 afterComplete: function (response) {

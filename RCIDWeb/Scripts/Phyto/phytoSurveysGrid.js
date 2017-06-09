@@ -168,6 +168,7 @@
                     editable: true,
                     edittype: 'select',
                     editoptions: {
+                        readonly: "readonly",
                         dataUrl: "/Phyto/GetSpeciesList",
                         buildSelect: function (data) {
                             var response = jQuery.parseJSON(data);
@@ -223,9 +224,9 @@
 
         }).navGrid('#pagerD',
                 {
-                    edit: true,
-                    add: true,
-                    del: true,
+                    edit: false,
+                    add: false,
+                    del: false,
                     search: false,
                     refresh: true
         }, {
@@ -241,7 +242,24 @@
             },
             afterComplete: function (response) {
                 DisplayResult(response);
-            }        
+            },
+            beforeShowForm: function ($form) {
+                $form.find(".FormElement[readonly]")
+                    .prop("disabled", true)
+                    .addClass("ui-state-disabled")
+                    .closest(".DataTD")
+                    .prev(".CaptionTD")
+                    .prop("disabled", true)
+                    .addClass("ui-state-disabled");
+                $form.find("select")
+                    .prop("disabled", true)
+                    .addClass("ui-state-disabled")
+                    .closest(".DataTD")
+                    .prev(".CaptionTD")
+                    .prop("disabled", true)
+                    .addClass("ui-state-disabled");
+            }
+            
         }, {
             // add options  
             zIndex: 100,

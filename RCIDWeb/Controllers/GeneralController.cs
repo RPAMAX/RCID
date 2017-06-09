@@ -11,8 +11,8 @@ namespace RCIDWeb.Controllers
     public class GeneralController : Controller
     {
         IGeneralService _genSvc;
-        //TO DO: change sourceid to 5
-        readonly byte LIMS_SOURCEID = 1;
+        
+        readonly byte LIMS_SOURCEID = 5;
         readonly byte LIMS_SAMPLETYPEID = 2;
 
         public GeneralController(IGeneralService genService)

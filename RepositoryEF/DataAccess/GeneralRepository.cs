@@ -41,7 +41,7 @@ namespace RCIDRepository
 
                 return Mapper.Map<List<Lims_SamplePointArea>, List<SamplePointArea>>(efList);
             }
-        }
+        }              
 
         public IEnumerable<SamplePoint> GetAllSamplePoints()
         {
