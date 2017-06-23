@@ -412,7 +412,7 @@ namespace RCIDWeb.Controllers
 
             try
             {
-                if (ModelState.IsValid)
+                if (item.DepthFeet > 0)
                 {
                     _LakeSvc.CreateProfileDetails(item);
                     msg = "Profile detail created succesfully";

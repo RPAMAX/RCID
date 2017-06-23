@@ -303,20 +303,18 @@ namespace RCIDWeb.Controllers
         public string DeleteSpecies(BirdSpecies item)
         {
             string msg = string.Empty;
+            if (item == null) {
+                msg = "Nothing to delete";
+                return msg;
+            }
 
             item.SpeciesActive = false;
 
             try
-            {
-                if (ModelState.IsValid)
-                {
-                    _birdSvc.InactivateSpecies(item);
-                    msg = "Species inactivated succesfully";
-                }
-                else
-                {
-                    msg = "Data validation not successfull";
-                }
+            {                
+                _birdSvc.InactivateSpecies(item);
+                msg = "Species inactivated succesfully";                
+             
             }
             catch (Exception e)
             {

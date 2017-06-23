@@ -73,8 +73,14 @@ namespace RCIDRepository
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
-                    newid = context.Lake_Parameter.OrderByDescending(u => u.ParameterID).FirstOrDefault().ParameterID;
-                    newid++;
+
+                    var lastItem = context.Lake_Parameter.OrderByDescending(u => u.ParameterID).FirstOrDefault();
+
+                    if (lastItem != null)
+                    {
+                        newid = lastItem.ParameterID;
+                        newid++;
+                    }
 
                     Lake_Parameter efItem = new Lake_Parameter()
                     {
@@ -143,7 +149,8 @@ namespace RCIDRepository
                                  ParameterName = param.ParameterFullName, 
                                  ParameterValue = profile.ParameterValue, 
                                  ProfileDetailNotes = profile.ProfileDetailNotes,
-                                 ProfileDetailActive = profile.ProfileDetailActive
+                                 ProfileDetailActive = profile.ProfileDetailActive,
+                                 ProfileID = profileID
                              };
 
                 return efList.ToList();
@@ -183,23 +190,27 @@ namespace RCIDRepository
             try
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
-                {                   
-
-                    Lake_ProfileDetail efItem = new Lake_ProfileDetail()
+                {
+                    //create 4 rows for each parameter
+                    for (byte i = 1; i < 5; i++)
                     {
-                         DepthFeet = item.DepthFeet,
-                         ParameterID = item.ParameterID,
-                         ProfileID = item.ProfileID,
-                         ParameterValue = item.ParameterValue,
-                         ProfileDetailNotes = item.ProfileDetailNotes,
-                         ProfileDetailActive = item.ProfileDetailActive                             
-                    };
 
-                    context.Lake_ProfileDetail.Add(efItem);
+                        Lake_ProfileDetail efItem = new Lake_ProfileDetail()
+                        {
+                            DepthFeet = item.DepthFeet,
+                            ParameterID = i,
+                            ProfileID = item.ProfileID
+                            /*ParameterValue = item.ParameterValue,
+                            ProfileDetailNotes = item.ProfileDetailNotes,
+                            ProfileDetailActive = item.ProfileDetailActive                             */
+                        };
 
-                    if (context.SaveChanges() > 0)
-                    {
-                        result = true;
+                        context.Lake_ProfileDetail.Add(efItem);
+
+                        if (context.SaveChanges() > 0)
+                        {
+                            result = true;
+                        }
                     }
                 }
             }
@@ -289,13 +300,18 @@ namespace RCIDRepository
 
         public int CreateProfile(LakeProfile item)
         {
-            int newid;
+            int newid= 0;
             try
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
-                {
-                    newid = context.Lake_Profile.OrderByDescending(u => u.ProfileID).FirstOrDefault().ProfileID;
-                    newid++;
+                {                    
+                    var lastItem = context.Lake_Profile.OrderByDescending(u => u.ProfileID).FirstOrDefault();
+
+                    if (lastItem != null)
+                    {
+                        newid = lastItem.ProfileID;
+                        newid++;
+                    }
 
                     Lake_Profile efItem = new Lake_Profile()
                     {

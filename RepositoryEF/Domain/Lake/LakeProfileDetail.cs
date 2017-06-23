@@ -20,7 +20,7 @@ namespace RCIDRepository.Domain
         public string PrimaryKeyForView
         {
             get {
-                return String.Concat(DepthFeet.ToString(), ParameterID.ToString());
+                return String.Concat(DepthFeet.ToString(), ParameterID.ToString(), ProfileID.ToString());
             }
         }
     }

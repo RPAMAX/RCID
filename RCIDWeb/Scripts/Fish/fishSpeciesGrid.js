@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['SpeciesID', 'Species Name', 'Group Name', 'Species Group', 'Is Active'],
+            colNames: ['SpeciesID', 'Species Name', 'Group Name', 'Species Group1', 'Is Active'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "SpeciesID" },
             //colModel takes the data from controller and binds to grid 
@@ -27,7 +27,8 @@
                 },{
                     key: false,
                     name: 'SpeciesGroupName',
-                    index: 'SpeciesGroupName',                   
+                    index: 'SpeciesGroupName',       
+                    editable: false
                 }, {
                     key: false,
                     label: 'SpeciesGroupID',

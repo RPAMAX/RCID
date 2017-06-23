@@ -46,7 +46,7 @@
                     editable: true,
                     edittype: 'select',                 
                     editoptions: {
-                        dataUrl: "/General/GetSamplePointAreasList",
+                        dataUrl: "/General/GetSamplePointAreas",
                         buildSelect: function (data) {
                             var response = jQuery.parseJSON(data);
                             var s = '<select>';
@@ -156,6 +156,7 @@
                     hidden: true,
                     name: 'SurveyNumber',
                     index: 'SurveyNumber',
+                    editoptions: { defaultValue: 1},                    
                     editable: true
                 }, {
                     key: false,
@@ -329,6 +330,8 @@
                         key: true,
                         name: 'SurveyDetailID',
                         hidden: true,
+                        editable: true,
+                        editoptions: { defaultValue: 1 },   
                         width: 40
                     }, {
                         key: false,
@@ -459,7 +462,8 @@
                 closeAfterAdd: true,
                 onclickSubmit: function (response, postdata) {
                     var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Fish/CreateSurveyDetail' + "?SurveyID=" + selectedRowId;
+                    var surveyNumberId = $("#locationGrid").jqGrid('getGridParam', 'selrow');  
+                    response.url = '/Fish/CreateSurveyDetail' + "?SurveyID=" + selectedRowId + "&SurveyNumber=" + surveyNumberId;
                 },
                 afterComplete: function (response) {
                     DisplayResult(response);
@@ -472,7 +476,8 @@
                 closeAfterDelete: true,
                 onclickSubmit: function (response, postdata) {
                     var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
-                    response.url = '/Fish/DeleteSurveyDetail' + "?SurveyID=" + selectedRowId;
+                    var surveyNumberId = $("#locationGrid").jqGrid('getGridParam', 'selrow');  
+                    response.url = '/Fish/DeleteSurveyDetail' + "?SurveyID=" + selectedRowId + "&SurveyNumber=" + surveyNumberId;
                 },
                 afterComplete: function (response) {
                     DisplayResult(response);

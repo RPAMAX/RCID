@@ -363,13 +363,13 @@ namespace RCIDRepository
                     //item already exists
                     if (efitem != null) return false;
 
+
                     Phyto_SurveyDetail efItem = new Phyto_SurveyDetail()
                     {
                          SpeciesID = item.SpeciesID,
                          SurveyCount  = item.SurveyCount, 
                          SurveyID = item.SurveyID, 
                          SurveyDetailActive = item.SurveyDetailActive
-
                     };
                     
                     context.Phyto_SurveyDetail.Add(efItem);

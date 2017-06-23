@@ -271,6 +271,22 @@
                 var selectedRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
                 response.url = '/Phyto/CreateSurveyDetail' + "?SurveyID=" + selectedRowId;
             },
+            beforeShowForm: function ($form) {
+                $form.find(".FormElement[readonly]")
+                    .prop("disabled", false)
+                    .removeClass("ui-state-disabled")
+                    .closest(".DataTD")
+                    .prev(".CaptionTD")
+                    .prop("disabled", false)
+                    .removeClass("ui-state-disabled");
+                $form.find("select")
+                    .prop("disabled", false)
+                    .removeClass("ui-state-disabled")
+                    .closest(".DataTD")
+                    .prev(".CaptionTD")
+                    .prop("disabled", false)
+                    .removeClass("ui-state-disabled");
+            },
             afterComplete: function (response) {
                 DisplayResult(response);
             }
@@ -289,6 +305,8 @@
             }
         }
         );
+
+  
 
 });  
 

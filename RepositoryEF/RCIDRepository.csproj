@@ -136,6 +136,7 @@
     <Compile Include="Domain\Phyto\PhytoSpecies.cs" />
     <Compile Include="Domain\Phyto\PhytoSurvey.cs" />
     <Compile Include="Domain\Phyto\PhytoSurveyDetails.cs" />
+    <Compile Include="Enums\LakeParameterEnum.cs" />
     <Compile Include="Fish_Generator.cs">
       <DependentUpon>RCIDModel.tt</DependentUpon>
     </Compile>

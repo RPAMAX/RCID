@@ -6,7 +6,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['ID','Date', 'Sample Point Reference ID', 'Sample Point Name', 'Sample Point', 'Is Active'],
+            colNames: ['ID','Date', 'Sample Point Reference ID', 'Sample Point Name', 'Sample Point'],
             //prmNames is needed to send the id to the controller
             prmNames: { id: "ProfileID" },
             //colModel takes the data from controller and binds to grid 
@@ -68,13 +68,6 @@
 
                         }
                     }
-                },{
-                    key: false,
-                    name: 'ProfileActive',
-                    width: 50,
-                    editable: true,                    
-                    edittype: 'checkbox',                    
-                    editoptions: { value: "true:false", defaultValue: "true", defaultValue:"true" }
                 }],
 
             pager: jQuery('#pager'),
@@ -141,29 +134,40 @@
         });
 });  
 
+var lastSel = null;
+
 $("#detailGrid").jqGrid
     ({
         url: '/Lake/GetProfileDetailsGrid',
         datatype: 'json',
         mtype: 'Get',     
-        prmNames: { id: "DepthFeet", ParameterID:'ParameterID' },
-        colNames: ['PK','Depth Feet', 'Parameter Name', 'Parameter', 'Value', 'Notes', 'Is Active'],
+        prmNames: { id: "PrimaryKeyForView" },
+        colNames: ['PK','ProfileID','Depth Feet', 'Parameter Name', 'Parameter', 'Value', 'Notes'],
         colModel: [
             {
                 key: true,
                 hidden: true,
                 name: 'PrimaryKeyForView',
                 index: 'PrimaryKeyForView',
+            }, {
+                key: false,
+                name: 'ProfileID',
+                index: 'ProfileID',
+                editable: true,
+                hidden: true                
             },{
                 key: false,               
                 name: 'DepthFeet',
                 index: 'DepthFeet',
                 editable: true,
-                editoptions: { readonly: "readonly" }
+                editoptions: { disabled: true},
+                width: 30,
             }, {
                 key: false,
-                name: 'ParameterName'                             
-            }, {
+                name: 'ParameterName',
+                editable: false,
+                width: 60,
+            },{
                 key: false,
                 label: 'ParameterID',
                 name: 'ParameterID',
@@ -190,7 +194,7 @@ $("#detailGrid").jqGrid
                 key: false,
                 name: 'ParameterValue',
                 editable: true,
-                width: 100
+                width: 40
             }, {
                 key: false,                
                 name: 'ProfileDetailNotes',
@@ -198,13 +202,8 @@ $("#detailGrid").jqGrid
                 shrinktofit: true,
                 editable: true,
                 edittype: 'textarea',
-                editoptions: { rows: '5', cols: 50 }
-            }, {
-                key: false,
-                name: 'ProfileDetailActive',
-                editable: true,
-                edittype: 'checkbox',
-                editoptions: { value: "true:false", defaultValue: "true", defaultValue: "true" }
+                editoptions: { rows: '5', cols: 50 },
+                width: 60
             }
         ],
         pager: jQuery('#pagerD'),
@@ -222,14 +221,38 @@ $("#detailGrid").jqGrid
             records: "records",
             repeatitems: false,
             Id: "0"
-        },
+        },             
         autowidth: true,
-        multiselect: false        
+        multiselect: false,
+        saveAfterSelect:true,
+        onSelectRow: function (id) {           
+            if (id && id != lastSel) {
+                //save changes in row
+                
+                $('#detailGrid').saveRow(lastSel,
+                    {
+                        successfunc: function (response) { DisplayResult(response);  }
+                    });
+                lastSel = id;
+            }
+            //trigger inline edit for row
+         
+           
+            $('#detailGrid').editRow(id, 
+                {
+                   
+                        keys: true,
+                        url: '/Lake/EditProfileDetail'
+                 }
+            );
+            //cm.editable = true;
+        }
+       
 
     }).navGrid('#pagerD',
         {
             add: true,
-            edit: true,
+            edit: false,
             del: true,
             search: false,
             refresh: false
@@ -249,15 +272,18 @@ $("#detailGrid").jqGrid
                 DisplayResult(response);
             },
             recreateForm: true,
-            beforeShowForm: function ($form) {                                
-                $form.find(".FormElement[readonly]")
+            beforeShowForm: function (form) {
+                $('#tr_ParameterID', form).show();
+                $('#tr_ParameterValue', form).show();
+                $('#tr_ProfileDetailNotes', form).show();    
+                form.find(".FormElement[readonly]")
                     .prop("disabled", true)
                     .addClass("ui-state-disabled")
                     .closest(".DataTD")
                     .prev(".CaptionTD")
                     .prop("disabled", true)
                     .addClass("ui-state-disabled");  
-                $form.find("select")
+                form.find("select")
                     .prop("disabled", true)
                     .addClass("ui-state-disabled")
                     .closest(".DataTD")
@@ -271,8 +297,7 @@ $("#detailGrid").jqGrid
             width: 400,
             url: "/Lake/CreateProfileDetail",
             closeOnEscape: true,
-            closeAfterAdd: true,
-            
+            closeAfterAdd: true,            
             onclickSubmit: function (response, postdata) {
                 var profileRowId = $("#masterGrid").jqGrid('getGridParam', 'selrow');
                 response.url = '/Lake/CreateProfileDetail' + "?ProfileID=" + profileRowId;
@@ -281,8 +306,16 @@ $("#detailGrid").jqGrid
                 DisplayResult(response);
             },
             recreateForm: true,
-            beforeShowForm: function ($form) {                
-                $form.find(".FormElement[readonly]")
+            beforeShowForm: function (form) {
+                //var cm = jQuery("#detailGrid").jqGrid('getColProp', 'DepthFeet');            
+                //cm.editable = true;
+                //cm.disabled = false;
+
+                $('#tr_DepthFeet', form).show();
+                $('#tr_ParameterID', form).hide();
+                $('#tr_ParameterValue', form).hide();
+                $('#tr_ProfileDetailNotes', form).hide();                
+                form.find(".FormElement[disabled]")
                     .prop("disabled", false)
                     .prop("readonly", false)
                     .addClass("ui-state-enabled")
@@ -291,6 +324,13 @@ $("#detailGrid").jqGrid
                     .prop("disabled", false)
                     .prop("readonly", false)
                     .addClass("ui-state-enabled");
+                form.find("select")
+                    .prop("disabled", false)
+                    .addClass("ui-state-enabled")
+                    .closest(".DataTD")
+                    .prev(".CaptionTD")                    
+                    .prop("disabled", false)
+                    .addClass("ui-state-enabled");   
             }
         }, {
             // delete options  
@@ -310,3 +350,14 @@ $("#detailGrid").jqGrid
             }
         });
  
+$("#detailGrid").jqGrid('inlineNav', '#pagerD',
+    {
+        edit: true,
+        editicon: "ui-icon-pencil",
+        add: false,
+        editParams: {
+            keys: true,
+            url: '/Lake/EditProfileDetail'
+        }
+
+    });

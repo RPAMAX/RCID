@@ -13,6 +13,7 @@ namespace RCIDWeb.Controllers
         IGeneralService _genSvc;
         
         readonly byte LIMS_SOURCEID = 5;
+        readonly byte LIMS_SOURCEID_PHYTO = 1;
         readonly byte LIMS_SAMPLETYPEID = 2;
 
         public GeneralController(IGeneralService genService)
@@ -53,7 +54,7 @@ namespace RCIDWeb.Controllers
         public JsonResult GetActiveSamplePoints()
         {
             var results = _genSvc.GetAllSamplePoints().Where(s => s.SamplePointActive == true
-                                                                && s.SourceID == LIMS_SOURCEID
+                                                                && s.SourceID == LIMS_SOURCEID_PHYTO
                                                                 && s.SampleTypeID == LIMS_SAMPLETYPEID)
                                                                 .OrderBy(s=>s.SamplePointRefID).ToList();
 

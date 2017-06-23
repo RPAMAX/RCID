@@ -465,8 +465,13 @@ namespace RCIDRepository
             {
                 using (RCID_DWHEntities context = new RCID_DWHEntities())
                 {
-                    newid = context.Fish_SurveyLocation.Where(s=>s.SurveyID == item.SurveyID).OrderByDescending(u => u.SurveyNumber).FirstOrDefault().SurveyNumber;
-                    newid++;
+                    var lastItem = context.Fish_SurveyLocation.Where(s => s.SurveyID == item.SurveyID).OrderByDescending(u => u.SurveyNumber).FirstOrDefault();
+                    
+                    if (lastItem != null)
+                    {
+                        newid = lastItem.SurveyNumber;
+                        newid++;
+                    }
 
                     Fish_SurveyLocation efItem = new Fish_SurveyLocation()
                     {
@@ -584,9 +589,14 @@ namespace RCIDRepository
             {
                using (RCID_DWHEntities context = new RCID_DWHEntities())
                {
-                    newid = context.Fish_SurveyDetail.Where(s => s.SurveyID == item.SurveyID && s.SurveyNumber == item.SurveyNumber)
-                                                    .OrderByDescending(u => u.SurveyDetailID).FirstOrDefault().SurveyDetailID;
-                    newid++;
+                    var lastItem = context.Fish_SurveyDetail.Where(s => s.SurveyID == item.SurveyID && s.SurveyNumber == item.SurveyNumber)
+                                                    .OrderByDescending(u => u.SurveyDetailID).FirstOrDefault();
+
+                    if (lastItem != null)
+                    {
+                        newid = lastItem.SurveyDetailID;
+                        newid++;
+                    }
 
                     Fish_SurveyDetail efItem = new Fish_SurveyDetail()
                     {
@@ -596,8 +606,8 @@ namespace RCIDRepository
                         SpeciesSizeMillimeters = item.SpeciesSizeMillimeters,                        
                         SpeciesWeightOunces = item.SpeciesWeightOunces,
                         SpeciesWeightPounds = item.SpeciesWeightPounds,                  
-                        SpeciesID = item.SpeciesID
-                       
+                        SpeciesID = item.SpeciesID,
+                        SurveyDetailActive = item.SurveyDetailActive
                     };
 
                     // These other values are computed by the DB: 
