@@ -8,10 +8,9 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-       
-
         public ActionResult Index()
         {
 //            List<Species> list = _birdSvc.GetAllSpecies().ToList();
