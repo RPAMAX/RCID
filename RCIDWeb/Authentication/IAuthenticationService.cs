@@ -1,14 +1,9 @@
-﻿using RCIDWeb.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNet.Identity.Owin;
 
 namespace RCIDWeb.Authentication
 {
     public interface IAuthenticationService
     {
-        User Login(string username, string password);
+        SignInStatus PasswordSignIn(string username, string password);
     }
 }

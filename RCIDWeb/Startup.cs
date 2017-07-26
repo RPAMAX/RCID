@@ -13,16 +13,7 @@ namespace RCIDWeb
     {
         public void Configuration(IAppBuilder app)
         {
-            HttpConfiguration config = new HttpConfiguration();
-
-            // Web API routes
-            config.MapHttpAttributeRoutes();
-
             ConfigureOAuth(app);
-
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
-            app.UseWebApi(config);
         }
     }
 }

@@ -8,16 +8,15 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-//            List<Species> list = _birdSvc.GetAllSpecies().ToList();
+            //            List<Species> list = _birdSvc.GetAllSpecies().ToList();
             return View();
         }
 
-      
+
 
         public ActionResult About()
         {
@@ -26,6 +25,7 @@ namespace RCIDWeb.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

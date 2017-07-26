@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
+    [Authorize]
     public class GeneralController : Controller
     {
         IGeneralService _genSvc;
