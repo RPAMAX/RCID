@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
-    [Authorize]
     public class GeneralController : Controller
     {
         IGeneralService _genSvc;
@@ -29,6 +28,7 @@ namespace RCIDWeb.Controllers
             return View("SamplePointAreaView");
         }
 
+        [Authorize]
         public ActionResult Climate()
         {
             return View("ClimateView");

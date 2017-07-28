@@ -1,4 +1,7 @@
-﻿using Microsoft.Owin.Security;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Owin;
@@ -13,28 +16,13 @@ namespace RCIDWeb
     {
         public void ConfigureOAuth(IAppBuilder app)
         {
-            var secret = TextEncodings.Base64Url.Decode("IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw");
-
-            app.UseJwtBearerAuthentication(
-                new JwtBearerAuthenticationOptions
-                {
-                    TokenValidationParameters = new TokenValidationParameters
-                    {
-                        IssuerSigningKey = TokenAuthOption.Key,
-                        ValidAudience = TokenAuthOption.Audience,
-                        ValidIssuer = TokenAuthOption.Issuer,
-                        // When receiving a token, check that we've signed it.
-                        ValidateIssuerSigningKey = true,
-                        // When receiving a token, check that it is still valid.
-                        ValidateLifetime = true,
-                        // This defines the maximum allowable clock skew - i.e. provides a tolerance on the token expiry time 
-                        // when validating the lifetime. As we're creating the tokens locally and validating them on the same 
-                        // machines which should have synchronised time, this can be set to zero. Where external tokens are
-                        // used, some leeway here could be useful.
-                        ClockSkew = TimeSpan.FromMinutes(0)
-                    }
-                });
-
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider(),
+                ExpireTimeSpan = TimeSpan.FromMinutes(30)
+            });
         }
     }
 }

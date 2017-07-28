@@ -235,10 +235,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Authentication\AdAuthenticationService.cs" />
     <Compile Include="Authentication\IAuthenticationService.cs" />
-    <Compile Include="Authentication\LdapAuthenticationService.cs" />
-    <Compile Include="Authentication\RSAKeyHelper.cs" />
-    <Compile Include="Authentication\TokenAuthOption.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\LakeController.cs" />
     <Compile Include="Controllers\PhytoController.cs" />

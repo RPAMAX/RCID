@@ -11,8 +11,6 @@ namespace RCIDWeb.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthenticationService authService;
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -24,7 +22,6 @@ namespace RCIDWeb.Controllers
 
         public AccountController()
         {
-            authService = new LdapAuthenticationService();
         }
 
         //
@@ -47,6 +44,9 @@ namespace RCIDWeb.Controllers
             {
                 return View(model);
             }
+
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            var authService = new AdAuthenticationService(authenticationManager);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
