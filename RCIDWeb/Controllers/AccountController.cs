@@ -66,6 +66,18 @@ namespace RCIDWeb.Controllers
             }
         }
 
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            return RedirectToAction("Login");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

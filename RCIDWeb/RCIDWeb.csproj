@@ -432,6 +432,7 @@
     <Content Include="Views\Lake\ParametersView.cshtml" />
     <Content Include="Views\Lake\ProfilesView.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

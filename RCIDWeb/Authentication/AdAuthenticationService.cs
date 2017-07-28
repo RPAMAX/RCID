@@ -24,12 +24,13 @@ namespace RCIDWeb.Authentication
             ContextType authenticationType = ContextType.Domain;
             SignInStatus result = SignInStatus.Failure;
 
-            PrincipalContext principalContext = new PrincipalContext(authenticationType);
+            
             bool isAuthenticated = false;
             UserPrincipal userPrincipal = null;
 
             try
             {
+                PrincipalContext principalContext = new PrincipalContext(authenticationType);
                 isAuthenticated = principalContext.ValidateCredentials(username, password, ContextOptions.Negotiate);
 
                 if(isAuthenticated)

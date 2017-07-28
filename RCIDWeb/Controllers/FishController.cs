@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace RCIDWeb.Controllers
 {
+    [Authorize]
     public class FishController : Controller
     {
 
